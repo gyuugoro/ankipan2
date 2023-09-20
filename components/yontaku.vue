@@ -1,34 +1,44 @@
 <template>
   <div>
 
-    <div class="block mb-6">
+    <div class="block is-size-3">
+      問題
+    </div>
+
+    <div class="block">
       {{ question }}
     </div>
 
-    <div style="height: 234px;"></div>
 
     <control>
-      <div class="columns">
-        <div class="column is-one-quarter">
-          <button class="button is-fullwidth is-rounded">{{ selection[0] }}</button>
-        </div>
-
-        <div class="column is-one-quarter">
-          <button class="button is-fullwidth is-rounded">{{ selection[1] }}</button>
-        </div>
-
-        <div class="column is-one-quarter">
-          <button class="button is-fullwidth is-rounded">{{ selection[2] }}</button>
-        </div>
-
-        <div class="column is-one-quarter">
-          <button class="button is-fullwidth is-rounded">{{ selection[3] }}</button>
-        </div>
-
-
-
-
+      <div class="column is-one-quarter">
+        <button class="button is-fullwidth is-rounded" :disabled="q[0]" :class="q[0] ? 'is-danger' : ''"
+          @click="tap(0)">{{
+            selection[0] }}</button>
       </div>
+
+      <div class="column is-one-quarter">
+        <button class="button is-fullwidth is-rounded" :disabled="q[1]" :class="q[1] ? 'is-danger' : ''"
+          @click="tap(1)">{{
+            selection[1]
+          }}</button>
+      </div>
+
+      <div class="column is-one-quarter">
+        <button class="button is-fullwidth is-rounded" :disabled="q[2]" :class="q[2] ? 'is-danger' : ''"
+          @click="tap(2)">{{
+            selection[2]
+          }}</button>
+      </div>
+
+      <div class="column is-one-quarter">
+        <button class="button is-fullwidth is-rounded" :disabled="q[3]" :class="q[3] ? 'is-danger' : ''"
+          @click="tap(3)">{{
+            selection[3]
+          }}</button>
+      </div>
+
+
     </control>
 
   </div>
@@ -39,12 +49,23 @@ export default {
   props: {
     question: String,
     selection: Array,
-    answer: Number
+    answer: String
   },
-  data: () => ({
-    lock: false,
-    yournum: -1
-  })
+  data() {
+    return {
+      q: [false, false, false, false]
+    }
+  },
+  methods: {
+    tap(num) {
+
+      if (this.selection[num] == this.answer) {
+        this.$emit("next")
+      } else {
+        this.q.splice(num, 1, true)
+      }
+    }
+  }
 }
 </script>
 
