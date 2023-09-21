@@ -1,3 +1,5 @@
+import Vue from "vue"
+
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
@@ -23,3 +25,13 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const db = getFirestore(app);
 const perf = getPerformance(app);
+
+
+firestore_plugin = {
+  install: (app, options) => {
+
+    app.config.globalProperties.$db = db
+  }
+}
+
+Vue.use(firestore_plugin)
