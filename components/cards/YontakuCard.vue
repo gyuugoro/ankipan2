@@ -60,7 +60,7 @@ export default {
     tap(num) {
 
       if (this.selection[num] == this.answer) {
-        this.$emit("next")
+        this.$emit("next", 0)
       } else {
         this.q.splice(num, 1, true)
       }

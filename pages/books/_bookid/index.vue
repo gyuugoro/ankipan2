@@ -1,25 +1,33 @@
 <template>
   <div>
-    {{ text }}
+    <appbar>
+
+      <div class="column my-auto">
+        <progress class="progress is-success" value="15" max="30"></progress>
+      </div>
+
+    </appbar>
+
+
+    <first-card title="タイトル" />
+    <yontaku-card question="問題" answer="答え" :selection="['選択肢１', '選択肢2', '選択肢3', '答え']" />
+    <check-card question="問題" answer="答え" />
+    <rest-card />
+    <finish-card />
+
   </div>
 </template>
 
 <script>
-import { get_book_id } from "../../../firebase"
+import FirstCard from '../../../components/cards/FirstCard.vue'
+import FinishCard from '../../../components/cards/FinishCard.vue'
+import CheckCard from '../../../components/cards/CheckCard.vue'
+import YontakuCard from '../../../components/cards/YontakuCard.vue'
+import RestCard from '../../../components/cards/RestCard.vue'
+
 
 export default {
-  data() {
-    return {
-      text: "失敗"
-    }
-  },
-  created() {
-    (async () => {
-      const data = await get_book_id("owirttFmsMyrs7F2MKoo")
-
-      this.text = data.name
-    })()
-  }
+  components: { FirstCard, FinishCard, CheckCard, YontakuCard, RestCard }
 }
 </script>
 
