@@ -2,6 +2,8 @@
   <div>
     <div class="block is-size-3">{{ title }}</div>
 
+    <div class="block">{{ description }}</div>
+
     <img class="block" src="../../assets/undraw_flying_drone_u3r2.svg" alt="">
 
 
@@ -24,6 +26,7 @@
 export default {
   props: {
     title: String,
+    description: String,
     disabled: Boolean
   }
 }

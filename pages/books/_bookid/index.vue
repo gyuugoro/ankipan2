@@ -9,7 +9,8 @@
     </appbar>
 
 
-    <first-card @next="next" v-show="card_type == 'First'" :title="title" :disabled="disabled" />
+    <first-card @next="next" v-show="card_type == 'First'" :title="title" :description="description"
+      :disabled="disabled" />
     <yontaku-card @next="next" v-show="card_type == 'Yontaku'" :question="question" :answer="answer"
       :selection="selection" />
     <check-card @next="next" v-show="card_type == 'Check'" :question="question" :answer="answer" />
@@ -40,6 +41,7 @@ export default {
       card_type: "First",
 
       title: "読み込み中", //Firstで必要
+      description: "",//Firstで必要
       disabled: true,//Firstで必要
       question: "",//YontakuとCheckで必要
       answer: "",//YontakuとCheckで必要
@@ -59,7 +61,7 @@ export default {
       console.log("読み込み処理開始")
 
       //最初にタイトルを入れる
-      this.main.push({ type: "First", title: this.data.name })
+      this.main.push({ type: "First", title: this.data.name, description: this.data.description })
 
 
       const karinums = []
@@ -204,6 +206,7 @@ export default {
       switch (data.type) {
         case "First":
           this.card_type = "First"
+          this.description = data.description
           this.title = data.title
           break;
         case "Yontaku":

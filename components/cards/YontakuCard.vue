@@ -60,12 +60,13 @@ export default {
     tap(num) {
 
       if (this.selection[num] == this.answer) {
+        this.q = [false, false, false, false]
         this.$emit("next", 0)
       } else {
         this.q.splice(num, 1, true)
       }
     }
-  }
+  },
 }
 </script>
 

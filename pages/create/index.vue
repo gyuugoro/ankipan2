@@ -1,26 +1,32 @@
 <template>
   <div>
     <div class="block is-size-3">
-      カード制作ページ
+      単語帳制作ページ
+    </div>
+    <div class="block">
+      <transition-group name="list" tag="div">
+        <div v-show="data.length == 0" class="block" is-size-5 key="letsadd">単語を追加しよう
+        </div>
+
+
+        <div class="block" v-for="(v, i) in data" :key="v.id">
+
+          <edit-board v-if="focus == i && edit" :num="i" :question="v.question" :answer="v.answer" @save="save"
+            @editEnd="editEnd" />
+
+          <focus-board v-else-if="focus == i" :num="i" :question="v.question" :answer="v.answer" :maxNum="data.length"
+            @notFocus="notFocus" @editOn="editOn" @addUp="addNew(i)" @addDown="addNew(i + 1)" @goUp="goUp"
+            @goDown="goDown" />
+
+          <usual-board v-else :question="v.question" :answer="v.answer" :num="i" @focusNum="focusNum" />
+        </div>
+      </transition-group>
     </div>
 
+    <div class="block">
+      <nuxt-link to="/create/release" class="button is-rounded is-fullwidth">次へ</nuxt-link>
+    </div>
 
-    <transition-group tag="div" name="list">
-      <div v-show="data.length == 0" class="block" is-size-5 key="letsadd">単語を追加しよう</div>
-
-
-      <div class="block" v-for="(v, i) in data" :key="v.id">
-
-        <edit-board v-if="focus == i && edit" :num="i" :question="v.question" :answer="v.answer" @save="save"
-          @editEnd="editEnd" />
-
-        <focus-board v-else-if="focus == i" :num="i" :question="v.question" :answer="v.answer" :maxNum="data.length"
-          @notFocus="notFocus" @editOn="editOn" @addUp="addNew(i)" @addDown="addNew(i + 1)" @goUp="goUp"
-          @goDown="goDown" />
-
-        <usual-board v-else :question="v.question" :answer="v.answer" :num="i" @focusNum="focusNum" />
-      </div>
-    </transition-group>
 
     <control>
       <div class="column is-full">
@@ -33,15 +39,30 @@
 </template>
 
 <script>
-import EditBoard from '../components/boards/EditBoard.vue'
-import FocusBoard from '../components/boards/FocusBoard.vue'
-import UsualBoard from '../components/boards/UsualBoard.vue'
-import Control from '../components/Control.vue'
+import EditBoard from '../../components/boards/EditBoard.vue'
+import FocusBoard from '../../components/boards/FocusBoard.vue'
+import UsualBoard from '../../components/boards/UsualBoard.vue'
+import Control from '../../components/Control.vue'
 export default {
   components: { UsualBoard, EditBoard, FocusBoard, Control },
   data() {
     return {
-      data: [],
+      data: [{
+        question: "問題１",
+        answer: "答え１",
+        id: 1
+      },
+      {
+        question: "問題2",
+        answer: "答え2",
+        id: 2
+      },
+      {
+        question: "問題3",
+        answer: "答え3",
+        id: 3
+      },
+      ],
       focus: null,
       edit: false,
       supermode: false
@@ -126,7 +147,10 @@ export default {
     }
   },
   created() {
-    this.data = JSON.parse(localStorage.getItem('create'));
+
+    if (!JSON.parse(localStorage.getItem('create')) == null) {
+      this.data = JSON.parse(localStorage.getItem('create'));
+    }
   }
 }
 </script>
