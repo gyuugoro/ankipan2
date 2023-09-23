@@ -87,7 +87,8 @@ export default {
         answer: [],
         name: this.title,
         description: this.desc,
-        secret: this.secret
+        secret: this.secret,
+        now: Date.now()
       }
 
       for (const v of this.data) {

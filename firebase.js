@@ -2,7 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from "firebase/firestore";
 import { getPerformance } from "firebase/performance";
-import { collection, doc, getDoc, query, where, getDocs, initializeFirestore, persistentLocalCache, persistentMultipleTabManager, CACHE_SIZE_UNLIMITED, addDoc } from "firebase/firestore";
+import { collection, doc, getDoc, query, where, getDocs, initializeFirestore, persistentLocalCache, persistentMultipleTabManager, CACHE_SIZE_UNLIMITED, addDoc, orderBy } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: process.env.fb_api_key,
@@ -44,7 +44,16 @@ const add_book = async (data) => {
   return ref.id
 }
 
+const get_all = async () => {
+  const q = query(collection(db, "Books"), where("public", "==", true), orderBy("now"));
+
+  const querySnapshot = await getDocs(q);
+
+  return querySnapshot
+}
+
 export {
   get_book_id,
-  add_book
+  add_book,
+  get_all
 }
