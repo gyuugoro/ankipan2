@@ -54,7 +54,8 @@ export default {
       lang: 'ja',
       theme_color: "#ffffff",
       start_url: "/",
-      orientation: "any"
+      orientation: "any",
+      display: "minimal-ui"
     },
     meta: {
       ogHost: "https://ankipan2.vercel.app/",
