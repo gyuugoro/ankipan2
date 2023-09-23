@@ -53,7 +53,8 @@ export default {
     manifest: {
       lang: 'ja',
       theme_color: "#ffffff",
-      start_url: "/"
+      start_url: "/",
+      orientation: "any"
     },
     meta: {
       ogHost: "https://ankipan2.vercel.app/",
