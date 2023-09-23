@@ -88,7 +88,8 @@ export default {
         name: this.title,
         description: this.desc,
         secret: this.secret,
-        now: Date.now()
+        now: Date.now(),
+        public: true
       }
 
       for (const v of this.data) {
@@ -111,10 +112,6 @@ export default {
       this.$router.push('/create')
     } else {
       this.data = JSON.parse(localStorage.getItem('create'));
-
-      if (this.data.length == 0) {
-        this.$router.push('/create')
-      }
     }
   }
 

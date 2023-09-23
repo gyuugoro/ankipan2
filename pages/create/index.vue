@@ -150,6 +150,8 @@ export default {
 
     if (!JSON.parse(localStorage.getItem('create')) == null) {
       this.data = JSON.parse(localStorage.getItem('create'));
+    } else {
+      this.offline()
     }
   }
 }
