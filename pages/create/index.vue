@@ -42,9 +42,8 @@
 import EditBoard from '../../components/boards/EditBoard.vue'
 import FocusBoard from '../../components/boards/FocusBoard.vue'
 import UsualBoard from '../../components/boards/UsualBoard.vue'
-import Control from '../../components/Control.vue'
 export default {
-  components: { UsualBoard, EditBoard, FocusBoard, Control },
+  components: { UsualBoard, EditBoard, FocusBoard },
   data() {
     return {
       data: [{
