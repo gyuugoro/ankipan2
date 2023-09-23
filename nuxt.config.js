@@ -7,6 +7,7 @@ export default {
     dir: 'dist'
   },
 
+
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'Ankipan2',
