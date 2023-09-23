@@ -16,11 +16,11 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-// const firestoreDb = initializeFirestore(app,
-//   {
-//     localCache:
-//       persistentLocalCache(/*settings*/{ tabManager: persistentMultipleTabManager() }),
-//   });
+initializeFirestore(app,
+  {
+    localCache:
+      persistentLocalCache(/*settings*/{ tabManager: persistentMultipleTabManager() })
+  });
 
 const analytics = getAnalytics(app);
 const db = getFirestore(app);
