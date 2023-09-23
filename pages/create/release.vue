@@ -5,9 +5,8 @@
       公開ページ
     </div>
 
-    <div class="block">
-      <nuxt-link to="/create" class="button is-rounded is-fullwidth">戻る</nuxt-link>
-    </div>
+    <nuxt-link to="/create" class="block button is-rounded is-fullwidth">戻る</nuxt-link>
+
 
     <div class="block content">
       <h2>注意点</h2>
@@ -54,11 +53,7 @@
     <div class="block">
       <button :disabled="title.length < 5 || disabled" class="button is-rounded is-fullwidth" @click="release">公開</button>
     </div>
-
-    <div class="block is-size-2" v-show="id != ''">成功！</div>
-    <nuxt-link v-show="id != ''" :to="'/books/' + id" class="button block is-rounded is-fullwidth">早速やってみる</nuxt-link>
-    <nuxt-link v-show="id != ''" to="/" class="button block is-rounded is-fullwidth">ホームに戻る</nuxt-link>
-
+    <nuxt-link :disabled="id == ''" :to="'/books/' + id" class="button block is-rounded is-fullwidth">早速やってみる</nuxt-link>
   </div>
 </template>
 
@@ -113,8 +108,7 @@ export default {
     } else {
       this.data = JSON.parse(localStorage.getItem('create'));
     }
-  }
-
+  },
 }
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="box">
+  <div class="box ">
     <!-- ボタン -->
     <div class="field is-grouped">
       <div class="control">
@@ -80,4 +80,4 @@ export default {
 }
 </script>
 
-<style></style>
+<style scoped></style>

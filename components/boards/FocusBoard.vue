@@ -1,5 +1,5 @@
 <template>
-  <div class="box">
+  <div class="box ">
     <!-- 最上部コントロール -->
     <div class="field is-grouped">
       <div class="control is-expanded"></div>
@@ -81,4 +81,4 @@ export default {
 }
 </script>
 
-<style></style>
+<style scoped></style>

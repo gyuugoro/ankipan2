@@ -8,14 +8,24 @@
 
     </appbar>
 
+    <transition-group name="books" tag="div" mode="out-in">
+      <first-card key="First" @next="next" v-show="card_type == 'First'" :title="title" :description="description"
+        :disabled="disabled" />
 
-    <first-card @next="next" v-show="card_type == 'First'" :title="title" :description="description"
-      :disabled="disabled" />
-    <yontaku-card @next="next" v-show="card_type == 'Yontaku'" :question="question" :answer="answer"
-      :selection="selection" />
-    <check-card @next="next" v-show="card_type == 'Check'" :question="question" :answer="answer" />
-    <rest-card @next="next" v-show="card_type == 'Rest'" />
-    <finish-card @next="restart" v-show="card_type == 'Finish'" :allconp="this.miss_question.length == 0" />
+      <yontaku-card key="Yontaku" @next="next" v-show="num % 2 == 0 && card_type == 'Yontaku'" :question="question"
+        :answer="answer" :selection="selection" />
+      <yontaku-card key="Yontaku2" @next="next" v-show="num % 2 == 1 && card_type == 'Yontaku'" :question="question"
+        :answer="answer" :selection="selection" />
+
+      <check-card key="Check" @next="next" v-show="num % 2 == 0 && card_type == 'Check'" :question="question"
+        :answer="answer" />
+      <check-card key="Check2" @next="next" v-show="num % 2 == 1 && card_type == 'Check'" :question="question"
+        :answer="answer" />
+
+      <rest-card key="Rest" @next="next" v-show="card_type == 'Rest'" />
+      <finish-card key="Finish" @next="restart" v-show="card_type == 'Finish'"
+        :allconp="this.miss_question.length == 0" />
+    </transition-group>
 
   </div>
 </template>
@@ -191,6 +201,9 @@ export default {
     },
     next(miss) {
 
+      this.card_type = null
+
+
       if (miss == 1) {
         this.miss_question.push(this.main[this.num].question)
         this.miss_answer.push(this.main[this.num].answer)
@@ -267,4 +280,21 @@ export default {
 }
 </script>
 
-<style></style>
+<style scoped>
+.books-enter-active,
+.books-leave-active {
+  transition: all 0.25s ease;
+  position: fixed;
+  height: 200vh;
+}
+
+.books-enter {
+  opacity: 0;
+  transform: translateX(120px);
+}
+
+.books-leave-to {
+  opacity: 0;
+  transform: translateX(-120px);
+}
+</style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="field has-addons px-5" @click="checked">
+  <div class="field has-addons px-5 " @click="checked">
     <div class="control">
       <button class="button is-static is-rounded">{{ num + 1 }}</button>
     </div>
@@ -29,4 +29,4 @@ export default {
 }
 </script>
 
-<style></style>
+<style scoped></style>
