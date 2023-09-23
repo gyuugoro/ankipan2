@@ -52,9 +52,11 @@ export default {
   },
   methods: {
     succeed() {
+      this.show_answer = false
       this.$emit("next", 0)
     },
     not_succeed() {
+      this.show_answer = false
       this.$emit("next", 1)
     }
   }

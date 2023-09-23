@@ -6,7 +6,7 @@
 
     <control>
       <div class="column is-half">
-        <nuxt-link to="/" class="button is-fullwidth is-rounded" @click="() => $emit('next', 0)">ホームに戻る</nuxt-link>
+        <nuxt-link to="/" class="button is-fullwidth is-rounded">ホームに戻る</nuxt-link>
       </div>
       <div class="column is-half">
         <button class="button is-fullwidth is-rounded" @click="() => $emit('next', 0)">間違い確認</button>

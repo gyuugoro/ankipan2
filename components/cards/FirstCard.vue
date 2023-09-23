@@ -6,7 +6,8 @@
 
     <control>
       <div class="column is-full">
-        <button class="button is-fullwidth is-rounded" @click="() => $emit('next', 0)">始める</button>
+        <button class="button is-fullwidth is-rounded" :class="disabled ? 'is-loading' : ''"
+          @click="() => $emit('next', 0)">始める</button>
       </div>
     </control>
 
@@ -16,7 +17,8 @@
 <script>
 export default {
   props: {
-    title: String
+    title: String,
+    disabled: Boolean
   }
 }
 </script>
