@@ -4,11 +4,17 @@
 
     <img class="block" src="../../assets/undraw_flying_drone_u3r2.svg" alt="">
 
+
+
     <control>
-      <div class="column is-full">
+      <div class="column is-half">
         <button class="button is-fullwidth is-rounded" :class="disabled ? 'is-loading' : ''"
           @click="() => $emit('next', 0)">始める</button>
       </div>
+      <div class="column is-half">
+        <nuxt-link to="/" class="button is-fullwidth is-rounded">ホームに戻る</nuxt-link>
+      </div>
+
     </control>
 
   </div>
