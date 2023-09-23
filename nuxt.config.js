@@ -1,7 +1,8 @@
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
-  ssr: true,
-  target: 'static',
+  // ssr: true,
+  // target: 'static',
+  ssr: false,
 
   generate: {
     dir: 'dist'
@@ -55,7 +56,6 @@ export default {
       theme_color: "#ffffff",
       start_url: "/",
       orientation: "any",
-      display: "minimal-ui"
     },
     meta: {
       ogHost: "https://ankipan2.vercel.app/",

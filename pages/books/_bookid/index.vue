@@ -14,7 +14,7 @@
       :selection="selection" />
     <check-card @next="next" v-show="card_type == 'Check'" :question="question" :answer="answer" />
     <rest-card @next="next" v-show="card_type == 'Rest'" />
-    <finish-card @next="next" v-show="card_type == 'Finish'" />
+    <finish-card @next="restart" v-show="card_type == 'Finish'" :allconp="this.miss_question.length == 0" />
 
   </div>
 </template>
@@ -34,6 +34,9 @@ export default {
 
   data() {
     return {
+
+      data: {},
+
       card_type: "First",
 
       title: "読み込み中", //Firstで必要
@@ -45,34 +48,19 @@ export default {
       num: 0,
 
       main: [],
-      miss: [],
+      miss_question: [],
+      miss_answer: [],
     }
   },
 
   methods: {
-    async set_data() {
+    set_data() {
       //読み込み処理開始
       console.log("読み込み処理開始")
-
-      const starttime = Date.now()
-
-      //データ取得
-      console.log("データ取得開始")
-      this.data = await get_book_id(this.$route.params.bookid)
-
-      if (this.data == "ERR") {
-        this.$router.push("/error")
-      }
-
-      console.log("データ取得完了", this.data)
 
       //最初にタイトルを入れる
       this.main.push({ type: "First", title: this.data.name })
 
-      //仮の配列作成
-
-      //メイン処理
-      console.log("メイン処理開始")
 
       const karinums = []
       for (let i = 0; i < this.data.question.length; i++) {
@@ -117,8 +105,6 @@ export default {
         })
       }
 
-      console.log("メイン処理完了")
-
 
 
       //最後にお疲れ様を入れる
@@ -128,7 +114,6 @@ export default {
       //ロック解除
       this.disabled = false
       console.log("読み込み処理完了！＆ロック解除")
-      console.log("かかった時間", Date.now() - starttime, "ms")
 
       this.read()
     },
@@ -202,7 +187,13 @@ export default {
 
       return r
     },
-    next() {
+    next(miss) {
+
+      if (miss == 1) {
+        this.miss_question.push(this.main[this.num].question)
+        this.miss_answer.push(this.main[this.num].answer)
+      }
+
       this.num += 1
       this.read()
     },
@@ -233,14 +224,43 @@ export default {
           this.card_type = "Finish"
           break;
       }
+    },
+    async data_from_fb() {
+      //データ取得
+      console.log("データ取得開始")
+      this.data = await get_book_id(this.$route.params.bookid)
+
+      if (this.data == "ERR") {
+        this.$router.push("/error")
+      }
+
+      console.log("データ取得完了", this.data)
+
+    },
+    restart() {
+
+      this.main = []
+
+      this.data = {
+        question: this.miss_question,
+        answer: this.miss_answer,
+        name: "間違いなおし"
+      }
+
+      this.miss_question = []
+      this.miss_answer = []
+      this.num = 0
+
+      this.set_data()
     }
   },
 
   created() {
     (async () => {
-      await this.set_data()
+      await this.data_from_fb()
+      this.set_data()
     })()
-  }
+  },
 }
 </script>
 

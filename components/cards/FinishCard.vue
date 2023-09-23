@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="block is-size-3">お疲れ様！</div>
+    <div class="blcok is-size-4" v-show="allconp">オールコンプリート！おめでとう！</div>
 
     <img class="block" src="../../assets/undraw_completed_03xt.svg" alt="">
 
@@ -9,7 +10,7 @@
         <nuxt-link to="/" class="button is-fullwidth is-rounded">ホームに戻る</nuxt-link>
       </div>
       <div class="column is-half">
-        <button class="button is-fullwidth is-rounded" @click="() => $emit('next', 0)">間違い確認</button>
+        <button :disabled="allconp" class="button is-fullwidth is-rounded" @click="() => $emit('next', 0)">間違い確認</button>
       </div>
     </control>
 
@@ -19,6 +20,7 @@
 <script>
 export default {
   props: {
+    allconp: Boolean
   }
 }
 </script>
