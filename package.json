@@ -1,5 +1,6 @@
 {
   "name": "ankipan2",
+  "description": "単語帳アプリ",
   "version": "1.0.0",
   "private": true,
   "scripts": {

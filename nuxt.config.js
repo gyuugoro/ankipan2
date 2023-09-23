@@ -8,7 +8,7 @@ export default {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
+      { hid: 'description', name: 'description', content: '単語帳アプリ' },
       { name: 'format-detection', content: 'telephone=no' },
     ],
     link: [
@@ -47,8 +47,14 @@ export default {
     manifest: {
       lang: 'ja',
       theme_color: "#ffffff",
+      start_url: "/"
     },
-    icon: true
+    meta: {
+      ogHost: "https://ankipan2.vercel.app/",
+      twitterCard: "summary",
+      twitterSite: "@sho1216_",
+      mobileAppIOS: true
+    }
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
