@@ -40,7 +40,7 @@ const get_book_id = async (id) => {
 }
 
 const get_all = async () => {
-  const q = query(collection(db, "Books"), where("public", "==", true), orderBy("now"));
+  const q = query(collection(db, "Books"), where("public", "==", true), orderBy("now", "desc"));
   const querySnapshot = await getDocs(q);
 
   return querySnapshot
