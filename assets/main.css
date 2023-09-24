@@ -2,12 +2,10 @@ html {
   scroll-behavior: smooth;
 }
 
-.page-enter-active,
-.page-leave-active {
+.page-enter-active {
   transition: opacity 0.5s;
 }
 
-.page-enter,
-.page-leave-active {
+.page-enter {
   opacity: 0;
 }

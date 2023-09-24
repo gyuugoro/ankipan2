@@ -247,10 +247,6 @@ export default {
           break;
         case "Finish":
           this.card_type = "Finish"
-
-          localStorage.removeItem("continue_main")
-          localStorage.removeItem("continue_another")
-
           break;
       }
     },
@@ -288,24 +284,8 @@ export default {
 
   created() {
     (async () => {
-
-      if (this.$route.params.bookid == "continue") {
-
-        if (!localStorage.getItem("continue_another")) {
-          this.$router.push("/error")
-        }
-
-        this.main = JSON.parse(localStorage.getItem("continue_main"))
-        const another = JSON.parse(localStorage.getItem("continue_another"))
-        this.num = another.num
-        this.miss_question = another.miss_question
-        this.miss_answer = another.miss_answer
-
-        this.read()
-      } else {
-        await this.data_from_fb()
-        this.set_data()
-      }
+      await this.data_from_fb()
+      this.set_data()
     })()
   },
 
@@ -317,7 +297,8 @@ export default {
 .books-leave-active {
   transition: all 0.25s ease;
   position: fixed;
-  height: 200vh;
+  height: 300vh;
+  top: 0px;
 }
 
 .books-enter {

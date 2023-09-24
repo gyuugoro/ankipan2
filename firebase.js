@@ -2,7 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from "firebase/firestore";
 import { getPerformance } from "firebase/performance";
-import { collection, doc, getDoc, query, where, getDocs, initializeFirestore, persistentLocalCache, persistentMultipleTabManager, CACHE_SIZE_UNLIMITED, addDoc, orderBy } from "firebase/firestore";
+import { collection, doc, getDoc, query, where, getDocs, initializeFirestore, persistentLocalCache, persistentMultipleTabManager, orderBy, CACHE_SIZE_UNLIMITED } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: process.env.fb_api_key,
@@ -16,14 +16,14 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-initializeFirestore(app,
+const db = initializeFirestore(app,
   {
     localCache:
-      persistentLocalCache(/*settings*/{ tabManager: persistentMultipleTabManager() })
+      persistentLocalCache(/*settings*/{ tabManager: persistentMultipleTabManager() }),
   });
 
 const analytics = getAnalytics(app);
-const db = getFirestore(app);
+// const db = getFirestore(app);
 const perf = getPerformance(app);
 
 
@@ -39,14 +39,8 @@ const get_book_id = async (id) => {
   }
 }
 
-const add_book = async (data) => {
-  const ref = await addDoc(collection(db, "Books"), data)
-  return ref.id
-}
-
 const get_all = async () => {
   const q = query(collection(db, "Books"), where("public", "==", true), orderBy("now"));
-
   const querySnapshot = await getDocs(q);
 
   return querySnapshot
@@ -54,6 +48,5 @@ const get_all = async () => {
 
 export {
   get_book_id,
-  add_book,
   get_all
 }
