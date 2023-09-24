@@ -298,7 +298,6 @@ export default {
   transition: all 0.25s ease;
   position: fixed;
   height: 300vh;
-  top: 0px;
 }
 
 .books-enter {
