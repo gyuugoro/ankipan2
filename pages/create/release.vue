@@ -10,7 +10,7 @@
 
     <div class="block content">
       <h2>注意点</h2>
-      <p>タイトルには</p>
+      <p>「タイトル」には</p>
       <ol>
         <li>
           教科
@@ -22,13 +22,13 @@
           ページ数や単語番号など範囲がわかるもの
         </li>
       </ol>
-      <p>の３つをできる限り入れてください。</p>
+      <p>の３つを入れてください。</p>
       <p>例↓</p>
       <ul>
         <li>英語 解体英熟語 p10~80</li>
         <li>日本史 山Tプリント No.10</li>
       </ul>
-      <p>補足説明は何をかいてもOKです。ただし個人情報を入れる場合はよく考えてから記入をするようにしてください。<br><b>※こちらの都合で改行は無効化されます！</b></p>
+      <p>「補足説明」と「アプリ開発者に伝えたいこと」は何をかいてもOK<br><b>※こちらの都合で改行は無効化されます！</b></p>
     </div>
 
     <div class="field">
@@ -40,8 +40,7 @@
     <div class="field">
       <label class="label">補足説明（省略可）</label>
       <div class="control">
-        <textarea :disabled="disabled" class="textarea" placeholder="例：単語帳作成者@myaaawunder(instagram)"
-          v-model="desc"></textarea>
+        <textarea :disabled="disabled" class="textarea" placeholder="例：最後らへんむずいぞ" v-model="desc"></textarea>
       </div>
     </div>
     <div class="field">

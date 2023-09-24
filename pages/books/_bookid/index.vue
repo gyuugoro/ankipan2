@@ -122,6 +122,9 @@ export default {
       //最後にお疲れ様を入れる
       this.main.push({ type: "Finish" })
 
+      localStorage.setItem("continue_main", JSON.stringify(this.main))
+
+
 
       //ロック解除
       this.disabled = false
@@ -201,16 +204,22 @@ export default {
     },
     next(miss) {
 
-      this.card_type = null
 
 
       if (miss == 1) {
         this.miss_question.push(this.main[this.num].question)
         this.miss_answer.push(this.main[this.num].answer)
+
       }
 
+
       this.num += 1
+
+      localStorage.setItem("continue_another", JSON.stringify({ num: this.num, miss_question: this.miss_question, miss_answer: this.miss_answer }))
+
       this.read()
+
+
     },
     read() {
 
@@ -238,11 +247,17 @@ export default {
           break;
         case "Finish":
           this.card_type = "Finish"
+
+          localStorage.removeItem("continue_main")
+          localStorage.removeItem("continue_another")
+
           break;
       }
     },
     async data_from_fb() {
+
       //データ取得
+
       console.log("データ取得開始")
       this.data = await get_book_id(this.$route.params.bookid)
 
@@ -273,10 +288,27 @@ export default {
 
   created() {
     (async () => {
-      await this.data_from_fb()
-      this.set_data()
+
+      if (this.$route.params.bookid == "continue") {
+
+        if (!localStorage.getItem("continue_another")) {
+          this.$router.push("/error")
+        }
+
+        this.main = JSON.parse(localStorage.getItem("continue_main"))
+        const another = JSON.parse(localStorage.getItem("continue_another"))
+        this.num = another.num
+        this.miss_question = another.miss_question
+        this.miss_answer = another.miss_answer
+
+        this.read()
+      } else {
+        await this.data_from_fb()
+        this.set_data()
+      }
     })()
   },
+
 }
 </script>
 
