@@ -60,6 +60,9 @@ export default {
     },
     meta: {
       ogHost: "https://ankipan2.vercel.app/",
+      ogImage: {
+        path: "https://ankipan2.vercel.app/icon.png"
+      },
       twitterCard: "summary",
       twitterSite: "@sho1216_",
       mobileAppIOS: true
