@@ -8,9 +8,9 @@
 
     </appbar>
 
-    <transition-group name="books" tag="div" mode="out-in">
-      <first-card key="First" @next="next" v-show="card_type == 'First'" :title="title" :description="description"
-        :disabled="disabled" />
+    <transition-group name="books" tag="div">
+      <first-card key="First" @next="next" v-show="card_type == 'First' && title != '読み込み中'" :title="title"
+        :description="description" :disabled="disabled" />
 
       <yontaku-card key="Yontaku" @next="next" v-show="num % 2 == 0 && card_type == 'Yontaku'" :question="question"
         :answer="answer" :selection="selection" />
@@ -296,8 +296,9 @@ export default {
 .books-enter-active,
 .books-leave-active {
   transition: all 0.25s ease;
-  position: fixed;
-  height: 300vh;
+  position: absolute;
+  width: 100%;
+  height: 200vh;
 }
 
 .books-enter {
