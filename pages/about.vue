@@ -21,6 +21,9 @@
       <a href="https://ankipan2-make.vercel.app/" target="_blank"
         class="button is-rounded is-fullwidth block is-success is-light is-outlined">作成する</a>
 
+      <h2>今後の方針</h2>
+      <p>速読英単語、解体英熟語、古文単語は全ページ単語帳を作ります。日本史重要語句CheckList、世界史１０分間テストはテスト範囲のみ単語帳を作ります。必要に応じてこれら以外の単語帳も作る予定です。</p>
+
 
       <h2>使用言語</h2>
       <p>HTML, CSS, Javascript</p>
