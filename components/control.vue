@@ -5,7 +5,7 @@
       <div class="div2">
         <section class="section py-5">
           <div class="container is-max-desktop ">
-            <div class="columns">
+            <div class="columns is-multiline">
 
               <slot></slot>
             </div>

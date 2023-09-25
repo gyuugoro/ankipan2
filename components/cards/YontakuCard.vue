@@ -11,28 +11,28 @@
 
 
     <control>
-      <div class="column is-one-quarter">
-        <button class="button is-fullwidth is-rounded" :disabled="q[0]" :class="q[0] ? 'is-danger' : ''"
+      <div class="column is-full">
+        <button class="button is-fullwidth is-rounded can-scroll" :disabled="q[0]" :class="q[0] ? 'is-danger' : ''"
           @click="tap(0)">{{
             selection[0] }}</button>
       </div>
 
-      <div class="column is-one-quarter">
-        <button class="button is-fullwidth is-rounded" :disabled="q[1]" :class="q[1] ? 'is-danger' : ''"
+      <div class="column is-full">
+        <button class="button is-fullwidth is-rounded can-scroll" :disabled="q[1]" :class="q[1] ? 'is-danger' : ''"
           @click="tap(1)">{{
             selection[1]
           }}</button>
       </div>
 
-      <div class="column is-one-quarter">
-        <button class="button is-fullwidth is-rounded" :disabled="q[2]" :class="q[2] ? 'is-danger' : ''"
+      <div class="column is-full">
+        <button class="button is-fullwidth is-rounded can-scroll" :disabled="q[2]" :class="q[2] ? 'is-danger' : ''"
           @click="tap(2)">{{
             selection[2]
           }}</button>
       </div>
 
-      <div class="column is-one-quarter">
-        <button class="button is-fullwidth is-rounded" :disabled="q[3]" :class="q[3] ? 'is-danger' : ''"
+      <div class="column is-full">
+        <button class="button is-fullwidth is-rounded can-scroll" :disabled="q[3]" :class="q[3] ? 'is-danger' : ''"
           @click="tap(3)">{{
             selection[3]
           }}</button>
