@@ -7,11 +7,9 @@
     </div>
 
     <div class="block">
-      <div class="block has-text-centered" key="一覧">単語帳一覧</div>
+      <books name="自作単語帳一覧" :data="mydata" />
 
-      <nuxt-link :to="'/Books/' + v.id" v-for="v in data" :key="v.id" class="block button is-rounded is-fullwidth">{{
-        v.name
-      }}</nuxt-link>
+      <books name="単語帳一覧" :data="data" />
 
       <nuxt-link key="about" to="/about" class="block button is-rounded is-fullwidth mt-6">このアプリについて</nuxt-link>
     </div>
@@ -23,12 +21,13 @@
 </template>
 
 <script>
-import { get_all } from '../firebase';
+import { get_all, get_mybooks } from '../firebase';
 
 export default {
   data() {
     return {
       data: [],
+      mydata: []
     }
   },
   created() {
@@ -39,6 +38,15 @@ export default {
       const docs = await get_all()
       docs.forEach((doc) => {
         this.data.push({
+          name: doc.data().name,
+          id: doc.id
+        })
+      })
+
+
+      const mydocs = await get_mybooks()
+      mydocs.forEach((doc) => {
+        this.mydata.push({
           name: doc.data().name,
           id: doc.id
         })

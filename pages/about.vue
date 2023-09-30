@@ -21,6 +21,10 @@
       <a href="https://ankipan2-make.vercel.app/" target="_blank"
         class="button is-rounded is-fullwidth block is-success is-light is-outlined">作成する</a>
 
+      <p>サインインすることで別のデバイスで続きができるようになります。</p>
+      <a href="https://ankipan2-make.vercel.app/" target="_blank"
+        class="button is-rounded is-fullwidth block is-success is-light is-outlined">{{ isSignined ? 'アカウント管理' :
+          'サインイン' }}</a>
 
       <h2>使用言語</h2>
       <p>HTML, CSS, Javascript</p>
@@ -55,8 +59,19 @@
 </template>
 
 <script>
-export default {
+import { onSignIn } from '../firebase';
 
+export default {
+  data() {
+    return {
+      isSignined: false
+    }
+  },
+  created() {
+    onSignIn((user) => {
+      this.isSignined = !user.isAnonymous
+    })
+  }
 }
 </script>
 
