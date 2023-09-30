@@ -3,6 +3,7 @@ import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from "firebase/firestore";
 import { getPerformance } from "firebase/performance";
 import { collection, doc, getDoc, query, where, getDocs, initializeFirestore, persistentLocalCache, persistentMultipleTabManager, orderBy, CACHE_SIZE_UNLIMITED } from "firebase/firestore";
+import { getAuth } from "firebase/auth"
 
 const firebaseConfig = {
   apiKey: process.env.fb_api_key,
@@ -25,6 +26,9 @@ const db = initializeFirestore(app,
 const analytics = getAnalytics(app);
 // const db = getFirestore(app);
 const perf = getPerformance(app);
+// const auth = getAuth(app)
+
+
 
 
 const get_book_id = async (id) => {
