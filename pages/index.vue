@@ -60,7 +60,14 @@ export default {
       if (mydocs) {
         this.mydata = []
 
-        mydocs.forEach((doc) => {
+        mydocs[0].forEach((doc) => {
+          this.mydata.push({
+            name: doc.data().name,
+            id: doc.id
+          })
+        })
+
+        mydocs[1].forEach((doc) => {
           this.mydata.push({
             name: doc.data().name,
             id: doc.id

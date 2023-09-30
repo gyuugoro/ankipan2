@@ -2,7 +2,8 @@
   <div>
     <div class="columns is-mobile is-vcentered">
       <span class="column is-size-5">{{ name }}</span>
-      <button class="button is-rounded is-ghost" @click="() => isOpen = !isOpen">{{ isOpen ? '閉じる' : '開く' }}</button>
+      <button class="button is-rounded is-danger is-light" @click="() => isOpen = !isOpen">{{ isOpen ? '閉じる' : '開く'
+      }}</button>
     </div>
 
     <transition name="books" mode="out-in">

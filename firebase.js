@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getPerformance } from "firebase/performance";
-import { collection, doc, getDoc, query, where, getDocs, initializeFirestore, persistentLocalCache, persistentMultipleTabManager, orderBy } from "firebase/firestore";
+import { collection, doc, getDoc, query, where, getDocs, initializeFirestore, persistentLocalCache, persistentMultipleTabManager, orderBy, updateDoc, addDoc, deleteField } from "firebase/firestore";
 import { getAuth, onAuthStateChanged, signInAnonymously, GoogleAuthProvider, signInWithRedirect, linkWithRedirect, setPersistence, browserLocalPersistence } from "firebase/auth"
 
 const firebaseConfig = {
@@ -30,7 +30,7 @@ setPersistence(auth, browserLocalPersistence)
 
 //Auth
 const signInAnonymous = async () => {
-  await signInAnonymously(auth).catch((err) => console.log(err.message))
+  await signInAnonymously(auth).catch((err) => console.log("匿名サインインエラー:" + err.message))
 }
 
 const onSignIn = (play) => {
@@ -45,9 +45,9 @@ const signInGoogle = async () => {
   const provider = new GoogleAuthProvider();
 
   if (auth.currentUser) {
-    await linkWithRedirect(auth.currentUser, provider).catch((err) => console.log(err.message))
+    await linkWithRedirect(auth.currentUser, provider).catch((err) => console.log("Googleリンクエラー:" + err.message))
   } else {
-    await signInWithRedirect(auth, provider).catch((err) => console.log(err.message))
+    await signInWithRedirect(auth, provider).catch((err) => console.log("Googleサインインエラー:" + err.message))
   }
 }
 
@@ -56,7 +56,7 @@ const signInGoogle = async () => {
 const get_book_id = async (id) => {
 
   const docRef = doc(db, "Books", id);
-  const docSnap = await getDoc(docRef);
+  const docSnap = await getDoc(docRef).catch((err) => console.log("id単語帳取得エラー:" + err.message));
 
   if (docSnap.exists()) {
     return docSnap.data()
@@ -66,8 +66,8 @@ const get_book_id = async (id) => {
 }
 
 const get_all = async () => {
-  const q = query(collection(db, "Books"), where("public", "==", true), where("creating", "==", false), orderBy("now", "desc"));
-  const querySnapshot = await getDocs(q);
+  const q = query(collection(db, "Books"), where("public", "==", true), orderBy("now", "desc"));
+  const querySnapshot = await getDocs(q).catch((err) => console.log("全単語帳取得エラー:" + err.message));
 
   return querySnapshot
 }
@@ -75,25 +75,71 @@ const get_all = async () => {
 const get_mybooks = async () => {
 
   if (auth.currentUser) {
-    const q = query(collection(db, "Books"), where("creator", "==", auth.currentUser.uid), where("creating", "==", false), orderBy("now", "desc"));
-    const querySnapshot = await getDocs(q);
+    const q = query(collection(db, "Books"), where("creator", "==", auth.currentUser.uid), where("public", "==", false), orderBy("now", "desc"));
+    const querySnapshot = await getDocs(q).catch((err) => console.log("自分用非公開単語帳取得エラー:" + err.message));
 
-    return querySnapshot
-  } else {
-    return null
+
+    const q2 = query(collection(db, "Books"), where("creator", "==", auth.currentUser.uid), where("public", "==", true), orderBy("now", "desc"));
+    const querySnapshot2 = await getDocs(q2).catch((err) => console.log("自分用公開単語帳取得エラー:" + err.message));
+
+    return [querySnapshot, querySnapshot2]
   }
 }
 
-const get_creatings = async () => {
+//単語帳を削除する
+const remove_book = async (id) => {
 
-  if (auth.currentUser) {
-    const q = query(collection(db, "Books"), where("creator", "==", auth.currentUser.uid), where("creating", "==", true), orderBy("now", "desc"));
-    const querySnapshot = await getDocs(q);
+  const docSnap = await getDoc(doc(db, "Books", id)).catch((err) => console.log("削除予定の単語帳取得エラー:" + err.message))
 
-    return querySnapshot
-  } else {
-    return null
+  if (docSnap.exists()) {
+    await updateDoc(doc(db, "Books", id), {
+      public: false,
+      creator: "OLD" + docSnap.data().creator
+    }).catch((err) => console.log("単語帳削除エラー:" + err.message))
   }
+}
+
+//公開、非公開を変更
+const change_public = async (id, isPublic) => {
+
+  const docSnap = await getDoc(doc(db, "Books", id)).catch((err) => console.log("公開非公開変更予定の単語帳取得エラー:" + err.message))
+
+  if (docSnap.exists()) {
+    await updateDoc(doc(db, "Books", id), {
+      public: isPublic,
+    }).catch((err) => console.log("公開非公開変更エラー:" + err.message))
+  }
+}
+
+//単語帳全体を変更
+const change_all = async (id, [question, answer, name, description, secret]) => {
+
+  const docSnap = await getDoc(doc(db, "Books", id)).catch((err) => console.log("単語帳内容変更予定の単語帳取得エラー:" + err.message))
+
+  if (docSnap.exists()) {
+    await updateDoc(doc(db, "Books", id), {
+      question: question,
+      answer: answer,
+      name: name,
+      description: description,
+      secret: secret
+    }).catch((err) => console.log("単語帳内容変更エラー:" + err.message))
+  }
+}
+
+const create_book = async ([question, answer, name, description, secret]) => {
+
+  await addDoc(collection(db, "Books"), {
+    question: question,
+    answer: answer,
+    name: name,
+    description: description,
+    secret: secret,
+
+    creator: auth.currentUser.uid,
+    now: Date.now(),
+    public: false,
+  }).catch((err) => console.log("単語帳作成エラー:" + err.message))
 }
 
 //公開
@@ -101,7 +147,11 @@ export {
   get_book_id,
   get_all,
   get_mybooks,
-  get_creatings,
+
+  remove_book,
+  change_public,
+  change_all,
+  create_book,
 
   onSignIn,
   signInGoogle,

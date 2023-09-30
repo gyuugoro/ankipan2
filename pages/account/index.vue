@@ -17,16 +17,18 @@
       </div>
 
 
-      <h4>作り途中</h4>
-      <p v-show="creatingdata.length == 0">0コ</p>
+      <trigger name="非公開">
+        <p v-show="nonpublics.length == 0">0コ</p>
 
-      <h4>あなたが作った単語帳</h4>
-      <p v-show="mydata.length == 0">0コ</p>
+
+
+      </trigger>
+
+      <trigger name="公開">
+        <p v-show="publics.length == 0">0コ</p>
+
+      </trigger>
     </div>
-
-
-
-
 
     <div class="block">
       <nuxt-link to="/" class="block button is-rounded is-fullwidth is-black">ホームに戻る</nuxt-link>
@@ -38,14 +40,14 @@
 
 <script>
 
-import { onSignIn, signInGoogle, get_mybooks, get_creatings } from '../../firebase'
+import { onSignIn, signInGoogle, get_mybooks } from '../../firebase'
 
 export default {
   data() {
     return {
       isSignined: false,
-      mydata: [],
-      creatingdata: []
+      nonpublics: [],
+      publics: []
     }
   },
   mounted() {
@@ -68,28 +70,20 @@ export default {
 
         this.mydata = []
 
-        mydocs.forEach((doc) => {
-          this.mydata.push({
+        mydocs[0].forEach((doc) => {
+          this.nonpublics.push({
+            name: doc.data().name,
+            id: doc.id
+          })
+        })
+
+        mydocs[1].forEach((doc) => {
+          this.publics.push({
             name: doc.data().name,
             id: doc.id
           })
         })
       }
-
-      const creatingdoc = await get_creatings()
-
-      if (creatingdoc) {
-
-        this.creatingdata = []
-
-        creatingdoc.forEach((doc) => {
-          this.creatingdata.push({
-            name: doc.data().name,
-            id: doc.id
-          })
-        })
-      }
-
     }
   },
 }
