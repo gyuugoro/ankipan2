@@ -2,7 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getPerformance } from "firebase/performance";
 import { collection, doc, getDoc, query, where, getDocs, initializeFirestore, persistentLocalCache, persistentMultipleTabManager, orderBy } from "firebase/firestore";
-import { getAuth, onAuthStateChanged, signInAnonymously } from "firebase/auth"
+import { getAuth, onAuthStateChanged, signInAnonymously, GoogleAuthProvider, signInWithRedirect, linkWithRedirect, setPersistence, browserLocalPersistence } from "firebase/auth"
 
 const firebaseConfig = {
   apiKey: process.env.fb_api_key,
@@ -26,24 +26,33 @@ const analytics = getAnalytics(app);
 // const db = getFirestore(app);
 const perf = getPerformance(app);
 const auth = getAuth(app)
+setPersistence(auth, browserLocalPersistence)
 
-const signInCheck = () => {
-  onAuthStateChanged(auth, async (user) => {
-    if (user) {
-      console.log("サインイン id:" + user.uid)
-    } else {
-      console.log("匿名アカウントを作成")
-      await signInAnonymously(auth)
-    }
-  });
+//Auth
+const signInAnonymous = async () => {
+  await signInAnonymously(auth).catch((err) => console.log(err.message))
 }
 
 const onSignIn = (play) => {
+  play(auth.currentUser)
   onAuthStateChanged(auth, (user) => {
+    console.log("認証状態更新")
     play(user)
   })
 }
 
+const signInGoogle = async () => {
+  const provider = new GoogleAuthProvider();
+
+  if (auth.currentUser) {
+    await linkWithRedirect(auth.currentUser, provider).catch((err) => console.log(err.message))
+  } else {
+    await signInWithRedirect(auth, provider).catch((err) => console.log(err.message))
+  }
+}
+
+
+//Firestore
 const get_book_id = async (id) => {
 
   const docRef = doc(db, "Books", id);
@@ -57,24 +66,44 @@ const get_book_id = async (id) => {
 }
 
 const get_all = async () => {
-  const q = query(collection(db, "Books"), where("public", "==", true), orderBy("now", "desc"));
+  const q = query(collection(db, "Books"), where("public", "==", true), where("creating", "==", false), orderBy("now", "desc"));
   const querySnapshot = await getDocs(q);
 
   return querySnapshot
 }
 
 const get_mybooks = async () => {
-  const q = query(collection(db, "Books"), where("public", "==", true), where("creator", "==", auth.currentUser.uid), orderBy("now", "desc"));
-  const querySnapshot = await getDocs(q);
 
-  return querySnapshot
+  if (auth.currentUser) {
+    const q = query(collection(db, "Books"), where("creator", "==", auth.currentUser.uid), where("creating", "==", false), orderBy("now", "desc"));
+    const querySnapshot = await getDocs(q);
 
+    return querySnapshot
+  } else {
+    return null
+  }
 }
 
+const get_creatings = async () => {
+
+  if (auth.currentUser) {
+    const q = query(collection(db, "Books"), where("creator", "==", auth.currentUser.uid), where("creating", "==", true), orderBy("now", "desc"));
+    const querySnapshot = await getDocs(q);
+
+    return querySnapshot
+  } else {
+    return null
+  }
+}
+
+//公開
 export {
   get_book_id,
   get_all,
   get_mybooks,
-  signInCheck,
-  onSignIn
+  get_creatings,
+
+  onSignIn,
+  signInGoogle,
+  signInAnonymous,
 }

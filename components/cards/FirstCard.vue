@@ -14,7 +14,7 @@
           @click="() => $emit('next', 0)">始める</button>
       </div>
       <div class="column is-half">
-        <nuxt-link to="/" class="button is-fullwidth is-rounded">ホームに戻る</nuxt-link>
+        <nuxt-link to="/" class="button is-fullwidth is-rounded is-black">ホームに戻る</nuxt-link>
       </div>
 
     </control>

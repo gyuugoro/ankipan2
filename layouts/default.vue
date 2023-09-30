@@ -1,18 +1,10 @@
 <template>
-  <section class="section">
-    <div class="container is-max-desktop">
-      <Nuxt />
-    </div>
-  </section>
+  <div>
+
+    <section class="section">
+      <div class="container is-max-desktop">
+        <Nuxt />
+      </div>
+    </section>
+  </div>
 </template>
-
-<script>
-import { signInCheck } from '../firebase';
-
-export default {
-  created() {
-    signInCheck()
-  },
-}
-
-</script>
