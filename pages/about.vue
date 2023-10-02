@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="block is-size-1">About</div>
+    <h1 class="title is-1">About</h1>
     <div class="block content">
 
       <p>
@@ -17,10 +17,12 @@
       <a href="https://github.com/gyuugoro/ankipan2" target="_blank"
         class="button is-rounded is-fullwidth block is-dark is-light is-outlined">Github</a>
 
-      <p>単語帳はここから誰でも追加できます。</p>
-      <a href="https://ankipan2-make.vercel.app/" target="_blank"
-        class="button is-rounded is-fullwidth block is-success is-light is-outlined">作成する</a>
+      <p>単語帳はここから誰でも追加できます。単語帳を非公開にして自分だけが利用することもできます。</p>
+      <nuxt-link to="/make"
+        class="button is-rounded is-fullwidth block is-success is-light is-outlined">単語帳を作成</nuxt-link>
 
+      <p>作った単語帳はここで管理できます。</p>
+      <nuxt-link to="/manage" class="button is-rounded is-fullwidth block is-info is-light is-outlined">単語帳を管理</nuxt-link>
 
       <h2>使用言語</h2>
       <p>HTML, CSS, Javascript</p>
@@ -50,14 +52,10 @@
     </div>
 
 
-    <nuxt-link to="/" class="block button is-rounded is-fullwidth mt-6">ホームに戻る</nuxt-link>
+    <div class="block">
+      <nuxt-link to="/" class="block button is-rounded is-fullwidth is-black">ホームに戻る</nuxt-link>
+
+    </div>
   </div>
 </template>
 
-<script>
-export default {
-
-}
-</script>
-
-<style></style>
