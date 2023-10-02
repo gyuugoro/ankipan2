@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getPerformance } from "firebase/performance";
-import { collection, doc, getDoc, query, where, getDocs, initializeFirestore, persistentLocalCache, persistentMultipleTabManager, orderBy, updateDoc, addDoc, deleteField } from "firebase/firestore";
+import { collection, doc, getDoc, query, where, getDocs, initializeFirestore, persistentLocalCache, persistentMultipleTabManager, orderBy, updateDoc, addDoc } from "firebase/firestore";
 import { getAuth, onAuthStateChanged, signInAnonymously, GoogleAuthProvider, signInWithRedirect, linkWithRedirect, setPersistence, browserLocalPersistence } from "firebase/auth"
 
 const firebaseConfig = {
@@ -101,7 +101,7 @@ const change_all = async (id, [question, answer, name, description, secret]) => 
     //作成作業
 
     //アカウントがなければ作る
-    if (!auth.currentUser.uid) {
+    if (!auth.currentUser) {
       await signInAnonymous()
     }
 
