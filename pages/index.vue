@@ -7,21 +7,17 @@
       <h1 class="title is-1">Ankipan2</h1>
     </div>
 
-    <books key="自作単語帳一覧" name="あなたが作った単語帳" :data="mydata" />
+    <books key="自作単語帳一覧" name="Made by you" :data="myBooks" />
 
-    <books key="単語帳一覧" name="公開されてる単語帳" :data="data" />
-
-
+    <books key="単語帳一覧" name="Public" :data="data" />
 
     <h3 class="title is-3 has-text-centered">リンク</h3>
 
     <a href="https://instagram.com/shotaro20060930?igshid=NzZlODBkYWE4Ng==" target="_blank"
       class="button is-rounded is-fullwidth block is-danger is-light is-outlined">Instagram</a>
-    <nuxt-link to="/create"
-      class="button is-rounded is-fullwidth block is-success is-light is-outlined">単語帳を作成</nuxt-link>
-    <nuxt-link to="/account" class="button is-rounded is-fullwidth block is-info is-light is-outlined">単語帳を管理</nuxt-link>
+    <nuxt-link to="/make" class="button is-rounded is-fullwidth block is-success is-light is-outlined">単語帳を作成</nuxt-link>
+    <nuxt-link to="/manage" class="button is-rounded is-fullwidth block is-info is-light is-outlined">単語帳を管理</nuxt-link>
     <nuxt-link to="/about" class="block button is-rounded is-fullwidth is-dark is-outlined is-light">このアプリについて</nuxt-link>
-
 
   </div>
 </template>
@@ -33,7 +29,7 @@ export default {
   data() {
     return {
       data: [],
-      mydata: []
+      myBooks: []
     }
   },
   created() {
@@ -58,19 +54,13 @@ export default {
       const mydocs = await get_mybooks()
 
       if (mydocs) {
-        this.mydata = []
+        this.myBooks = []
 
-        mydocs[0].forEach((doc) => {
-          this.mydata.push({
+        mydocs.forEach((doc) => {
+          this.myBooks.push({
             name: doc.data().name,
-            id: doc.id
-          })
-        })
-
-        mydocs[1].forEach((doc) => {
-          this.mydata.push({
-            name: doc.data().name,
-            id: doc.id
+            id: doc.id,
+            isPublic: doc.public
           })
         })
       }

@@ -18,12 +18,11 @@
         class="button is-rounded is-fullwidth block is-dark is-light is-outlined">Github</a>
 
       <p>単語帳はここから誰でも追加できます。単語帳を非公開にして自分だけが利用することもできます。</p>
-      <nuxt-link to="/create"
+      <nuxt-link to="/make"
         class="button is-rounded is-fullwidth block is-success is-light is-outlined">単語帳を作成</nuxt-link>
 
       <p>作った単語帳はここで管理できます。</p>
-      <nuxt-link to="/account"
-        class="button is-rounded is-fullwidth block is-info is-light is-outlined">単語帳を管理</nuxt-link>
+      <nuxt-link to="/manage" class="button is-rounded is-fullwidth block is-info is-light is-outlined">単語帳を管理</nuxt-link>
 
       <h2>使用言語</h2>
       <p>HTML, CSS, Javascript</p>

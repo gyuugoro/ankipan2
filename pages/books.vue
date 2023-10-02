@@ -31,12 +31,12 @@
 </template>
 
 <script>
-import FirstCard from '../../../components/cards/FirstCard.vue'
-import FinishCard from '../../../components/cards/FinishCard.vue'
-import CheckCard from '../../../components/cards/CheckCard.vue'
-import YontakuCard from '../../../components/cards/YontakuCard.vue'
-import RestCard from '../../../components/cards/RestCard.vue'
-import { get_book_id } from '../../../firebase'
+import FirstCard from '../components/cards/FirstCard.vue'
+import FinishCard from '../components/cards/FinishCard.vue'
+import CheckCard from '../components/cards/CheckCard.vue'
+import YontakuCard from '../components/cards/YontakuCard.vue'
+import RestCard from '../components/cards/RestCard.vue'
+import { get_book_id } from '../firebase'
 
 
 export default {
@@ -255,7 +255,7 @@ export default {
       //データ取得
 
       console.log("データ取得開始")
-      this.data = await get_book_id(this.$route.params.bookid)
+      this.data = await get_book_id(this.$route.query.id)
 
       if (this.data == "ERR") {
         this.$router.push("/error")
