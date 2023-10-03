@@ -2,7 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getPerformance } from "firebase/performance";
 import { collection, doc, getDoc, query, where, getDocs, initializeFirestore, persistentLocalCache, persistentMultipleTabManager, orderBy, updateDoc, addDoc } from "firebase/firestore";
-import { getAuth, onAuthStateChanged, signInAnonymously, GoogleAuthProvider, signInWithRedirect, linkWithRedirect, setPersistence, browserLocalPersistence } from "firebase/auth"
+import { getAuth, onAuthStateChanged, signInAnonymously, GoogleAuthProvider, signInWithRedirect, linkWithRedirect, setPersistence, browserLocalPersistence, signOut, deleteUser } from "firebase/auth"
 
 const firebaseConfig = {
   apiKey: process.env.fb_api_key,
@@ -34,20 +34,31 @@ const signInAnonymous = async () => {
 }
 
 const onSignIn = (play) => {
-  play(auth.currentUser)
+  // play(auth.currentUser)
   onAuthStateChanged(auth, (user) => {
-    console.log("認証状態更新")
+    console.log("認証状態更新", user)
     play(user)
   })
 }
 
 const signInGoogle = async () => {
   const provider = new GoogleAuthProvider();
+  await signInWithRedirect(auth, provider).catch((err) => console.log("Googleサインインエラー:" + err.message))
+}
 
+const linkGoogle = async () => {
+  const provider = new GoogleAuthProvider();
+  await linkWithRedirect(auth.currentUser, provider).catch((err) => console.log("Googleリンクエラー:" + err.message))
+}
+
+const signOutAll = async () => {
+  await signOut(auth).catch((err) => console.log("サインアウトエラー:" + err.message))
+
+}
+
+const removeUser = async () => {
   if (auth.currentUser) {
-    await linkWithRedirect(auth.currentUser, provider).catch((err) => console.log("Googleリンクエラー:" + err.message))
-  } else {
-    await signInWithRedirect(auth, provider).catch((err) => console.log("Googleサインインエラー:" + err.message))
+    await deleteUser(auth.currentUser).catch((err) => console.log("アカウント削除エラー:" + err.message))
   }
 }
 
@@ -97,45 +108,43 @@ const change_public = async (id, isPublic) => {
 //単語帳全体を変更
 const change_all = async (id, [question, answer, name, description, secret]) => {
 
-  if (!id) {
-    //作成作業
 
-    //アカウントがなければ作る
-    if (!auth.currentUser) {
-      await signInAnonymous()
-    }
+  if (auth.currentUser) {
 
-    const doc = await addDoc(collection(db, "Books"), {
-      question: question,
-      answer: answer,
-      name: name,
-      description: description,
-      secret: secret,
-
-      creator: auth.currentUser.uid,
-      now: Date.now(),
-      public: false,
-    }).catch((err) => console.log("単語帳作成エラー:" + err.message))
-
-    return doc.id
-
-
-  } else {
-    //更新作業
-    const docSnap = await getDoc(doc(db, "Books", id)).catch((err) => console.log("単語帳内容変更予定の単語帳取得エラー:" + err.message))
-
-    if (docSnap.exists()) {
-      await updateDoc(doc(db, "Books", id), {
+    if (!id) {
+      //作成作業
+      const doc = await addDoc(collection(db, "Books"), {
         question: question,
         answer: answer,
         name: name,
         description: description,
         secret: secret,
-        public: false,
-      }).catch((err) => console.log("単語帳内容変更エラー:" + err.message))
-    }
 
-    return id
+        creator: auth.currentUser.uid,
+        now: Date.now(),
+        public: false,
+      }).catch((err) => console.log("単語帳作成エラー:" + err.message))
+
+      return doc.id
+
+
+    } else {
+      //更新作業
+      const docSnap = await getDoc(doc(db, "Books", id)).catch((err) => console.log("単語帳内容変更予定の単語帳取得エラー:" + err.message))
+
+      if (docSnap.exists()) {
+        await updateDoc(doc(db, "Books", id), {
+          question: question,
+          answer: answer,
+          name: name,
+          description: description,
+          secret: secret,
+          public: false,
+        }).catch((err) => console.log("単語帳内容変更エラー:" + err.message))
+      }
+
+      return id
+    }
   }
 }
 
@@ -151,5 +160,8 @@ export {
 
   onSignIn,
   signInGoogle,
+  linkGoogle,
   signInAnonymous,
+  signOutAll,
+  removeUser
 }

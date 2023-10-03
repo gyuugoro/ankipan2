@@ -5,6 +5,10 @@
     <div class="block">エラーコード：{{ error.statusCode }}</div>
     <div class="block">{{ error.message }}</div>
     <nuxt-link to="/" class="button is-fullwidth is-rounded block is-danger">ホームに戻る</nuxt-link>
+    <button class="button is-fullwidth is-rounded block is-danger is-light is-outlined"
+      @click="$router.back()">一つ戻る</button>
+    <button class="button is-fullwidth is-rounded block is-danger is-light is-outlined"
+      @click="$router.go({ path: $router.currentRoute.path, force: true })">再読み込み</button>
   </div>
 </template>
 
@@ -12,7 +16,7 @@
 export default {
   props: {
     error: Object
-  }
+  },
 }
 </script>
 

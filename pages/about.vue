@@ -10,19 +10,37 @@
       </p>
 
       <p>バグなど不具合の報告は僕のInstagramにお願いします。</p>
-      <a href="https://instagram.com/shotaro20060930?igshid=NzZlODBkYWE4Ng==" target="_blank"
-        class="button is-rounded is-fullwidth block is-danger is-light is-outlined">Instagram</a>
+      <div class="block columns is-centered">
+        <div class="column is-7">
+          <a href="https://instagram.com/shotaro20060930?igshid=NzZlODBkYWE4Ng==" target="_blank"
+            class="button is-rounded is-fullwidth block is-danger is-light is-outlined">Instagram</a>
+        </div>
+      </div>
 
       <p>コードはここに公開しているので、有識者の方！アドバイスをください！</p>
-      <a href="https://github.com/gyuugoro/ankipan2" target="_blank"
-        class="button is-rounded is-fullwidth block is-dark is-light is-outlined">Github</a>
+      <div class="block columns is-centered">
+        <div class="column is-7">
+          <a href="https://github.com/gyuugoro/ankipan2" target="_blank"
+            class="button is-rounded is-fullwidth block is-dark is-light is-outlined">Github</a>
+        </div>
+      </div>
 
       <p>単語帳はここから誰でも追加できます。単語帳を非公開にして自分だけが利用することもできます。</p>
-      <nuxt-link to="/make"
-        class="button is-rounded is-fullwidth block is-success is-light is-outlined">単語帳を作成</nuxt-link>
+      <div class="block columns is-centered">
+        <div class="column is-7">
+          <nuxt-link to="/make"
+            class="button is-rounded is-fullwidth block is-success is-light is-outlined">単語帳を作成</nuxt-link>
+        </div>
+      </div>
 
       <p>作った単語帳はここで管理できます。</p>
-      <nuxt-link to="/manage" class="button is-rounded is-fullwidth block is-info is-light is-outlined">単語帳を管理</nuxt-link>
+      <div class="block columns is-centered">
+        <div class="column is-7">
+          <nuxt-link to="/manage"
+            class="button is-rounded is-fullwidth block is-info is-light is-outlined">単語帳を管理</nuxt-link>
+
+        </div>
+      </div>
 
       <h2>使用言語</h2>
       <p>HTML, CSS, Javascript</p>
@@ -52,10 +70,12 @@
     </div>
 
 
-    <div class="block">
-      <nuxt-link to="/" class="block button is-rounded is-fullwidth is-black">ホームに戻る</nuxt-link>
-
+    <div class="block columns is-centered">
+      <div class="column is-7">
+        <nuxt-link to="/" class="block button is-rounded is-fullwidth is-black">ホームに戻る</nuxt-link>
+      </div>
     </div>
+
   </div>
 </template>
 

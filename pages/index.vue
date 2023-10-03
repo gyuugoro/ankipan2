@@ -13,12 +13,22 @@
 
     <h3 class="title is-3 has-text-centered">リンク</h3>
 
-    <a href="https://instagram.com/shotaro20060930?igshid=NzZlODBkYWE4Ng==" target="_blank"
-      class="button is-rounded is-fullwidth block is-danger is-light is-outlined">Instagram</a>
-    <nuxt-link to="/make" class="button is-rounded is-fullwidth block is-success is-light is-outlined">単語帳を作成</nuxt-link>
-    <nuxt-link to="/manage" class="button is-rounded is-fullwidth block is-info is-light is-outlined">単語帳を管理</nuxt-link>
-    <nuxt-link to="/about" class="block button is-rounded is-fullwidth is-dark is-outlined is-light">このアプリについて</nuxt-link>
+    <div class="columns block is-vcentered is-centered is-2">
 
+      <div class="column"> <a href="https://instagram.com/shotaro20060930?igshid=NzZlODBkYWE4Ng==" target="_blank"
+          class="button is-fullwidth is-rounded is-danger is-light is-outlined">Instagram</a>
+      </div>
+      <div class="column"> <nuxt-link to="/make"
+          class="button is-fullwidth is-rounded is-success is-light is-outlined">単語帳を作成</nuxt-link>
+      </div>
+      <div class="column"> <nuxt-link to="/manage"
+          class="button is-fullwidth is-rounded is-info is-light is-outlined">単語帳を管理</nuxt-link>
+      </div>
+      <div class="column"> <nuxt-link to="/about"
+          class="button is-fullwidth is-rounded is-dark is-outlined is-light">このアプリについて</nuxt-link>
+      </div>
+
+    </div>
   </div>
 </template>
 
