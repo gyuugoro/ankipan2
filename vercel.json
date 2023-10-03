@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/__/auth/",
+      "destination": "https://ankipan2.firebaseapp.com/__/auth/"
+    }
+  ]
+}
