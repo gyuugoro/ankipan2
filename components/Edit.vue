@@ -23,12 +23,11 @@ import UsualBoard from './boards/UsualBoard'
 export default {
   components: { FocusBoard, UsualBoard },
   props: {
-    value: Array
+    question: Array,
+    answer: Array
   },
   data() {
     return {
-      question: this.value[0],
-      answer: this.value[1],
       fcs: -1
     }
   },
@@ -46,31 +45,18 @@ export default {
 
 
     remove() {
-      this.question.splice(this.fcs, 1)
-      this.answer.splice(this.fcs, 1)
+      this.$emit("remove", [this.fcs])
+
       this.closing()
     },
     newone() {
-      this.question.push("")
-      this.answer.push("")
+      this.$emit("add")
+
       this.fcs = this.question.length - 1
     },
     closing() {
       this.fcs = -1
     },
-  },
-  watch: {
-    value(v) {
-      console.log("こちらEdit question", v)
-      this.question = this.value[0]
-      this.answer = this.value[1]
-    },
-    question() {
-      this.$emit("input", [this.question, this.answer])
-    },
-    answer() {
-      this.$emit("input", [this.question, this.answer])
-    }
   },
   computed: {
     set_data: {
@@ -78,8 +64,7 @@ export default {
         return [this.question[this.fcs], this.answer[this.fcs]]
       },
       set(v) {
-        this.question[this.fcs] = v[0]
-        this.answer[this.fcs] = v[1]
+        this.$emit("update", [this.fcs, v[0], v[1]])
       }
     }
   }

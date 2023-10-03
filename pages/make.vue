@@ -12,11 +12,11 @@
         <input type="text" class="block input is-rounded is-fullwidth" placeholder="タイトル" v-model="name" />
       </div>
 
-      <!-- メイン
+      メイン
       <div class="content block">
-        <h4>編集</h4>
-        <edit v-model="set_data" />
-      </div> -->
+        <h4>単語帳メイン</h4>
+        <edit @add="add" @remove="remove" @update="update" :answer="answer" :question="question" />
+      </div>
 
       <!-- 説明 -->
       <div class="content block">
@@ -50,7 +50,7 @@
 
 <script>
 
-import { get_book_id, change_all } from '../firebase';
+import { get_book_id, change_all, onSignIn } from '../firebase';
 
 export default {
   data() {
@@ -65,6 +65,14 @@ export default {
     }
   },
   mounted() {
+
+    onSignIn((user) => {
+      if (!user) {
+        console.log("なぜだあ", user)
+        this.$router.push("/manage")
+      }
+    })
+
     if (this.$route.query.id) {
       this.get_data()
     }
@@ -103,6 +111,24 @@ export default {
       const id = await change_all(this.id, [this.question, this.answer, this.name, this.description, this.secret])
       this.id = id
       this.isSaved = true
+    },
+    add() {
+      this.answer.push("")
+      this.question.push("")
+
+      this.isSaved = false
+    },
+    remove([i]) {
+      this.answer.splice(i, 1)
+      this.question.splice(i, 1)
+
+      this.isSaved = false
+    },
+    update([i, question, answer]) {
+      this.answer[i] = answer
+      this.question[i] = question
+
+      this.isSaved = false
     }
   },
   watch: {
@@ -114,7 +140,7 @@ export default {
     },
     name() {
       this.isSaved = false
-    }
+    },
   }
 }
 </script>
