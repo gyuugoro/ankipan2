@@ -48,8 +48,6 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
-    '@nuxtjs/axios',
-    '@nuxtjs/proxy'
   ],
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
@@ -84,11 +82,5 @@ export default {
     fb_app_id: process.env.FB_APP_ID,
     fb_measurement_id: process.env.FB_MEASUREMENT_ID
   },
-
-  proxy: {
-    "/__/auth/**": {
-      target: "https://ankipan2.firebaseapp.com"
-    }
-  }
 
 }
