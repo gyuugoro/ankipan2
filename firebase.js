@@ -43,14 +43,17 @@ const onSignIn = (play) => {
 
 const signInGoogle = async () => {
   const provider = new GoogleAuthProvider();
-
-  if (auth.currentUser) {
-    await linkWithRedirect(auth.currentUser, provider).catch((err) => console.log("Googleリンクエラー:" + err.message))
-  } else {
-    await signInWithRedirect(auth, provider).catch((err) => console.log("Googleサインインエラー:" + err.message))
-  }
+  await signInWithRedirect(auth, provider).catch((err) => console.log("Googleサインインエラー:" + err.message))   
 }
 
+const linkGoogle = async () => {
+  const provider = new GoogleAuthProvider();
+  await linkWithRedirect(auth.currentUser, providr).catch((err) => console.log("Googleリンクエラー:" + err.message))
+}
+
+const signOutAll = async () => {
+  const signOut()
+}
 
 //Firestore
 const get_book_id = async (id) => {
