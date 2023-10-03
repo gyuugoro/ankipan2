@@ -2,7 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getPerformance } from "firebase/performance";
 import { collection, doc, getDoc, query, where, getDocs, initializeFirestore, persistentLocalCache, persistentMultipleTabManager, orderBy, updateDoc, addDoc } from "firebase/firestore";
-import { getAuth, onAuthStateChanged, signInAnonymously, GoogleAuthProvider, signInWithRedirect, linkWithRedirect, setPersistence, browserLocalPersistence, signOut, deleteUser } from "firebase/auth"
+import { getAuth, onAuthStateChanged, signInAnonymously, GoogleAuthProvider, signInWithPopup, linkWithRedirect, setPersistence, browserLocalPersistence, signOut, deleteUser } from "firebase/auth"
 
 const firebaseConfig = {
   apiKey: process.env.fb_api_key,
@@ -43,7 +43,7 @@ const onSignIn = (play) => {
 
 const signInGoogle = async () => {
   const provider = new GoogleAuthProvider();
-  await signInWithRedirect(auth, provider).catch((err) => console.log("Googleサインインエラー:" + err.message))
+  await signInWithPopup(auth, provider).catch((err) => console.log("Googleサインインエラー:" + err.message))
 }
 
 const linkGoogle = async () => {
