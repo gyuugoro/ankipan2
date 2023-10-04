@@ -14,7 +14,7 @@
 
       メイン
       <div class="content block">
-        <h4>単語帳メイン</h4>
+        <h4>単語集</h4>
         <edit @add="add" @remove="remove" @update="update" :answer="answer" :question="question" />
       </div>
 
