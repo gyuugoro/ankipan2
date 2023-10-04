@@ -105,7 +105,7 @@ export default {
   transform:translateX(-20px);
 }
 
-.books-leave-active{
-  position: absolute;
+.books-enter{
+  transform:scaleX(0px);
 }
 </style>
