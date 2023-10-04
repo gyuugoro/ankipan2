@@ -97,11 +97,12 @@ export default {
 <style scoped>
 .books-enter-active,
 .books-leave-active{
-  transition: all 0.25s;
+  transition: all 0.25s ease;
 }
 
 .books-leave-to{
   transform:translateX(-20px);
+  opacity:0;
 }
 
 .books-enter{
