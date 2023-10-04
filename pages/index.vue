@@ -7,11 +7,15 @@
       <h1 class="title is-1">Ankipan2</h1>
     </div>
 
-    <h3 v-if="loading" class="title is-3 has-text-centered">Loading</h3>
+    <transition-group name="books" tag="div" class="block">
+
+    <h3 v-if="loading" class="title is-3 has-text-centered block">Loading</h3>
 
     <books key="自作単語帳一覧" name="You made" :data="myBooks" />
 
     <books key="単語帳一覧" name="Public" :data="data" />
+
+    </transition-group>
 
     <h3 class="title is-3 has-text-centered">Links</h3>
 
@@ -84,3 +88,24 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.books-enter-active,
+.books-leave-active,
+.books-move{
+  transition: all 0.25s ease;
+}
+
+.books-enter,
+.books-leave-to{
+  opacity:0;
+}
+
+.books-enter{
+  transform:translateX(20px);
+}
+
+.books-leave-to{
+  transform:translateX(-20px);
+}
+</style>
