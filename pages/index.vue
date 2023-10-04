@@ -9,7 +9,7 @@
 
     <transition-group name="books" tag="div" class="block">
 
-    <h3 v-if="loading" class="title is-3 has-text-centered block">Loading</h3>
+    <h3 key="ローディング" v-show="loading" class="title is-3 has-text-centered block">Loading</h3>
 
     <books key="自作単語帳一覧" name="You made" :data="myBooks" />
 
@@ -99,10 +99,6 @@ export default {
 .books-enter,
 .books-leave-to{
   opacity:0;
-}
-
-.books-enter{
-  transform:translateX(20px);
 }
 
 .books-leave-to{
