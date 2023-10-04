@@ -104,4 +104,8 @@ export default {
 .books-leave-to{
   transform:translateX(-20px);
 }
+
+.books-leave-active{
+  position: absolute;
+}
 </style>
