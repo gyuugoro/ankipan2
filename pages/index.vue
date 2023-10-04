@@ -7,11 +7,11 @@
       <h1 class="title is-1">Ankipan2</h1>
     </div>
 
-    <books key="自作単語帳一覧" name="Made by you" :data="myBooks" />
+    <books key="自作単語帳一覧" name="You made" :data="myBooks" />
 
     <books key="単語帳一覧" name="Public" :data="data" />
 
-    <h3 class="title is-3 has-text-centered">リンク</h3>
+    <h3 class="title is-3 has-text-centered">Links</h3>
 
     <div class="columns block is-vcentered is-centered is-2">
 
