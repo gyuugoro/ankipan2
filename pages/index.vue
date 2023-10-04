@@ -7,6 +7,8 @@
       <h1 class="title is-1">Ankipan2</h1>
     </div>
 
+    <h3 v-if="loading" class="title is-3 has-text-centered">Loading</h3>
+
     <books key="自作単語帳一覧" name="You made" :data="myBooks" />
 
     <books key="単語帳一覧" name="Public" :data="data" />
@@ -39,7 +41,8 @@ export default {
   data() {
     return {
       data: [],
-      myBooks: []
+      myBooks: [],
+      loading:true
     }
   },
   created() {
@@ -74,6 +77,8 @@ export default {
           })
         })
       }
+
+      this.loading = false
 
     }
   },
