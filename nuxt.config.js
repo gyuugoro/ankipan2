@@ -4,12 +4,12 @@ export default {
   // ssr: false,
   ssr: false,
 
-  target:"static",
+  target: "static",
 
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'Ankipan2',
+    titleTemplate: '%s - Ankipan2',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -58,11 +58,9 @@ export default {
     },
     meta: {
       ogHost: "https://ankipan2.vercel.app/",
-      ogImage: {
-        path: "https://ankipan2.vercel.app/icon.png"
-      },
       twitterCard: "summary",
       twitterSite: "@sho1216_",
+      twitterCreator: "@sho1216_",
       mobileAppIOS: true
     }
   },

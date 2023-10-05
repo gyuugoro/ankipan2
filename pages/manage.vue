@@ -95,6 +95,11 @@
 import { onSignIn, signInGoogle, linkGoogle, signInAnonymous, signOutAll, get_mybooks, change_public, removeUser } from '../firebase'
 
 export default {
+  head() {
+    return {
+      title: "Manage"
+    }
+  },
   data() {
     return {
       signin: "",

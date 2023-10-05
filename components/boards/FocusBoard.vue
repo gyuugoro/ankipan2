@@ -15,15 +15,17 @@
 
     <!-- 中段 -->
     <div class="field has-addons">
-      <p class="control">
+      <div class="control">
         <a class="button is-rounded is-static">
           A
         </a>
-      </p>
-      <p class="control is-expanded">
-        <input class="input is-rounded" type="text" placeholder="答え" v-model="ans" @keydown.enter="enter" ref="down">
-      </p>
+      </div>
+      <div class="control is-expanded">
+        <input class="input is-rounded" type="text" placeholder="答え" v-model="ans" @keydown.enter="enter" ref="down"
+          :class="toolong ? 'is-danger' : ''">
+      </div>
     </div>
+    <p v-show="toolong" class="help is-danger">文字数を減らしてください。スマホで表示しきれません。</p>
 
     <!-- 最下段 -->
     <div class=" field is-grouped">
@@ -49,7 +51,7 @@ export default {
   data() {
     return {
       ques: this.value[0],
-      ans: this.value[1]
+      ans: this.value[1],
     }
   },
   methods: {
@@ -85,6 +87,15 @@ export default {
     },
     ans() {
       this.$emit("input", [this.ques, this.ans])
+    }
+  },
+  computed: {
+    toolong() {
+      if (this.ans.length < 20) {
+        return false
+      } else {
+        return true
+      }
     }
   }
 }

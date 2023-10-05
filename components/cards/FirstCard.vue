@@ -2,18 +2,18 @@
   <div>
     <div class="block is-size-3">{{ title }}</div>
 
+
     <div class="block">{{ description }}</div>
 
-    <img class="block" src="../../assets/undraw_flying_drone_u3r2.svg" alt="">
-
-
-
     <control>
-      <div class="column is-half">
+      <div class="column is-one-third">
         <button class="button is-fullwidth is-rounded" :class="disabled ? 'is-loading' : ''"
           @click="() => $emit('next', 0)">始める</button>
       </div>
-      <div class="column is-half">
+
+      <share class="column is-one-third mb-0" />
+
+      <div class="column is-one-third">
         <nuxt-link to="/" class="button is-fullwidth is-rounded is-black">ホームに戻る</nuxt-link>
       </div>
 

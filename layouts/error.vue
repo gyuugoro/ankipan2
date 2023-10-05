@@ -14,6 +14,11 @@
 
 <script>
 export default {
+  head() {
+    return {
+      title: "ERR"
+    }
+  },
   props: {
     error: Object
   },

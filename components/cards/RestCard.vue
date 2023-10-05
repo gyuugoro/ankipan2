@@ -2,7 +2,6 @@
   <div>
     <div class="block is-size-1">休憩</div>
     <div class="block is-size-4">スマホから目を離そう</div>
-    <img class="block" src="./../../assets/undraw_coffee_break_h3uu.svg" alt="">
     <control>
       <div class="column is-full">
         <button class="button is-fullwidth is-rounded" @click="() => $emit('next', 0)">続きを始める</button>

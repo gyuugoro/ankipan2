@@ -43,6 +43,12 @@ export default {
 
   components: { FirstCard, FinishCard, CheckCard, YontakuCard, RestCard },
 
+  head() {
+    return {
+      title: this.title
+    }
+  },
+
   data() {
     return {
 

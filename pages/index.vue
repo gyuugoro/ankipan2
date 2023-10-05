@@ -9,22 +9,26 @@
 
     <transition name="books" tag="div" class="block" mode="out-in">
 
-    <h3 key="ローディング" v-if="loading" class="title is-3 has-text-centered block">Loading</h3>
+      <h3 key="ローディング" v-if="loading" class="title is-3 has-text-centered block">Loading</h3>
 
-    <div v-else class="block">
+      <div v-else class="block">
 
 
-    <books key="自作単語帳一覧" name="You made" :data="myBooks" />
+        <books key="自作単語帳一覧" name="You made" :data="myBooks" />
 
-    <books key="単語帳一覧" name="Public" :data="data" />
+        <books key="単語帳一覧" name="Public" :data="data" />
 
-    </div>
+      </div>
 
     </transition>
 
     <h3 class="title is-3 has-text-centered">Links</h3>
 
     <div class="columns block is-vcentered is-centered is-multiline">
+
+      <div class="column is-7">
+        <share />
+      </div>
 
       <div class="column is-7"> <a href="https://instagram.com/shotaro20060930?igshid=NzZlODBkYWE4Ng==" target="_blank"
           class="button is-fullwidth is-rounded is-danger is-light is-outlined">Instagram</a>
@@ -47,11 +51,16 @@
 import { get_all, get_mybooks } from '../firebase';
 
 export default {
+  head() {
+    return {
+      title: "Home"
+    }
+  },
   data() {
     return {
       data: [],
       myBooks: [],
-      loading:true
+      loading: true
     }
   },
   created() {
@@ -96,16 +105,16 @@ export default {
 
 <style scoped>
 .books-enter-active,
-.books-leave-active{
+.books-leave-active {
   transition: all 0.25s ease;
 }
 
-.books-leave-to{
-  transform:translateX(-20px);
-  opacity:0;
+.books-leave-to {
+  transform: translateX(-20px);
+  opacity: 0;
 }
 
-.books-enter{
-  transform:scaleX(0px);
+.books-enter {
+  transform: scaleX(0px);
 }
 </style>

@@ -53,6 +53,11 @@
 import { get_book_id, change_all, onSignIn } from '../firebase';
 
 export default {
+  head() {
+    return {
+      title: "Making"
+    }
+  },
   data() {
     return {
       isSaved: true,
@@ -62,6 +67,7 @@ export default {
       description: "",
       secret: "",
       id: null,
+      a: null
     }
   },
   mounted() {
@@ -77,7 +83,7 @@ export default {
       this.get_data()
     }
 
-    const a = setInterval(async () => {
+    this.a = setInterval(async () => {
       if (!this.isSaved) {
         console.log("保存します。")
 
@@ -141,6 +147,11 @@ export default {
     name() {
       this.isSaved = false
     },
+  },
+  async beforeDestroy() {
+    await this.save()
+    console.log("自動保存停止")
+    clearInterval(this.a)
   }
 }
 </script>
