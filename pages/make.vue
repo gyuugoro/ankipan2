@@ -148,7 +148,10 @@ export default {
     },
   },
   async beforeDestroy() {
-    await this.save()
+    if (!this.isSaved) {
+      console.log("最期なので保存")
+      await this.save()
+    }
     console.log("自動保存停止")
     clearInterval(this.a)
   }
