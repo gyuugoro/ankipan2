@@ -49,7 +49,6 @@
 </template>
 
 <script>
-
 import { get_book_id, change_all, onSignIn } from '../firebase';
 
 export default {
