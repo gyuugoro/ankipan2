@@ -9,7 +9,9 @@
       <div class="content block">
         <h4>タイトル（必須）</h4>
         <p>わかりやすいタイトルをつけてください。</p>
-        <input type="text" class="block input is-rounded is-fullwidth" placeholder="タイトル" v-model="name" />
+        <input type="text" class=" input is-rounded is-fullwidth" placeholder="タイトル" v-model="name"
+          :class="toolong ? 'is-danger' : ''" />
+        <p v-show="toolong" class="help is-danger">文字数を減らしてください。スマホで表示しきれません。</p>
       </div>
 
       メイン
@@ -153,6 +155,15 @@ export default {
     }
     console.log("自動保存停止")
     clearInterval(this.timer_id)
+  },
+  computed: {
+    toolong() {
+      if (this.name.length < 20) {
+        return false
+      } else {
+        return true
+      }
+    }
   }
 }
 </script>

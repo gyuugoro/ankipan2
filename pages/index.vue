@@ -20,10 +20,12 @@
 
         <div v-else class="column is-7">
 
+          <books key="トピック" :name="topic_name" :data="topics" />
 
           <books key="自作単語帳一覧" name="You made" :data="myBooks" />
 
           <books key="単語帳一覧" name="Public" :data="data" />
+
 
         </div>
 
@@ -57,7 +59,7 @@
 </template>
 
 <script>
-import { get_all, get_mybooks } from '../firebase';
+import { get_all, get_mybooks, get_topic } from '../firebase';
 
 export default {
   head() {
@@ -69,11 +71,13 @@ export default {
     return {
       data: [],
       myBooks: [],
+      topics: [],
+      topic_name: "",
       loading: true
     }
   },
   created() {
-    this.getdata()
+    this.getdata();
   },
   methods: {
     async getdata() {
@@ -100,9 +104,21 @@ export default {
           this.myBooks.push({
             name: doc.data().name,
             id: doc.id,
-            isPublic: doc.public
           })
         })
+      }
+
+      const str_mytopics = await get_topic()
+
+      if (str_mytopics) {
+
+        const mytopics = JSON.parse(str_mytopics)
+
+        this.topics = mytopics.content
+
+        this.topic_name = mytopics.name
+
+
       }
 
       this.loading = false

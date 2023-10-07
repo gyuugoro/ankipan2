@@ -3,6 +3,7 @@ import { getAnalytics } from "firebase/analytics";
 import { getPerformance } from "firebase/performance";
 import { collection, doc, getDoc, query, where, getDocs, initializeFirestore, persistentLocalCache, persistentMultipleTabManager, orderBy, updateDoc, addDoc } from "firebase/firestore";
 import { getAuth, onAuthStateChanged, signInAnonymously, GoogleAuthProvider, signInWithPopup, linkWithRedirect, setPersistence, browserLocalPersistence, signOut, deleteUser } from "firebase/auth"
+import { getRemoteConfig, getValue, fetchAndActivate } from "firebase/remote-config";
 
 const firebaseConfig = {
   apiKey: process.env.fb_api_key,
@@ -27,6 +28,26 @@ const analytics = getAnalytics(app);
 const perf = getPerformance(app);
 const auth = getAuth(app)
 setPersistence(auth, browserLocalPersistence)
+const remoteConfig = getRemoteConfig(app);
+
+remoteConfig.settings = {
+  minimumFetchIntervalMillis: 2160000
+}
+
+remoteConfig.defaultConfig = {
+  "topic": "{}"
+};
+
+
+
+//RemoteConfig
+const get_topic = async () => {
+  await fetchAndActivate(remoteConfig).catch((err) => console.log("トピック取得エラー:" + err.message))
+
+  const v = getValue(remoteConfig, "topic")
+  return v.asString()
+}
+
 
 //Auth
 const signInAnonymous = async () => {
@@ -163,5 +184,7 @@ export {
   linkGoogle,
   signInAnonymous,
   signOutAll,
-  removeUser
+  removeUser,
+
+  get_topic
 }
