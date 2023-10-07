@@ -73,7 +73,6 @@ export default {
 
     onSignIn((user) => {
       if (!user) {
-        console.log("なぜだあ", user)
         this.$router.push("/manage")
       }
     })

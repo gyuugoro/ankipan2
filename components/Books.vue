@@ -2,26 +2,23 @@
   <div class="box" ref="title" v-show="data != 0">
     <h3 class="title is-3 has-text-centered">{{ name }}</h3>
 
-    <transition-group name="books" mode="out-in" tag="div" class="block columns is-centered is-multiline">
-
-      <div class="column is-7" v-for="v in (isOpen ? data : data.slice(0, 4))" :key="v.id">
+    <transition-group name="books" mode="out-in" tag="div" class="block">
+      <div class="block" v-for="v in (!isOpen ? data.slice(0, 5) : data)" :key="v.id">
         <nuxt-link :to="'/books/?id=' + v.id" class="button is-rounded is-fullwidth is-success is-inverted">{{
           v.name
         }}</nuxt-link>
       </div>
 
 
-    </transition-group>
-
-    <div class="block columns is-centered">
-      <div class="column is-7">
-        <button v-show="data.length > 4" key="control button" class="is-fullwidth button is-rounded" @click="click">{{
+      <div class="block" key="last button" v-if="data.length > 5">
+        <button key="control button" class="is-fullwidth button is-rounded" @click="click">{{
           isOpen
           ?
-          'CLOSE' : '他' + (data.length - 4) + '件'
+          '閉じる' : '他' + (data.length - 5) + '件'
         }}</button>
       </div>
-    </div>
+    </transition-group>
+
 
   </div>
 </template>
@@ -40,7 +37,6 @@ export default {
   methods: {
     click() {
       this.isOpen = !this.isOpen
-      // this.$refs.title.scrollIntoView(true)
     }
   }
 }
@@ -50,8 +46,7 @@ export default {
 
 <style scoped>
 .books-enter-active,
-.books-leave-active,
-.books-move {
+.books-leave-active {
   transition: all 0.25s ease;
 }
 

@@ -4,7 +4,7 @@
       <div class="loading" v-if="loading">
         <div class="block has-text-centered">
           <h3 class="subtitle is-4">Welcome to</h3>
-          <h1 class="title is-1">Ankipan2</h1>
+          <h1 class="title is-1 logotitle">Ankipan2</h1>
         </div>
 
       </div>
@@ -48,7 +48,7 @@ export default {
   transform: translate(-50%, -50%);
 }
 
-.title {
+.logotitle {
   font-family: 'Russo One', sans-serif;
 }
 
