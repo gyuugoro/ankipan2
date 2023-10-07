@@ -53,10 +53,16 @@ export default {
 }
 
 .logo-leave-active {
+  transition: opacity 1s 2s;
+}
+
+
+.logo-leave-active div {
   transition: opacity 1s 1s;
 }
 
-.logo-leave-to {
+.logo-leave-to,
+.logo-leave-to div {
   opacity: 0;
 }
 </style>
