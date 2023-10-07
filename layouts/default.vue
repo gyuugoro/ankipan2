@@ -2,7 +2,7 @@
   <div>
     <transition name="logo">
       <div class="loading" v-if="loading">
-        <div class="block">
+        <div class="block has-text-centered">
           <h3 class="subtitle is-4">Welcome to</h3>
           <h1 class="title is-1">Ankipan2</h1>
         </div>
