@@ -1,6 +1,6 @@
 <template>
   <div class="notification is-danger is-light">
-    <h3 class="is-size-3 block">ERROR</h3>
+    <h3 class="is-size-3 block shake shake-constant">ERROR</h3>
     <div class="block">申し訳ありませんエラーが発生しました。</div>
     <div class="block">エラーコード：{{ error.statusCode }}</div>
     <div class="block">{{ error.message }}</div>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="block is-size-3">お疲れ様！</div>
-    <div class="block is-size-4" v-show="allconp">オールコンプリート！おめでとう！</div>
+    <div class="block is-size-4 shake-slow shake-constant" v-show="allconp">オールコンプリート！おめでとう！</div>
 
     <control>
       <div class="column is-one-third">
@@ -11,7 +11,7 @@
       <share class="column is-one-third mb-0" />
 
       <div class=" column is-one-third">
-        <nuxt-link to="/" class="button is-fullwidth is-rounded　is-black">ホームに戻る</nuxt-link>
+        <nuxt-link to="/" class="button is-fullwidth is-rounded is-black">ホームに戻る</nuxt-link>
       </div>
 
 

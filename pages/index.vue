@@ -9,7 +9,9 @@
 
     <transition name="books" tag="div" class="block" mode="out-in">
 
-      <h3 key="ローディング" v-if="loading" class="title is-3 has-text-centered block">Loading</h3>
+      <h3 key="ローディング" v-if="loading" class="title is-3 has-text-centered block shake-rotate shake-constant">
+        LOADING
+      </h3>
 
       <div v-else class="block">
 
@@ -106,15 +108,20 @@ export default {
 <style scoped>
 .books-enter-active,
 .books-leave-active {
-  transition: all 0.25s ease;
+  transition: all 0.25s;
 }
 
 .books-leave-to {
-  transform: translateX(-20px);
+  /* transform: scaleX(0); */
   opacity: 0;
 }
 
 .books-enter {
-  transform: scaleX(0px);
+  transform: scaleX(0);
+  /* opacity: 0; */
+}
+
+.title {
+  font-family: 'Russo One', sans-serif;
 }
 </style>

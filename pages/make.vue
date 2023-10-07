@@ -66,7 +66,7 @@ export default {
       description: "",
       secret: "",
       id: null,
-      a: null
+      timer_id: null
     }
   },
   mounted() {
@@ -82,7 +82,7 @@ export default {
       this.get_data()
     }
 
-    this.a = setInterval(async () => {
+    this.timer_id = setInterval(async () => {
       if (!this.isSaved) {
         console.log("保存します。")
 
@@ -153,7 +153,7 @@ export default {
       await this.save()
     }
     console.log("自動保存停止")
-    clearInterval(this.a)
+    clearInterval(this.timer_id)
   }
 }
 </script>

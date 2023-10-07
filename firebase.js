@@ -116,7 +116,7 @@ const change_all = async (id, [question, answer, name, description, secret]) => 
       const doc = await addDoc(collection(db, "Books"), {
         question: question,
         answer: answer,
-        name: name,
+        name: (name == "" ? "ナナシノゴンベエ" : name),
         description: description,
         secret: secret,
 

@@ -18,6 +18,7 @@ export default {
       { name: 'format-detection', content: 'telephone=no' },
     ],
     link: [
+      { rel: "stylesheet", href: "https://csshake.surge.sh/csshake.min.css" },
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       { rel: "stylesheet", href: "https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" },
       { rel: "stylesheet", href: "https://cdn.jsdelivr.net/npm/@mdi/font@7.2.96/css/materialdesignicons.min.css" },
