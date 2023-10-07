@@ -31,7 +31,7 @@ setPersistence(auth, browserLocalPersistence)
 const remoteConfig = getRemoteConfig(app);
 
 remoteConfig.settings = {
-  minimumFetchIntervalMillis: 2160000
+  minimumFetchIntervalMillis: 60000
 }
 
 remoteConfig.defaultConfig = {
