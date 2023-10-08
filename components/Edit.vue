@@ -2,7 +2,8 @@
   <div>
     <transition-group tag="div" name="edits" mode="out-in" class="block">
       <div v-for="(v, i) in question" :key="'wow' + question[i] + answer[i] + i" class="block">
-        <boards-usual-board v-if="fcs != i" @clickme="focuson(i)" :question="question[i]" :answer="answer[i]" :i="i" />
+        <boards-usual-board v-if="fcs != i" @clickme="focuson(i)" :question="question[i]" :answer="answer[i]"
+          :img="img[i] != ''" :i="i" />
 
 
         <boards-focus-board v-else v-model="set_data" @close="closing" @delete="remove" @enter="enter" />

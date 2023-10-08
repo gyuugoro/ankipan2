@@ -4,8 +4,8 @@
       <button class="button is-rounded is-static">{{ i + 1 }}</button>
     </p>
     <p class="control is-expanded">
-      <input :value="'Q:' + question + ' A:' + answer" class="block button is-fullwidth is-rounded" readonly
-        @click="click" />
+      <input :value="(img ? '（画像あり）' : '') + 'Q:' + question + ' A:' + answer"
+        class="block button is-fullwidth is-rounded" readonly @click="click" />
     </p>
   </div>
 </template>
@@ -15,6 +15,7 @@ export default {
   props: {
     question: String,
     answer: String,
+    img: Boolean,
     i: Number
   },
   methods: {
