@@ -76,8 +76,6 @@ export default {
       }
     }
   },
-  mounted() {
-  },
   watch: {
     img() {
       this.download()
