@@ -33,7 +33,8 @@
         </a>
       </p>
       <p class="control is-expanded">
-        <input class="input is-rounded" type="text" placeholder="問題文" v-model="ques" @keydown.enter="godown" ref="up">
+        <input class="input is-rounded" type="text" placeholder="問題文" v-model="ques" @keydown.enter="godown" ref="up"
+          @keydown.shift.down="ardown">
       </p>
     </div>
 
@@ -46,7 +47,7 @@
       </div>
       <div class="control is-expanded">
         <input class="input is-rounded" type="text" placeholder="答え" v-model="ans" @keydown.enter="enter" ref="down"
-          :class="toolong ? 'is-danger' : ''" @keydown.delete="goup">
+          :class="toolong ? 'is-danger' : ''" @keydown.shift.up="arup">
       </div>
     </div>
     <p v-show="toolong" class="help is-danger">文字数を減らしてください。スマホで表示しきれません。</p>
@@ -126,10 +127,11 @@ export default {
         this.url = await download_img(this.img)
       }
     },
-    goup() {
-      if (this.ans == "") {
-        this.$refs.up.focus();
-      }
+    arup() {
+      this.$refs.up.focus();
+    },
+    ardown() {
+      this.$refs.down.focus();
     }
   },
   watch: {
