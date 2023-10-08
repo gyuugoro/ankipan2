@@ -76,9 +76,12 @@ export default {
       }
     }
   },
-  mounted() {
-    this.download()
+  watch: {
+    img() {
+      this.download()
+    }
   }
+
 }
 </script>
 

@@ -56,7 +56,6 @@ export default {
       lang: 'ja',
       theme_color: "#ffffff",
       start_url: "/",
-      orientation: "any",
     },
     meta: {
       ogHost: "https://ankipan2.vercel.app/",
@@ -81,4 +80,8 @@ export default {
     fb_measurement_id: process.env.FB_MEASUREMENT_ID
   },
 
+  loading: {
+    color: 'blue',
+    height: '5px'
+  }
 }
