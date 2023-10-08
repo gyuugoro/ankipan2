@@ -46,7 +46,7 @@
       </div>
       <div class="control is-expanded">
         <input class="input is-rounded" type="text" placeholder="答え" v-model="ans" @keydown.enter="enter" ref="down"
-          :class="toolong ? 'is-danger' : ''">
+          :class="toolong ? 'is-danger' : ''" @keydown.delete="goup">
       </div>
     </div>
     <p v-show="toolong" class="help is-danger">文字数を減らしてください。スマホで表示しきれません。</p>
@@ -86,7 +86,7 @@ export default {
   methods: {
     closing() {
 
-      if (this.ques == "" && this.ans == "") {
+      if (this.ques == "" && this.ans == "" && this.img == "") {
         this.remove()
       } else {
         this.$emit('close')
@@ -97,7 +97,7 @@ export default {
     },
     enter(e) {
       if (e.keyCode == 13) {
-        if (this.ques == "" && this.ans == "") {
+        if (this.ques == "" && this.ans == "" && this.img == "") {
           this.remove()
         } else {
           this.$emit("enter")
@@ -124,6 +124,11 @@ export default {
     async download() {
       if (this.img != "") {
         this.url = await download_img(this.img)
+      }
+    },
+    goup() {
+      if (this.ans == "") {
+        this.$refs.up.focus();
       }
     }
   },
