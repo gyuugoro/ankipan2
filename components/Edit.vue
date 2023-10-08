@@ -60,7 +60,7 @@ export default {
   computed: {
     set_data: {
       get() {
-        return [this.question[this.fcs], this.answer[this.fcs], this.img[this.fcs]]
+        return [this.question[this.fcs], this.answer[this.fcs], this.img[this.fcs], this.fcs]
       },
       set(v) {
         this.$emit("update", [this.fcs, v[0], v[1], v[2]])

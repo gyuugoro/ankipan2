@@ -9,7 +9,10 @@
 
     <!-- //最最上段 -->
     <div class="field is-grouped">
-      <p class="control is-expanded file is-light is-fullwidth">
+      <p class="control is-expanded">
+        <button class="button is-rounded is-static">{{ value[3] + 1 }}</button>
+      </p>
+      <p class="control file is-light is-fullwidth">
         <label class="file-label">
           <input class="file-input" accept="image/*" type="file" name="resume" @change="upload">
           <span class="file-cta">
