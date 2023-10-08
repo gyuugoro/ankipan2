@@ -1,6 +1,30 @@
 <template>
   <div class="block box">
 
+
+    <!-- 画像 -->
+    <figure class="image" v-show="img != ''">
+      <img :src="url">
+    </figure>
+
+    <!-- //最最上段 -->
+    <div class="field is-grouped">
+      <p class="control is-expanded file is-light is-fullwidth">
+        <label class="file-label">
+          <input class="file-input" accept="image/*" type="file" name="resume" @change="upload">
+          <span class="file-cta">
+            <span class="file-label">
+              {{ url == "" ? '画像を入れる' : "画像を変える" }}
+            </span>
+          </span>
+        </label>
+      </p>
+
+      <p class="control">
+        <button class="button is-rounded is-danger is-light" :disabled="url == ''" @click="delete_img">画像を削除</button>
+      </p>
+    </div>
+
     <!-- 最上段 -->
     <div class="field has-addons">
       <p class="control">
@@ -30,7 +54,7 @@
     <!-- 最下段 -->
     <div class=" field is-grouped">
       <p class="control">
-        <button class="button is-danger is-light is-rounded" @click="remove">削除</button>
+        <button class="button is-danger is-rounded" @click="remove">単語を削除</button>
       </p>
       <p class="control is-expanded"></p>
       <p class="control">
@@ -41,17 +65,22 @@
 </template>
 
 <script>
+import { upload_img, download_img } from '../../firebase'
+
 export default {
   props: {
     value: Array
   },
   mounted() {
-    this.$refs.up.focus()
+    this.$refs.up.focus();
+    this.download()
   },
   data() {
     return {
       ques: this.value[0],
       ans: this.value[1],
+      img: this.value[2],
+      url: ""
     }
   },
   methods: {
@@ -79,14 +108,35 @@ export default {
       if (e.keyCode == 13) {
         this.$refs.down.focus()
       }
+    },
+    delete_img() {
+      this.img = ""
+    },
+    async upload(e) {
+
+      const now = Date.now()
+
+      const image = e.target.files[0]
+      const path = await upload_img(image, now)
+      console.log(path.ref._location.path)
+      this.img = path.ref._location.path
+    },
+    async download() {
+      if (this.img != "") {
+        this.url = await download_img(this.img)
+      }
     }
   },
   watch: {
     ques() {
-      this.$emit("input", [this.ques, this.ans])
+      this.$emit("input", [this.ques, this.ans, this.img])
     },
     ans() {
-      this.$emit("input", [this.ques, this.ans])
+      this.$emit("input", [this.ques, this.ans, this.img])
+    },
+    img() {
+      this.$emit("input", [this.ques, this.ans, this.img])
+      this.download()
     }
   },
   computed: {

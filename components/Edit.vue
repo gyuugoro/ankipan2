@@ -24,7 +24,8 @@ export default {
   components: { FocusBoard, UsualBoard },
   props: {
     question: Array,
-    answer: Array
+    answer: Array,
+    img: Array
   },
   data() {
     return {
@@ -61,10 +62,10 @@ export default {
   computed: {
     set_data: {
       get() {
-        return [this.question[this.fcs], this.answer[this.fcs]]
+        return [this.question[this.fcs], this.answer[this.fcs], this.img[this.fcs]]
       },
       set(v) {
-        this.$emit("update", [this.fcs, v[0], v[1]])
+        this.$emit("update", [this.fcs, v[0], v[1], v[2]])
       }
     }
   }

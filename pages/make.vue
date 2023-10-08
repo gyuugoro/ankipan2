@@ -17,7 +17,7 @@
       メイン
       <div class="content block">
         <h4>単語集</h4>
-        <edit @add="add" @remove="remove" @update="update" :answer="answer" :question="question" />
+        <edit @add="add" @remove="remove" @update="update" :answer="answer" :question="question" :img="img" />
       </div>
 
       <!-- 説明 -->
@@ -64,6 +64,7 @@ export default {
       isSaved: true,
       question: [],
       answer: [],
+      img: [],
       name: "",
       description: "",
       secret: "",
@@ -103,6 +104,7 @@ export default {
       }
 
       this.question = data.question
+      this.img = data.img
       this.answer = data.answer
       this.name = data.name
       this.description = data.description
@@ -114,25 +116,28 @@ export default {
       this.$nextTick(() => this.isSaved = true)
     },
     async save() {
-      const id = await change_all(this.id, [this.question, this.answer, this.name, this.description, this.secret])
+      const id = await change_all(this.id, [this.question, this.answer, this.name, this.description, this.secret, this.img])
       this.id = id
       this.isSaved = true
     },
     add() {
       this.answer.push("")
       this.question.push("")
+      this.img.push("")
 
       this.isSaved = false
     },
     remove([i]) {
       this.answer.splice(i, 1)
       this.question.splice(i, 1)
+      this.img.splice(i, 1)
 
       this.isSaved = false
     },
-    update([i, question, answer]) {
+    update([i, question, answer, img]) {
       this.answer[i] = answer
       this.question[i] = question
+      this.img[i] = img
 
       this.isSaved = false
     }

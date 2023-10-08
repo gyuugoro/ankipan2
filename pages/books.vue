@@ -13,14 +13,14 @@
         :description="description" :disabled="disabled" />
 
       <yontaku-card key="Yontaku" @next="next" v-show="num % 2 == 0 && card_type == 'Yontaku'" :question="question"
-        :answer="answer" :selection="selection" />
+        :answer="answer" :selection="selection" :img="img" />
       <yontaku-card key="Yontaku2" @next="next" v-show="num % 2 == 1 && card_type == 'Yontaku'" :question="question"
-        :answer="answer" :selection="selection" />
+        :answer="answer" :selection="selection" :img="img" />
 
       <check-card key="Check" @next="next" v-show="num % 2 == 0 && card_type == 'Check'" :question="question"
-        :answer="answer" />
+        :answer="answer" :img="img" />
       <check-card key="Check2" @next="next" v-show="num % 2 == 1 && card_type == 'Check'" :question="question"
-        :answer="answer" />
+        :answer="answer" :img="img" />
 
       <rest-card key="Rest" @next="next" v-show="card_type == 'Rest'" />
       <finish-card key="Finish" @next="restart" v-show="card_type == 'Finish'"
@@ -61,6 +61,7 @@ export default {
       disabled: true,//Firstで必要
       question: "",//YontakuとCheckで必要
       answer: "",//YontakuとCheckで必要
+      img: "",//YontakuとCheckで必要
       selection: ["", "", "", ""],//Yontakuで必要
 
       num: 0,
@@ -68,6 +69,7 @@ export default {
       main: [],
       miss_question: [],
       miss_answer: [],
+      miss_img: []
     }
   },
 
@@ -100,6 +102,7 @@ export default {
               type: "Yontaku",
               question: this.data.question[bara],
               answer: this.data.answer[bara],
+              img: this.data.img[bara],
               selection: sentakushies.map((v) => {
                 return this.data.answer[v]
               })
@@ -113,6 +116,7 @@ export default {
               type: "Check",
               question: this.data.question[bara],
               answer: this.data.answer[bara],
+              img: this.data.img[bara],
             })
           }
         }
@@ -215,13 +219,13 @@ export default {
       if (miss == 1) {
         this.miss_question.push(this.main[this.num].question)
         this.miss_answer.push(this.main[this.num].answer)
-
+        this.miss_img.push(this.main[this.num].img)
       }
 
 
       this.num += 1
 
-      localStorage.setItem("continue_another", JSON.stringify({ num: this.num, miss_question: this.miss_question, miss_answer: this.miss_answer }))
+      localStorage.setItem("continue_another", JSON.stringify({ num: this.num, miss_question: this.miss_question, miss_answer: this.miss_answer, miss_img: this.miss_img }))
 
       this.read()
 
@@ -240,12 +244,14 @@ export default {
         case "Yontaku":
           this.card_type = "Yontaku"
           this.question = data.question
+          this.img = data.img
           this.answer = data.answer
           this.selection = data.selection
           break;
         case "Check":
           this.card_type = "Check"
           this.question = data.question
+          this.img = data.img
           this.answer = data.answer
           break;
         case "Rest":
@@ -277,11 +283,13 @@ export default {
       this.data = {
         question: this.miss_question,
         answer: this.miss_answer,
+        img: this.miss_img,
         name: "間違いなおし"
       }
 
       this.miss_question = []
       this.miss_answer = []
+      this.miss_img = []
       this.num = 0
 
       this.set_data()

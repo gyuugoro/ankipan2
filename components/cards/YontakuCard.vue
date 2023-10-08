@@ -1,6 +1,10 @@
 <template>
   <div>
 
+    <figure class="image" v-show="img != ''">
+      <img :src="url">
+    </figure>
+
     <div class="block is-size-3">
       問題
     </div>
@@ -41,15 +45,19 @@
 </template>
 
 <script>
+import { download_img } from "../../firebase"
+
 export default {
   props: {
     question: String,
     selection: Array,
-    answer: String
+    answer: String,
+    img: String
   },
   data() {
     return {
-      q: [false, false, false, false]
+      q: [false, false, false, false],
+      url: ""
     }
   },
   methods: {
@@ -61,7 +69,15 @@ export default {
       } else {
         this.q.splice(num, 1, true)
       }
+    },
+    async download() {
+      if (this.img != "") {
+        this.url = await download_img(this.img)
+      }
     }
+  },
+  mounted() {
+    this.download()
   },
 }
 </script>

@@ -4,6 +4,7 @@ import { getPerformance } from "firebase/performance";
 import { collection, doc, getDoc, query, where, getDocs, initializeFirestore, persistentLocalCache, persistentMultipleTabManager, orderBy, updateDoc, addDoc } from "firebase/firestore";
 import { getAuth, onAuthStateChanged, signInAnonymously, GoogleAuthProvider, signInWithPopup, linkWithRedirect, setPersistence, browserLocalPersistence, signOut, deleteUser } from "firebase/auth"
 import { getRemoteConfig, getValue, fetchAndActivate } from "firebase/remote-config";
+import { getStorage, uploadBytes, ref, getDownloadURL } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: process.env.fb_api_key,
@@ -16,6 +17,8 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+
+const storage = getStorage(app);
 
 const db = initializeFirestore(app,
   {
@@ -127,7 +130,7 @@ const change_public = async (id, isPublic) => {
 }
 
 //単語帳全体を変更
-const change_all = async (id, [question, answer, name, description, secret]) => {
+const change_all = async (id, [question, answer, name, description, secret, img]) => {
 
 
   if (auth.currentUser) {
@@ -144,6 +147,7 @@ const change_all = async (id, [question, answer, name, description, secret]) => 
         creator: auth.currentUser.uid,
         now: Date.now(),
         public: false,
+        img: img
       }).catch((err) => console.log("単語帳作成エラー:" + err.message))
 
       return doc.id
@@ -157,10 +161,11 @@ const change_all = async (id, [question, answer, name, description, secret]) => 
         await updateDoc(doc(db, "Books", id), {
           question: question,
           answer: answer,
-          name: name,
+          name: (name == "" ? "ナナシノゴンベエ" : name),
           description: description,
           secret: secret,
           public: false,
+          img: img
         }).catch((err) => console.log("単語帳内容変更エラー:" + err.message))
       }
 
@@ -169,6 +174,20 @@ const change_all = async (id, [question, answer, name, description, secret]) => 
   }
 }
 
+//Storage
+const upload_img = async (file, folder) => {
+  const storageRef = ref(storage, `${auth.currentUser.uid}/${folder}`);
+
+  const value = await uploadBytes(storageRef, file).catch((err) => console.log("アップロードエラー:" + err.message))
+
+  return value
+}
+
+const download_img = async (folder) => {
+  const url = await getDownloadURL(ref(storage, folder)).catch((err) => console.log("ダウンロードエラー:" + err.message))
+
+  return url
+}
 
 //公開
 export {
@@ -186,5 +205,8 @@ export {
   signOutAll,
   removeUser,
 
-  get_topic
+  get_topic,
+
+  upload_img,
+  download_img
 }
