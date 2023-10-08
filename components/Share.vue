@@ -28,9 +28,6 @@ export default {
       text: "SHARE"
     }
   },
-  mounted() {
-    this.title = document.title
-  },
   methods: {
     async share() {
       if ('share' in navigator) {
@@ -47,7 +44,7 @@ export default {
         }, 5000)
       }
     },
-  }
+  },
 }
 </script>
 
