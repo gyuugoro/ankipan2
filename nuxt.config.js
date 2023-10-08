@@ -21,7 +21,6 @@ export default {
       { rel: "stylesheet", href: "https://csshake.surge.sh/csshake.min.css" },
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       { rel: "stylesheet", href: "https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" },
-      { rel: "stylesheet", href: "https://cdn.jsdelivr.net/npm/@mdi/font@7.2.96/css/materialdesignicons.min.css" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: "" },
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Russo+One&display=swap" },

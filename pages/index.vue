@@ -22,9 +22,9 @@
 
           <books key="トピック" :name="topic_name" :data="topics" />
 
-          <books key="自作単語帳一覧" name="You made" :data="myBooks" />
+          <books key="自作単語帳一覧" name="You made" :data="myBooks" @moreload="moreload_my" />
 
-          <books key="単語帳一覧" name="Public" :data="data" />
+          <books key="単語帳一覧" name="Public" :data="data" @moreload="moreload_all" />
 
 
         </div>
@@ -33,7 +33,7 @@
 
 
       <div class="column is-7">
-        <h3 class="title is-3 has-text-centered">Links</h3>
+        <h3 class="title is-3 has-text-centered">リンク</h3>
       </div>
 
 
@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import { get_all, get_mybooks, get_topic } from '../firebase';
+import { get_all, get_mybooks, get_topic, get_all_little, get_mybooks_little } from '../firebase';
 
 export default {
   head() {
@@ -81,7 +81,7 @@ export default {
   },
   methods: {
     async getdata() {
-      const docs = await get_all()
+      const docs = await get_all_little()
 
       if (docs) {
         this.data = []
@@ -95,7 +95,7 @@ export default {
       }
 
 
-      const mydocs = await get_mybooks()
+      const mydocs = await get_mybooks_little()
 
       if (mydocs) {
         this.myBooks = []
@@ -122,6 +122,35 @@ export default {
       }
 
       this.loading = false
+
+    },
+    async moreload_all() {
+      const docs = await get_all()
+
+      if (docs) {
+        this.data = []
+
+        docs.forEach((doc) => {
+          this.data.push({
+            name: doc.data().name,
+            id: doc.id
+          })
+        })
+      }
+    },
+    async moreload_my() {
+      const mydocs = await get_mybooks()
+
+      if (mydocs) {
+        this.myBooks = []
+
+        mydocs.forEach((doc) => {
+          this.myBooks.push({
+            name: doc.data().name,
+            id: doc.id,
+          })
+        })
+      }
 
     }
   },

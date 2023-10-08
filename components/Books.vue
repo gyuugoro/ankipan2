@@ -14,7 +14,7 @@
         <button key="control button" class="is-fullwidth button is-rounded" @click="click">{{
           isOpen
           ?
-          '閉じる' : '他' + (data.length - 5) + '件'
+          '閉じる' : '開く'
         }}</button>
       </div>
     </transition-group>
@@ -28,6 +28,7 @@ export default {
   data() {
     return {
       isOpen: false,
+      real: false,
     }
   },
   props: {
@@ -36,7 +37,18 @@ export default {
   },
   methods: {
     click() {
+
+      if (!this.real) {
+        this.$emit("moreload")
+        this.real = true
+      }
+
       this.isOpen = !this.isOpen
+    }
+  },
+  mounted() {
+    if (this.data.length != 10) {
+      this.real = true
     }
   }
 }
