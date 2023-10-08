@@ -151,6 +151,9 @@ export default {
       }
     },
   },
+  mounted() {
+    scrollTo({ top: 0 })
+  }
 }
 </script>
 

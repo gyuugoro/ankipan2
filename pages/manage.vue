@@ -108,6 +108,8 @@ export default {
   },
   mounted() {
 
+    scrollTo({ top: 0 })
+
     onSignIn((user) => {
       if (user) {
         if (user.isAnonymous) {

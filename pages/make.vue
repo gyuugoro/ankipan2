@@ -74,6 +74,9 @@ export default {
   },
   mounted() {
 
+    scrollTo({ top: 0 })
+
+
     onSignIn((user) => {
       if (!user) {
         this.$router.push("/manage")
