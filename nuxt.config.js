@@ -41,6 +41,7 @@ export default {
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
+    '@nuxtjs/router'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -80,7 +81,18 @@ export default {
   },
 
   loading: {
-    color: 'blue',
+    color: 'black',
     height: '5px'
+  },
+  loadingIndicator: {
+    name: 'cube-grid',
+    color: 'black',
+    background: 'white'
+  },
+
+  generate: {
+    routes: [
+      '/'
+    ]
   }
 }

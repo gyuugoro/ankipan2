@@ -86,5 +86,8 @@ export default {
       title: "About"
     }
   },
+  mounted() {
+    scrollTo({ top: 0 })
+  }
 }
 </script>

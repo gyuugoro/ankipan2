@@ -9,21 +9,21 @@
     </appbar>
 
     <transition-group name="books" tag="div">
-      <first-card key="First" @next="next" v-show="card_type == 'First' && title != '読み込み中'" :title="title"
+      <cards-first-card key="First" @next="next" v-show="card_type == 'First' && title != '読み込み中'" :title="title"
         :description="description" :disabled="disabled" />
 
-      <yontaku-card key="Yontaku" @next="next" v-show="num % 2 == 0 && card_type == 'Yontaku'" :question="question"
+      <cards-yontaku-card key="Yontaku" @next="next" v-show="num % 2 == 0 && card_type == 'Yontaku'" :question="question"
         :answer="answer" :selection="selection" :img="img" />
-      <yontaku-card key="Yontaku2" @next="next" v-show="num % 2 == 1 && card_type == 'Yontaku'" :question="question"
+      <cards-yontaku-card key="Yontaku2" @next="next" v-show="num % 2 == 1 && card_type == 'Yontaku'" :question="question"
         :answer="answer" :selection="selection" :img="img" />
 
-      <check-card key="Check" @next="next" v-show="num % 2 == 0 && card_type == 'Check'" :question="question"
+      <cards-check-card key="Check" @next="next" v-show="num % 2 == 0 && card_type == 'Check'" :question="question"
         :answer="answer" :img="img" />
-      <check-card key="Check2" @next="next" v-show="num % 2 == 1 && card_type == 'Check'" :question="question"
+      <cards-check-card key="Check2" @next="next" v-show="num % 2 == 1 && card_type == 'Check'" :question="question"
         :answer="answer" :img="img" />
 
-      <rest-card key="Rest" @next="next" v-show="card_type == 'Rest'" />
-      <finish-card key="Finish" @next="restart" v-show="card_type == 'Finish'"
+      <cards-rest-card key="Rest" @next="next" v-show="card_type == 'Rest'" />
+      <cards-finish-card key="Finish" @next="restart" v-show="card_type == 'Finish'"
         :allconp="this.miss_question.length == 0" />
     </transition-group>
 
@@ -31,18 +31,10 @@
 </template>
 
 <script>
-import FirstCard from '../components/cards/FirstCard.vue'
-import FinishCard from '../components/cards/FinishCard.vue'
-import CheckCard from '../components/cards/CheckCard.vue'
-import YontakuCard from '../components/cards/YontakuCard.vue'
-import RestCard from '../components/cards/RestCard.vue'
 import { get_book_id } from '../firebase'
 
 
 export default {
-
-  components: { FirstCard, FinishCard, CheckCard, YontakuCard, RestCard },
-
   head() {
     return {
       title: this.title
@@ -303,6 +295,9 @@ export default {
     })()
   },
 
+  mounted() {
+    scrollTo({ top: 0 })
+  }
 }
 </script>
 

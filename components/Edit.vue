@@ -2,10 +2,10 @@
   <div>
     <transition-group tag="div" name="edits" mode="out-in" class="block">
       <div v-for="(v, i) in question" :key="'wow' + question[i] + answer[i] + i" class="block">
-        <usual-board v-if="fcs != i" @clickme="focuson(i)" :question="question[i]" :answer="answer[i]" :i="i" />
+        <boards-usual-board v-if="fcs != i" @clickme="focuson(i)" :question="question[i]" :answer="answer[i]" :i="i" />
 
 
-        <focus-board v-else v-model="set_data" @close="closing" @delete="remove" @enter="enter" />
+        <boards-focus-board v-else v-model="set_data" @close="closing" @delete="remove" @enter="enter" />
 
 
       </div>
@@ -18,10 +18,7 @@
 </template>
 
 <script>
-import FocusBoard from './boards/FocusBoard'
-import UsualBoard from './boards/UsualBoard'
 export default {
-  components: { FocusBoard, UsualBoard },
   props: {
     question: Array,
     answer: Array,

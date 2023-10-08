@@ -28,7 +28,6 @@ export default {
   data() {
     return {
       isOpen: false,
-      real: false,
     }
   },
   props: {
@@ -37,20 +36,9 @@ export default {
   },
   methods: {
     click() {
-
-      if (!this.real) {
-        this.$emit("moreload")
-        this.real = true
-      }
-
       this.isOpen = !this.isOpen
     }
   },
-  mounted() {
-    if (this.data.length != 10) {
-      this.real = true
-    }
-  }
 }
 </script>
 

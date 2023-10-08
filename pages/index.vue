@@ -20,11 +20,11 @@
 
         <div v-else class="column is-7">
 
-          <books key="トピック" :name="topic_name" :data="topics" />
+          <lazy-books key="トピック" :name="topic_name" :data="topics" />
 
-          <books key="自作単語帳一覧" name="You made" :data="myBooks" @moreload="moreload_my" />
+          <lazy-books key="自作単語帳一覧" name="You made" :data="myBooks" />
 
-          <books key="単語帳一覧" name="Public" :data="data" @moreload="moreload_all" />
+          <lazy-books key="単語帳一覧" name="Public" :data="data" />
 
 
         </div>
@@ -73,7 +73,7 @@ export default {
       myBooks: [],
       topics: [],
       topic_name: "",
-      loading: true
+      loading: true,
     }
   },
   created() {
@@ -123,36 +123,33 @@ export default {
 
       this.loading = false
 
-    },
-    async moreload_all() {
-      const docs = await get_all()
 
-      if (docs) {
+      const docs2 = await get_all()
+
+      if (docs2) {
         this.data = []
 
-        docs.forEach((doc) => {
+        docs2.forEach((doc) => {
           this.data.push({
             name: doc.data().name,
             id: doc.id
           })
         })
       }
-    },
-    async moreload_my() {
-      const mydocs = await get_mybooks()
 
-      if (mydocs) {
+      const mydocs2 = await get_mybooks()
+
+      if (mydocs2) {
         this.myBooks = []
 
-        mydocs.forEach((doc) => {
+        mydocs2.forEach((doc) => {
           this.myBooks.push({
             name: doc.data().name,
             id: doc.id,
           })
         })
       }
-
-    }
+    },
   },
 }
 </script>

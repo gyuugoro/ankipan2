@@ -189,7 +189,7 @@ const get_all_little = async () => {
   const { query, where, orderBy, collection, getDocs, limit } = await import("firebase/firestore").catch((err) => console.log("ファイアストア関係ファイル読み込みエラー：" + err.message))
 
 
-  const q = query(collection(db, "Books"), where("public", "==", true), orderBy("now", "desc"), limit(10));
+  const q = query(collection(db, "Books"), where("public", "==", true), orderBy("now", "desc"), limit(5));
   const querySnapshot = await getDocs(q).catch((err) => console.log("全単語帳取得エラー:" + err.message));
 
   console.log("get_all_little_end")
@@ -209,6 +209,8 @@ const get_mybooks = async () => {
     console.log("get_mybooks_end")
     return querySnapshot
   }
+
+  console.log("get_mybooks_end_nologin")
 }
 
 const get_mybooks_little = async () => {
@@ -218,12 +220,14 @@ const get_mybooks_little = async () => {
 
 
   if (auth.currentUser) {
-    const q = query(collection(db, "Books"), where("creator", "==", auth.currentUser.uid), orderBy("now", "desc"), limit(10));
+    const q = query(collection(db, "Books"), where("creator", "==", auth.currentUser.uid), orderBy("now", "desc"), limit(5));
     const querySnapshot = await getDocs(q).catch((err) => console.log("自分用単語帳取得エラー:" + err.message));
 
     console.log("get_mybooks_little_end")
     return querySnapshot
   }
+
+  console.log("get_mybooks_little_end_nologin")
 }
 
 //公開、非公開を変更
