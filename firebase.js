@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
-// import { getAnalytics } from "firebase/analytics";
-// import { getPerformance } from "firebase/performance";
-// import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "firebase/app-check";
+import { getAnalytics } from "firebase/analytics";
+import { getPerformance } from "firebase/performance";
+import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "firebase/app-check";
 
 const firebaseConfig = {
   apiKey: process.env.fb_api_key,
@@ -14,13 +14,14 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-// getAnalytics(app);
-// getPerformance(app);
 
-// initializeAppCheck(app, {
-//   provider: new ReCaptchaEnterpriseProvider("6LcSR4coAAAAAADWwA5jPaPOVE6uFFllO4f9lyp9"),
-//   isTokenAutoRefreshEnabled: true
-// })
+//Analytics
+getAnalytics(app);
+getPerformance(app);
+initializeAppCheck(app, {
+  provider: new ReCaptchaEnterpriseProvider("6LcSR4coAAAAAADWwA5jPaPOVE6uFFllO4f9lyp9"),
+  isTokenAutoRefreshEnabled: true
+})
 
 
 
@@ -34,21 +35,23 @@ remoteConfig.settings = {
 }
 
 remoteConfig.defaultConfig = {
-  "topic": "{}"
+  important_msg: "",
+  usual_msg: ""
 };
 
 
-const get_topic = async () => {
+const get_config = async (msg) => {
 
-  console.log("get_topic_start")
+  console.log("get_config_start")
 
   const { fetchAndActivate, getValue } = await import("firebase/remote-config").catch((err) => console.log("リモートコンフィグ関係ファイル読み込みエラー：" + err.message))
 
 
-  await fetchAndActivate(remoteConfig).catch((err) => console.log("トピック取得エラー:" + err.message))
+  await fetchAndActivate(remoteConfig).catch((err) => console.log("コンフィグ取得エラー:" + err.message))
 
-  const v = getValue(remoteConfig, "topic")
-  console.log("get_topic_end")
+  const v = getValue(remoteConfig, msg)
+
+  console.log("get_config_end")
   return v.asString()
 }
 
@@ -145,7 +148,8 @@ import { initializeFirestore, persistentLocalCache, persistentMultipleTabManager
 const db = initializeFirestore(app,
   {
     localCache:
-      persistentLocalCache(/*settings*/{ tabManager: persistentMultipleTabManager() }),
+      persistentLocalCache({ tabManager: persistentMultipleTabManager(), cacheSizeBytes: 10485760 }),
+
   });
 // const db = getFirestore(app)
 
@@ -160,7 +164,7 @@ const get_book_id = async (id) => {
   const docSnap = await getDoc(docRef).catch((err) => console.log("id単語帳取得エラー:" + err.message));
 
   if (docSnap.exists()) {
-    console.log("get_book_id_start")
+    console.log("get_book_id_end")
     return docSnap.data()
   } else {
     console.log("get_book_id_end_err")
@@ -354,7 +358,7 @@ export {
   signOutAll,
   removeUser,
 
-  get_topic,
+  get_config,
 
   upload_img,
   download_img

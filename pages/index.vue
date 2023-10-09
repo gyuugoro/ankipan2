@@ -8,6 +8,28 @@
         <h1 class="title is-1 logotitle">Ankipan2</h1>
       </div>
 
+      <div class="column is-7">
+        <article v-show="important_msg != ''" class="message is-danger">
+          <div class="message-header">
+            <p>重要な通知</p>
+          </div>
+          <div class="message-body" v-html="important_msg">
+          </div>
+        </article>
+      </div>
+
+
+      <div class="column is-7">
+        <article v-show="msg != ''" class="message">
+          <div class="message-header">
+            <p>割とどうでも良い通知</p>
+          </div>
+          <div class="message-body" v-html="msg">
+          </div>
+        </article>
+      </div>
+
+
 
       <transition name="books" mode="out-in">
 
@@ -20,8 +42,6 @@
 
         <div v-else class="column is-7">
 
-          <lazy-books key="トピック" :name="topic_name" :data="topics" />
-
           <lazy-books key="自作単語帳一覧" name="You made" :data="myBooks" />
 
           <lazy-books key="単語帳一覧" name="Public" :data="data" />
@@ -33,7 +53,7 @@
 
 
       <div class="column is-7">
-        <h3 class="title is-3 has-text-centered">リンク</h3>
+        <h3 class="title is-3 has-text-centered">More</h3>
       </div>
 
 
@@ -59,7 +79,7 @@
 </template>
 
 <script>
-import { get_all, get_mybooks, get_topic, get_all_little, get_mybooks_little } from '../firebase';
+import { get_all, get_mybooks, get_config, get_all_little, get_mybooks_little } from '../firebase';
 
 export default {
   head() {
@@ -71,9 +91,10 @@ export default {
     return {
       data: [],
       myBooks: [],
-      topics: [],
       topic_name: "",
       loading: true,
+      important_msg: "",
+      msg: ""
     }
   },
   created() {
@@ -108,21 +129,10 @@ export default {
         })
       }
 
-      const str_mytopics = await get_topic()
-
-      if (str_mytopics) {
-
-        const mytopics = JSON.parse(str_mytopics)
-
-        this.topics = mytopics.content
-
-        this.topic_name = mytopics.name
-
-
-      }
-
       this.loading = false
 
+      this.important_msg = await get_config("important_msg")
+      this.msg = await get_config("usual_msg")
 
       const docs2 = await get_all()
 
