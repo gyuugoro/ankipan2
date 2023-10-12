@@ -31,25 +31,31 @@
 
 
 
-      <transition name="books" mode="out-in">
+      <transition-group tag="div" name="books" mode="out-in" class="column is-7">
 
-        <div key="ローディング" class="column is-7" v-if="loading">
+        <div key="プログレス" v-show="progress != 10" class="block">
 
-          <h3 class="title is-3 has-text-centered shake-rotate shake-constant">
+          <progress class=" progress is-primary" :value="progress" max="10"></progress>
+        </div>
+
+
+        <div key="ローディング" class="block" v-if="loading">
+
+          <h3 class="title is-3 has-text-centered">
             LOADING
           </h3>
         </div>
 
-        <div v-else class="column is-7">
+        <div v-else key="読み込み結果" class="block">
 
-          <lazy-books key="自作単語帳一覧" name="You made" :data="myBooks" />
+          <lazy-books key=" 自作単語帳一覧" name="You made" :data="myBooks" />
 
           <lazy-books key="単語帳一覧" name="Public" :data="data" />
 
 
         </div>
 
-      </transition>
+      </transition-group>
 
 
       <div class="column is-7">
@@ -94,7 +100,8 @@ export default {
       topic_name: "",
       loading: true,
       important_msg: "",
-      msg: ""
+      msg: "",
+      progress: 0
     }
   },
   created() {
@@ -115,6 +122,8 @@ export default {
         })
       }
 
+      this.progress = 1
+
 
       const mydocs = await get_mybooks_little()
 
@@ -129,10 +138,17 @@ export default {
         })
       }
 
+      this.progress = 2
+
       this.loading = false
 
       this.important_msg = await get_config("important_msg")
+
+      this.progress = 3
+
       this.msg = await get_config("usual_msg")
+
+      this.progress = 4
 
       const docs2 = await get_all()
 
@@ -147,6 +163,8 @@ export default {
         })
       }
 
+      this.progress = 7
+
       const mydocs2 = await get_mybooks()
 
       if (mydocs2) {
@@ -159,6 +177,8 @@ export default {
           })
         })
       }
+
+      this.progress = 10
     },
   },
   mounted() {
@@ -169,7 +189,8 @@ export default {
 
 <style scoped>
 .books-enter-active,
-.books-leave-active {
+.books-leave-active,
+.books-move {
   transition: all 0.25s;
 }
 

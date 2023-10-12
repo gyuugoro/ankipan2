@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-import { getPerformance } from "firebase/performance";
-import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "firebase/app-check";
+// import { getAnalytics } from "firebase/analytics";
+// import { getPerformance } from "firebase/performance";
+// import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "firebase/app-check";
 
 const firebaseConfig = {
   apiKey: process.env.fb_api_key,
@@ -16,12 +16,12 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 //Analytics
-getAnalytics(app);
-getPerformance(app);
-initializeAppCheck(app, {
-  provider: new ReCaptchaEnterpriseProvider("6LcSR4coAAAAAADWwA5jPaPOVE6uFFllO4f9lyp9"),
-  isTokenAutoRefreshEnabled: true
-})
+// getAnalytics(app);
+// getPerformance(app);
+// initializeAppCheck(app, {
+//   provider: new ReCaptchaEnterpriseProvider("6LcSR4coAAAAAADWwA5jPaPOVE6uFFllO4f9lyp9"),
+//   isTokenAutoRefreshEnabled: true
+// })
 
 
 
@@ -42,6 +42,8 @@ remoteConfig.defaultConfig = {
 
 const get_config = async (msg) => {
 
+  const time = Date.now()
+
   console.log("get_config_start")
 
   const { fetchAndActivate, getValue } = await import("firebase/remote-config").catch((err) => console.log("リモートコンフィグ関係ファイル読み込みエラー：" + err.message))
@@ -51,7 +53,7 @@ const get_config = async (msg) => {
 
   const v = getValue(remoteConfig, msg)
 
-  console.log("get_config_end")
+  console.log("get_config_end", v.asString(), `Time:${Date.now() - time}`)
   return v.asString()
 }
 
@@ -63,16 +65,20 @@ setPersistence(auth, browserLocalPersistence)
 
 const signInAnonymous = async () => {
 
+  const time = Date.now()
+
   console.log("signInAnonymous_start")
 
   const { signInAnonymously } = await import("firebase/auth").catch((err) => console.log("オース関係ファイル読み込みエラー：" + err.message))
 
   await signInAnonymously(auth).catch((err) => console.log("匿名サインインエラー:" + err.message))
 
-  console.log("signInAnonymous_end")
+  console.log("signInAnonymous_end", `Time:${Date.now() - time}`)
 }
 
 const onSignIn = async (play) => {
+
+  const time = Date.now()
 
   console.log("onSignIn_start")
 
@@ -85,10 +91,12 @@ const onSignIn = async (play) => {
     play(user)
   })
 
-  console.log("onSignIn_end")
+  console.log("onSignIn_end", `Time:${Date.now() - time}`)
 }
 
 const signInGoogle = async () => {
+
+  const time = Date.now()
 
   console.log("signInGoogle_start")
 
@@ -98,10 +106,12 @@ const signInGoogle = async () => {
   const provider = new GoogleAuthProvider();
   await signInWithPopup(auth, provider).catch((err) => console.log("Googleサインインエラー:" + err.message))
 
-  console.log("signInGoogle_end")
+  console.log("signInGoogle_end", `Time:${Date.now() - time}`)
 }
 
 const linkGoogle = async () => {
+
+  const time = Date.now()
 
   console.log("linkGoogle_start")
 
@@ -111,10 +121,12 @@ const linkGoogle = async () => {
   const provider = new GoogleAuthProvider();
   await linkWithRedirect(auth.currentUser, provider).catch((err) => console.log("Googleリンクエラー:" + err.message))
 
-  console.log("linkGoogle_end")
+  console.log("linkGoogle_end", `Time:${Date.now() - time}`)
 }
 
 const signOutAll = async () => {
+
+  const time = Date.now()
 
   console.log("signOutAll_start")
 
@@ -123,11 +135,13 @@ const signOutAll = async () => {
 
   await signOut(auth).catch((err) => console.log("サインアウトエラー:" + err.message))
 
-  console.log("signOutAll_end")
+  console.log("signOutAll_end", `Time:${Date.now() - time}`)
 
 }
 
 const removeUser = async () => {
+
+  const time = Date.now()
 
   console.log("removeUser_start")
 
@@ -138,7 +152,7 @@ const removeUser = async () => {
     await deleteUser(auth.currentUser).catch((err) => console.log("アカウント削除エラー:" + err.message))
   }
 
-  console.log("removeUser_end")
+  console.log("removeUser_end", `Time:${Date.now() - time}`)
 }
 
 
@@ -155,6 +169,9 @@ const db = initializeFirestore(app,
 
 
 const get_book_id = async (id) => {
+
+  const time = Date.now()
+
   console.log("get_book_id_start")
 
 
@@ -164,15 +181,18 @@ const get_book_id = async (id) => {
   const docSnap = await getDoc(docRef).catch((err) => console.log("id単語帳取得エラー:" + err.message));
 
   if (docSnap.exists()) {
-    console.log("get_book_id_end")
+    console.log("get_book_id_end", docSnap.data(), `Time:${Date.now() - time}`)
     return docSnap.data()
   } else {
-    console.log("get_book_id_end_err")
+    console.log("get_book_id_end_err", "ERR", `Time:${Date.now() - time}`)
     return "ERR"
   }
 }
 
 const get_all = async () => {
+
+  const time = Date.now()
+
   console.log("get_all_start")
 
 
@@ -182,11 +202,14 @@ const get_all = async () => {
   const q = query(collection(db, "Books"), where("public", "==", true), orderBy("now", "desc"));
   const querySnapshot = await getDocs(q).catch((err) => console.log("全単語帳取得エラー:" + err.message));
 
-  console.log("get_all_end")
+  console.log("get_all_end", querySnapshot, `Time:${Date.now() - time}`)
   return querySnapshot
 }
 
 const get_all_little = async () => {
+
+  const time = Date.now()
+
   console.log("get_all_little_start")
 
 
@@ -196,11 +219,14 @@ const get_all_little = async () => {
   const q = query(collection(db, "Books"), where("public", "==", true), orderBy("now", "desc"), limit(5));
   const querySnapshot = await getDocs(q).catch((err) => console.log("全単語帳取得エラー:" + err.message));
 
-  console.log("get_all_little_end")
+  console.log("get_all_little_end", querySnapshot, `Time:${Date.now() - time}`)
   return querySnapshot
 }
 
 const get_mybooks = async () => {
+
+  const time = Date.now()
+
   console.log("get_mybooks_start")
 
   const { query, where, orderBy, getDocs, collection } = await import("firebase/firestore").catch((err) => console.log("ファイアストア関係ファイル読み込みエラー：" + err.message))
@@ -210,14 +236,17 @@ const get_mybooks = async () => {
     const q = query(collection(db, "Books"), where("creator", "==", auth.currentUser.uid), orderBy("now", "desc"));
     const querySnapshot = await getDocs(q).catch((err) => console.log("自分用単語帳取得エラー:" + err.message));
 
-    console.log("get_mybooks_end")
+    console.log("get_mybooks_end", querySnapshot, `Time:${Date.now() - time}`)
     return querySnapshot
   }
 
-  console.log("get_mybooks_end_nologin")
+  console.log("get_mybooks_end_nologin", `Time:${Date.now() - time}`)
 }
 
 const get_mybooks_little = async () => {
+
+  const time = Date.now()
+
   console.log("get_mybooks_little_start")
 
   const { query, where, orderBy, getDocs, collection, limit } = await import("firebase/firestore").catch((err) => console.log("ファイアストア関係ファイル読み込みエラー：" + err.message))
@@ -227,15 +256,17 @@ const get_mybooks_little = async () => {
     const q = query(collection(db, "Books"), where("creator", "==", auth.currentUser.uid), orderBy("now", "desc"), limit(5));
     const querySnapshot = await getDocs(q).catch((err) => console.log("自分用単語帳取得エラー:" + err.message));
 
-    console.log("get_mybooks_little_end")
+    console.log("get_mybooks_little_end", querySnapshot, `Time:${Date.now() - time}`)
     return querySnapshot
   }
 
-  console.log("get_mybooks_little_end_nologin")
+  console.log("get_mybooks_little_end_nologin", `Time:${Date.now() - time}`)
 }
 
 //公開、非公開を変更
 const change_public = async (id, isPublic) => {
+
+  const time = Date.now()
 
   console.log("change_public_start")
 
@@ -251,11 +282,13 @@ const change_public = async (id, isPublic) => {
     }).catch((err) => console.log("公開非公開変更エラー:" + err.message))
   }
 
-  console.log("change_public_end")
+  console.log("change_public_end", `Time:${Date.now() - time}`)
 }
 
 //単語帳全体を変更
 const change_all = async (id, [question, answer, name, description, secret, img]) => {
+
+  const time = Date.now()
 
   console.log("change_all_start")
 
@@ -282,7 +315,7 @@ const change_all = async (id, [question, answer, name, description, secret, img]
         img: img
       }).catch((err) => console.log("単語帳作成エラー:" + err.message))
 
-      console.log("change_all_end_create")
+      console.log("change_all_end_create", doc.id, `Time:${Date.now() - time}`)
       return doc.id
 
 
@@ -302,7 +335,7 @@ const change_all = async (id, [question, answer, name, description, secret, img]
         }).catch((err) => console.log("単語帳内容変更エラー:" + err.message))
       }
 
-      console.log("get_change_all_end_update")
+      console.log("get_change_all_end_update", id, `Time:${Date.now() - time}`)
       return id
     }
   }
@@ -316,6 +349,8 @@ const storage = getStorage(app);
 
 const upload_img = async (file, folder) => {
 
+  const time = Date.now()
+
   console.log("upload_img_start")
 
   const { ref, uploadBytes } = await import("firebase/storage").catch((err) => console.log("ストレージ関係ファイル読み込みエラー：" + err.message))
@@ -324,19 +359,22 @@ const upload_img = async (file, folder) => {
 
   const value = await uploadBytes(storageRef, file).catch((err) => console.log("アップロードエラー:" + err.message))
 
-  console.log("upload_img_end")
+  console.log("upload_img_end", value, `Time:${Date.now() - time}`)
 
   return value
 }
 
 const download_img = async (folder) => {
+
+  const time = Date.now()
+
   console.log("download_img_start")
   const { ref, getDownloadURL } = await import("firebase/storage").catch((err) => console.log("ストレージ関係ファイル読み込みエラー：" + err.message))
 
 
   const url = await getDownloadURL(ref(storage, folder)).catch((err) => console.log("ダウンロードエラー:" + err.message))
 
-  console.log("download_img_end")
+  console.log("download_img_end", url, `Time:${Date.now() - time}`)
   return url
 }
 

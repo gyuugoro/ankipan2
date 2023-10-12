@@ -124,9 +124,6 @@ export default {
       //最後にお疲れ様を入れる
       this.main.push({ type: "Finish" })
 
-      localStorage.setItem("continue_main", JSON.stringify(this.main))
-
-
 
       //ロック解除
       this.disabled = false
@@ -216,8 +213,6 @@ export default {
 
 
       this.num += 1
-
-      localStorage.setItem("continue_another", JSON.stringify({ num: this.num, miss_question: this.miss_question, miss_answer: this.miss_answer, miss_img: this.miss_img }))
 
       this.read()
 
