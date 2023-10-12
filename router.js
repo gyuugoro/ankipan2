@@ -6,8 +6,13 @@ import HomePage from './pages/index.vue'
 Vue.use(Router)
 
 const dynamically = (promise) => {
-  console.log("ページの読み込み")
-  return promise.then(v => v.default || v)
+  console.log("ページの読み込み開始")
+  return promise.then(v => {
+
+    console.log("ページの読み込み完了")
+    
+    return v.default || v
+  }).catch((err) => console.log("ページ読み込みエラー", err.message)
 }
 
 export function createRouter() {
