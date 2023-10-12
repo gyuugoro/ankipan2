@@ -12,7 +12,7 @@ const dynamically = (promise) => {
     console.log("ページの読み込み完了")
     
     return v.default || v
-  }).catch((err) => console.log("ページ読み込みエラー", err.message)
+  }).catch((err) => console.log("ページ読み込みエラー", err.message))
 }
 
 export function createRouter() {
