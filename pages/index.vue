@@ -109,6 +109,9 @@ export default {
   },
   methods: {
     async getdata() {
+
+      this.progress = 1
+      
       const docs = await get_all_little()
 
       if (docs) {
@@ -122,7 +125,7 @@ export default {
         })
       }
 
-      this.progress = 1
+      this.progress = 2
 
 
       const mydocs = await get_mybooks_little()
@@ -138,17 +141,17 @@ export default {
         })
       }
 
-      this.progress = 2
+      this.progress = 3
 
       this.loading = false
 
       this.important_msg = await get_config("important_msg")
 
-      this.progress = 3
+      this.progress = 4
 
       this.msg = await get_config("usual_msg")
 
-      this.progress = 4
+      this.progress = 5
 
       const docs2 = await get_all()
 
