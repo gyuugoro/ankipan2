@@ -57,5 +57,10 @@ export const actions = {
         if(state.mybooks == [] && state.books == []){
             await dispatch("load")
         }
+    },
+    async mybooks_check({dispatch, state}){
+        if(state.mybooks == []){
+            await dispatch("mybooks_little_load")
+        }
     }
 }
