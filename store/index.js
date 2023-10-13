@@ -27,7 +27,7 @@ export const actions = {
 
         commit("addProgress", 1)
 
-        dispatch("books_load")
+        await dispatch("books_load")
     },
     async books_load({commit}){
         const data = await get_all()
@@ -41,7 +41,7 @@ export const actions = {
 
         commit("addProgress", 1)
 
-        dispatch("mybooks_load")
+        await dispatch("mybooks_load")
     },
     async mybooks_load({commit}){
         const data = await get_mybooks_little()
@@ -50,7 +50,12 @@ export const actions = {
         commit("addProgress", 2)
     },
     async load({dispatch}){
-        dispatch("mybooks_little_load")
-        dispatch("books_little_load")
+        await dispatch("mybooks_little_load")
+        await dispatch("books_little_load")
+    },
+    async check({dispatch, state}){
+        if(state.mybooks == [] && state.books == []){
+            await dispatch("load")
+        }
     }
 }
