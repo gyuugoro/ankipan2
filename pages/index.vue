@@ -131,6 +131,23 @@ export default {
 
       this.loading = false
 
+        get_all().then((docs2) => {
+
+      if (docs2) {
+        this.data = []
+
+        docs2.forEach((doc) => {
+          this.data.push({
+            name: doc.data().name,
+            id: doc.id
+          })
+        })
+      }
+
+      this.progress += 2
+
+      })
+
       })
 
 
@@ -151,6 +168,23 @@ export default {
 
       this.loading2 = false
 
+        get_mybooks().then((mydocs2) => {
+
+      if (mydocs2) {
+        this.myBooks = []
+
+        mydocs2.forEach((doc) => {
+          this.myBooks.push({
+            name: doc.data().name,
+            id: doc.id,
+          })
+        })
+      }
+
+      this.progress += 3
+
+      })
+
       })
 
 
@@ -170,39 +204,6 @@ export default {
 
       })
 
-      get_all().then((docs2) => {
-
-      if (docs2) {
-        this.data = []
-
-        docs2.forEach((doc) => {
-          this.data.push({
-            name: doc.data().name,
-            id: doc.id
-          })
-        })
-      }
-
-      this.progress += 2
-
-      })
-
-      get_mybooks().then((mydocs2) => {
-
-      if (mydocs2) {
-        this.myBooks = []
-
-        mydocs2.forEach((doc) => {
-          this.myBooks.push({
-            name: doc.data().name,
-            id: doc.id,
-          })
-        })
-      }
-
-      this.progress += 3
-
-      })
     },
   },
   mounted() {
