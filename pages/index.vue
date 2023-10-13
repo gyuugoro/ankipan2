@@ -108,7 +108,7 @@ export default {
     this.getdata();
   },
   methods: {
-    async getdata() {
+    getdata() {
 
       this.progress = 1
 
