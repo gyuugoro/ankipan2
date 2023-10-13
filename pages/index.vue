@@ -34,15 +34,14 @@
       <transition-group tag="div" name="books" mode="out-in" class="column is-7">
 
         <div key="プログレス" v-show="progress != 10" class="block">
-
           <progress class=" progress is-primary" :value="progress" max="10"></progress>
         </div>
 
 
-        <div key="ローディング" class="block" v-if="loading">
+        <div key="ローディング" class="block" v-if="loading || loading2">
 
           <h3 class="title is-3 has-text-centered">
-            LOADING
+            NOW LOADING...
           </h3>
         </div>
 
@@ -99,6 +98,7 @@ export default {
       myBooks: [],
       topic_name: "",
       loading: true,
+      loading2: true,
       important_msg: "",
       msg: "",
       progress: 0
@@ -111,8 +111,10 @@ export default {
     async getdata() {
 
       this.progress = 1
+
       
-      const docs = await get_all_little()
+      
+      get_all_little().then((docs) => {
 
       if (docs) {
         this.data = []
@@ -125,10 +127,14 @@ export default {
         })
       }
 
-      this.progress = 2
+      this.progress += 1
+
+      this.loading = false
+
+      })
 
 
-      const mydocs = await get_mybooks_little()
+      get_mybooks_little().then((mydocs) => {
 
       if (mydocs) {
         this.myBooks = []
@@ -141,19 +147,30 @@ export default {
         })
       }
 
-      this.progress = 3
+      this.progress += 1
 
-      this.loading = false
+      this.loading2 = false
 
-      this.important_msg = await get_config("important_msg")
+      })
 
-      this.progress = 4
 
-      this.msg = await get_config("usual_msg")
+      get_config("important_msg").then((v) => {
 
-      this.progress = 5
+      this.important_msg = v
 
-      const docs2 = await get_all()
+      this.progress += 1
+
+      })
+
+      get_config("usual_msg").then((v) => {
+
+      this.msg = v
+
+      this.progress += 1
+
+      })
+
+      get_all().then((docs2) => {
 
       if (docs2) {
         this.data = []
@@ -166,9 +183,11 @@ export default {
         })
       }
 
-      this.progress = 7
+      this.progress += 2
 
-      const mydocs2 = await get_mybooks()
+      })
+
+      get_mybooks().then((mydocs2) => {
 
       if (mydocs2) {
         this.myBooks = []
@@ -181,7 +200,9 @@ export default {
         })
       }
 
-      this.progress = 10
+      this.progress += 3
+
+      })
     },
   },
   mounted() {
