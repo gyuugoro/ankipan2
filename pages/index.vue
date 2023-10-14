@@ -42,11 +42,7 @@
             </article>
           </div>
 
-
-          <lazy-books key=" 自作単語帳一覧" name="You made" :data="this.$store.state.my_books"
-            :is_loading="this.$store.state.my_books_loading" />
-
-          <lazy-books key="単語帳一覧" name="Public" :data="this.$store.state.books"
+          <lazy-books key="単語帳一覧" name="単語帳一覧" :data="this.$store.state.books"
             :is_loading="this.$store.state.books_loading" />
 
 
@@ -109,12 +105,9 @@ export default {
         this.progress += 1
       })
 
-      this.$store.dispatch("get_books", false).then(() => {
+      this.$store.dispatch("get_books").then(() => {
         this.progress += 1
       })
-
-      this.$store.dispatch("load_my_books")
-
     }
   },
   mounted() {

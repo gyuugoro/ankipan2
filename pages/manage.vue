@@ -102,7 +102,9 @@ export default {
     scrollTo({ top: 0 })
   },
   created() {
-    this.$store.dispatch("load_my_books")
+    this.$store.dispatch("on_change_user", (() => {
+      this.$store.dispatch("get_my_books")
+    }))
   },
   methods: {
     async sign_in_with_google() {

@@ -8,9 +8,6 @@ export const state = () => ({
     //booksは最初だけ更新する
     books_loaded: false,
     books_loading: false,
-    //mybookは何回でも更新する
-    my_books_loaded: true,
-    my_books_loading: false,
     user: ""
 })
 
@@ -27,16 +24,6 @@ export const mutations = {
     },
     set_my_books(state, data) {
         state.my_books = data
-    },
-    set_my_books_loaded(state) {
-        state.my_books_loaded = true
-        state.my_books_loading = false
-    },
-    set_my_books_start(state) {
-        state.my_books_loading = true
-    },
-    set_my_books_load(state) {
-        state.my_books_loaded = false
     },
     set_user(state, data) {
         state.user = data
@@ -56,8 +43,6 @@ export const actions = {
             } else {
                 commit("set_user", "")
             }
-
-            dispatch("get_my_books")
         }))
     },
     async get_books({ commit, state }) {
@@ -74,13 +59,13 @@ export const actions = {
             //オフライン取得
             disableNetwork(db)
             const q = query(collection(db, "Books"), where("public", "==", true), orderBy("now", "desc"));
-            const q_min = query(collection(db, "Books"), where("public", "==", true), orderBy("now", "desc"), limit(5));
+            const q_min = query(collection(db, "Books"), where("public", "==", true), orderBy("now", "desc"), limit(10));
             let querySnapshot = await getDocs(q).catch((err) => console.log("オフライン全単語帳取得エラー:" + err.message));
             enableNetwork(db)
 
             if (querySnapshot.empty) {
-                //オフラインがなければオンラインで５つだけ取得
-                querySnapshot = await getDocs(q_min).catch((err) => console.log("全単語（５）取得エラー:" + err.message));
+                //オフラインがなければオンライン１０こだけ取得
+                querySnapshot = await getDocs(q_min).catch((err) => console.log("全単語（１０）取得エラー:" + err.message));
             }
 
             const data = []
@@ -121,56 +106,38 @@ export const actions = {
 
         if (state.user != "") {
 
-            if (!state.my_books_loaded) {
+            const { query, where, orderBy, collection, getDocs, disableNetwork, enableNetwork } = await import("firebase/firestore").catch((err) => console.log("ファイアストア関係ファイル読み込みエラー：" + err.message))
 
-                const { query, where, orderBy, collection, getDocs, disableNetwork, enableNetwork, limit } = await import("firebase/firestore").catch((err) => console.log("ファイアストア関係ファイル読み込みエラー：" + err.message))
+            //オフライン取得
+            disableNetwork(db)
+            const q = query(collection(db, "Books"), where("creator", "==", auth.currentUser.uid), orderBy("now", "desc"));
+            let querySnapshot = await getDocs(q).catch((err) => console.log("オフライン自分用単語帳取得エラー:" + err.message));
+            enableNetwork(db)
 
-                commit("set_my_books_start")
-
-                //オフライン取得
-                disableNetwork(db)
-                const q = query(collection(db, "Books"), where("creator", "==", auth.currentUser.uid), orderBy("now", "desc"));
-                const q_min = query(collection(db, "Books"), where("creator", "==", auth.currentUser.uid), orderBy("now", "desc"), limit(5));
-                let querySnapshot = await getDocs(q).catch((err) => console.log("オフライン全単語帳取得エラー:" + err.message));
-                enableNetwork(db)
-
-                if (querySnapshot.empty) {
-                    //オフラインがなければオンラインで５つだけ取得
-                    querySnapshot = await getDocs(q_min).catch((err) => console.log("全単語（５）取得エラー:" + err.message));
-                }
-
-                const data = []
-                querySnapshot.forEach((doc) => {
-                    data.push({
-                        name: doc.data().name,
-                        id: doc.id,
-                        is_public: doc.data().public
-                    })
+            const data = []
+            querySnapshot.forEach((doc) => {
+                data.push({
+                    name: doc.data().name,
+                    id: doc.id,
+                    is_public: doc.data().public
                 })
-                commit("set_my_books", data)
+            })
+            commit("set_my_books", data)
 
-                //最新情報を得る
-                getDocs(q).catch((err) => console.log("全単語帳取得エラー:" + err.message)).then((querySnapshot2) => {
-                    const data2 = []
-                    querySnapshot2.forEach((doc) => {
-                        data2.push({
-                            name: doc.data().name,
-                            id: doc.id,
-                            is_public: doc.data().public
-                        })
-                    })
-                    commit("set_my_books", data2)
-
-                    commit("set_my_books_loaded")
-
-                    console.log("get_mybooks_new_end", querySnapshot2, `Time:${Date.now() - time}`)
+            const querySnapshot2 = await getDocs(q).catch((err) => console.log("自分用単語帳取得エラー:" + err.message))
+            const data2 = []
+            querySnapshot2.forEach((doc) => {
+                data2.push({
+                    name: doc.data().name,
+                    id: doc.id,
+                    is_public: doc.data().public
                 })
+            })
+            commit("set_my_books", data2)
 
-                console.log("get_mybooks_end", querySnapshot, `Time:${Date.now() - time}`)
+            console.log("get_mybooks_end", querySnapshot, `Time:${Date.now() - time}`)
 
-            } else {
-                console.log("get_mybooks_end_nouse", `Time:${Date.now() - time}`)
-            }
+
         } else {
             commit("set_my_books", [])
             console.log("get_mybooks_end_nologin", `Time:${Date.now() - time}`)
