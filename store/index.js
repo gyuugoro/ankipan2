@@ -95,6 +95,8 @@ export const actions = {
 
             commit("my_books_level_1", data)
 
+        } else {
+            commit("my_books_level_1", [])
         }
     },
     async books_level_2({ commit, state }, is_force) {
@@ -138,7 +140,8 @@ export const actions = {
             }
             commit("my_books_level_2", data)
 
-
+        } else {
+            commit("my_books_level_2", [])
         }
     },
     async get_book_id(context, id) {
