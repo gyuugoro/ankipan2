@@ -119,7 +119,6 @@ export default {
     },
     async change_public(id, is_public) {
       await this.$store.dispatch("change_public", [id, is_public])
-      await this.$store.dispatch("my_books_level_2", true)
     },
     async remove_user() {
       await this.$store.dispatch("remove_user")

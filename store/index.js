@@ -155,8 +155,9 @@ export const actions = {
             play(state.user)
         })
     },
-    async change_all(context, [id, question, answer, name, description, secret, img]) {
+    async change_all({ dispatch }, [id, question, answer, name, description, secret, img]) {
         const new_id = await change_all(id, [question, answer, name, description, secret, img])
+        dispatch("my_books_level_2", true)
         return new_id
     },
     async sign_in_anonymously() {
@@ -174,8 +175,9 @@ export const actions = {
     async remove_user() {
         await remove_user()
     },
-    async change_public(context, [id, is_public]) {
+    async change_public({ dispatch }, [id, is_public]) {
         await change_public(id, is_public)
+        dispatch("my_books_level_2", true)
     },
     async upload_img(context, [file, folder]) {
         const v = await upload_img(file, folder)
