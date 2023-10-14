@@ -8,28 +8,6 @@
         <h1 class="title is-1 logotitle">Ankipan2</h1>
       </div>
 
-      <div class="column is-7">
-        <article v-show="important_msg != ''" class="message is-danger">
-          <div class="message-header">
-            <p>重要な通知</p>
-          </div>
-          <div class="message-body" v-html="important_msg">
-          </div>
-        </article>
-      </div>
-
-
-      <div class="column is-7">
-        <article v-show="msg != ''" class="message">
-          <div class="message-header">
-            <p>割とどうでも良い通知</p>
-          </div>
-          <div class="message-body" v-html="msg">
-          </div>
-        </article>
-      </div>
-
-
 
       <transition name="books" mode="out-in">
 
@@ -42,6 +20,28 @@
 
 
         <div key="読み込み結果" v-else class="block column is-7">
+
+          <div class="block" v-show="important_msg != ''">
+            <article class="message is-danger">
+              <div class="message-header">
+                <p>重要な通知</p>
+              </div>
+              <div class="message-body" v-html="important_msg">
+              </div>
+            </article>
+          </div>
+
+
+          <div class="block" v-show="msg != ''">
+            <article class="message">
+              <div class="message-header">
+                <p>割とどうでも良い通知</p>
+              </div>
+              <div class="message-body" v-html="msg">
+              </div>
+            </article>
+          </div>
+
 
           <lazy-books key=" 自作単語帳一覧" name="You made" :data="this.$store.state.my_books"
             :is_little="this.$store.state.my_books_level <= 1" @load="load_my_books" />
