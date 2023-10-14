@@ -145,10 +145,10 @@ const remove_user = async () => {
 
   console.log("remove_user_start")
 
-  const { deleteUser } = await import("firebase/auth").catch((err) => console.log("オース関係ファイル読み込みエラー：" + err.message))
 
 
   if (auth.currentUser) {
+    const { deleteUser } = await import("firebase/auth").catch((err) => console.log("オース関係ファイル読み込みエラー：" + err.message))
     await deleteUser(auth.currentUser).catch((err) => console.log("アカウント削除エラー:" + err.message))
   }
 
@@ -223,18 +223,37 @@ const get_all_little = async () => {
   return querySnapshot
 }
 
-const get_mybooks = async () => {
+const get_all_little_cache = async () => {
 
   const time = Date.now()
 
+  console.log("get_all_little_cache_start")
+
+
+  const { query, where, orderBy, collection, getDocs, limit, disableNetwork, enableNetwork } = await import("firebase/firestore").catch((err) => console.log("ファイアストア関係ファイル読み込みエラー：" + err.message))
+
+  await disableNetwork(db)
+
+  const q = query(collection(db, "Books"), where("public", "==", true), orderBy("now", "desc"), limit(5));
+  const querySnapshot = await getDocs(q).catch((err) => console.log("全単語帳取得エラー:" + err.message));
+
+  await enableNetwork(db)
+
+  console.log("get_all_little_cache_end", querySnapshot, `Time:${Date.now() - time}`)
+  return querySnapshot
+}
+
+const get_mybooks = async () => {
+
+  const time = Date.now()
   console.log("get_mybooks_start")
 
-  const { query, where, orderBy, getDocs, collection } = await import("firebase/firestore").catch((err) => console.log("ファイアストア関係ファイル読み込みエラー：" + err.message))
-
-
   if (auth.currentUser) {
+
+    const { query, where, orderBy, getDocs, collection } = await import("firebase/firestore").catch((err) => console.log("ファイアストア関係ファイル読み込みエラー：" + err.message))
     const q = query(collection(db, "Books"), where("creator", "==", auth.currentUser.uid), orderBy("now", "desc"));
     const querySnapshot = await getDocs(q).catch((err) => console.log("自分用単語帳取得エラー:" + err.message));
+
 
     console.log("get_mybooks_end", querySnapshot, `Time:${Date.now() - time}`)
     return querySnapshot
@@ -249,10 +268,10 @@ const get_mybooks_little = async () => {
 
   console.log("get_mybooks_little_start")
 
-  const { query, where, orderBy, getDocs, collection, limit } = await import("firebase/firestore").catch((err) => console.log("ファイアストア関係ファイル読み込みエラー：" + err.message))
 
 
   if (auth.currentUser) {
+    const { query, where, orderBy, getDocs, collection, limit } = await import("firebase/firestore").catch((err) => console.log("ファイアストア関係ファイル読み込みエラー：" + err.message))
     const q = query(collection(db, "Books"), where("creator", "==", auth.currentUser.uid), orderBy("now", "desc"), limit(5));
     const querySnapshot = await getDocs(q).catch((err) => console.log("自分用単語帳取得エラー:" + err.message));
 
@@ -261,6 +280,31 @@ const get_mybooks_little = async () => {
   }
 
   console.log("get_mybooks_little_end_nologin", `Time:${Date.now() - time}`)
+}
+
+const get_mybooks_little_cache = async () => {
+
+  const time = Date.now()
+
+  console.log("get_mybooks_little_cache_start")
+
+
+
+  if (auth.currentUser) {
+    const { query, where, orderBy, getDocs, collection, limit, disableNetwork, enableNetwork } = await import("firebase/firestore").catch((err) => console.log("ファイアストア関係ファイル読み込みエラー：" + err.message))
+
+    await disableNetwork(db)
+
+    const q = query(collection(db, "Books"), where("creator", "==", auth.currentUser.uid), orderBy("now", "desc"), limit(5));
+    const querySnapshot = await getDocs(q).catch((err) => console.log("自分用単語帳取得エラー:" + err.message));
+
+    await enableNetwork(db)
+
+    console.log("get_mybooks_little_cache_end", querySnapshot, `Time:${Date.now() - time}`)
+    return querySnapshot
+  }
+
+  console.log("get_mybooks_little_end_cache_nologin", `Time:${Date.now() - time}`)
 }
 
 //公開、非公開を変更
@@ -293,11 +337,11 @@ const change_all = async (id, [question, answer, name, description, secret, img]
   console.log("change_all_start", id, question, answer, name, description, secret, img)
 
 
-  const { doc, addDoc, collection, getDoc, updateDoc } = await import("firebase/firestore").catch((err) => console.log("ファイアストア関係ファイル読み込みエラー：" + err.message))
 
 
 
   if (auth.currentUser) {
+    const { doc, addDoc, collection, getDoc, updateDoc } = await import("firebase/firestore").catch((err) => console.log("ファイアストア関係ファイル読み込みエラー：" + err.message))
 
 
     if (!id) {
@@ -385,6 +429,8 @@ export {
   get_mybooks,
   get_all_little,
   get_mybooks_little,
+  get_all_little_cache,
+  get_mybooks_little_cache,
 
   change_public,
   change_all,
