@@ -113,13 +113,11 @@ export default {
       })
 
       this.$store.dispatch("books_level_1", false).then(() => {
-        this.data = this.$store.state.books
         this.progress += 1
         this.loading = false
       })
 
       this.$store.dispatch("my_books_level_1", false).then(() => {
-        this.my_books = this.$store.state.my_books
         this.progress += 1
         this.loading_2 = false
       })

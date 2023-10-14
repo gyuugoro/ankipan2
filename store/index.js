@@ -76,24 +76,29 @@ export const actions = {
     },
     async my_books_level_1({ commit, state }, is_force) {
 
-        if (state.user != '' && (state.my_books_level <= 0 || is_force)) {
+        if (state.user != "") {
 
 
-            const docs = await get_mybooks_little()
-            const data = []
+            if (state.my_books_level <= 0 || is_force) {
 
-            if (docs) {
 
-                docs.forEach((doc) => {
-                    data.push({
-                        name: doc.data().name,
-                        id: doc.id,
-                        is_public: doc.data().public
+                const docs = await get_mybooks_little()
+                const data = []
+
+                if (docs) {
+
+                    docs.forEach((doc) => {
+                        data.push({
+                            name: doc.data().name,
+                            id: doc.id,
+                            is_public: doc.data().public
+                        })
                     })
-                })
-            }
+                }
 
-            commit("my_books_level_1", data)
+                commit("my_books_level_1", data)
+
+            }
 
         } else {
             commit("my_books_level_1", [])
@@ -123,23 +128,27 @@ export const actions = {
     },
     async my_books_level_2({ commit, state }, is_force) {
 
-        if (state.user != '' && (state.my_books_level <= 1 || is_force)) {
+        if (state.user != '') {
 
-            const docs = await get_mybooks()
-            const data = []
 
-            if (docs) {
+            if (state.my_books_level <= 1 || is_force) {
 
-                docs.forEach((doc) => {
-                    data.push({
-                        name: doc.data().name,
-                        id: doc.id,
-                        is_public: doc.data().public
+                const docs = await get_mybooks()
+                const data = []
+
+                if (docs) {
+
+                    docs.forEach((doc) => {
+                        data.push({
+                            name: doc.data().name,
+                            id: doc.id,
+                            is_public: doc.data().public
+                        })
                     })
-                })
-            }
-            commit("my_books_level_2", data)
+                }
+                commit("my_books_level_2", data)
 
+            }
         } else {
             commit("my_books_level_2", [])
         }
