@@ -59,12 +59,12 @@ export const actions = {
             //オフライン取得
             disableNetwork(db)
             const q = query(collection(db, "Books"), where("public", "==", true), orderBy("now", "desc"));
-            const q_min = query(collection(db, "Books"), where("public", "==", true), orderBy("now", "desc"), limit(10));
             let querySnapshot = await getDocs(q).catch((err) => console.log("オフライン全単語帳取得エラー:" + err.message));
             enableNetwork(db)
 
             if (querySnapshot.empty) {
                 //オフラインがなければオンライン１０こだけ取得
+                const q_min = query(collection(db, "Books"), where("public", "==", true), orderBy("now", "desc"), limit(10));
                 querySnapshot = await getDocs(q_min).catch((err) => console.log("全単語（１０）取得エラー:" + err.message));
             }
 
@@ -78,7 +78,8 @@ export const actions = {
             commit("set_books", data)
 
             //最新情報を得る
-            getDocs(q).catch((err) => console.log("全単語帳取得エラー:" + err.message)).then((querySnapshot2) => {
+            const q2 = query(collection(db, "Books"), where("public", "==", true), orderBy("now", "desc"));
+            getDocs(q2).catch((err) => console.log("全単語帳取得エラー:" + err.message)).then((querySnapshot2) => {
                 const data2 = []
                 querySnapshot2.forEach((doc) => {
                     data2.push({
@@ -124,7 +125,8 @@ export const actions = {
             })
             commit("set_my_books", data)
 
-            const querySnapshot2 = await getDocs(q).catch((err) => console.log("自分用単語帳取得エラー:" + err.message))
+            const q2 = query(collection(db, "Books"), where("creator", "==", auth.currentUser.uid), orderBy("now", "desc"));
+            const querySnapshot2 = await getDocs(q2).catch((err) => console.log("自分用単語帳取得エラー:" + err.message))
             const data2 = []
             querySnapshot2.forEach((doc) => {
                 data2.push({
