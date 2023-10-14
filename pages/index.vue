@@ -21,7 +21,7 @@
 
         <div key="読み込み結果" v-else class="block column is-7">
 
-          <!-- <div class="block" v-show="important_msg != ''">
+          <div class="block" v-show="important_msg != ''">
             <article class="message is-danger">
               <div class="message-header">
                 <p>重要な通知</p>
@@ -40,7 +40,7 @@
               <div class="message-body content" v-html="msg">
               </div>
             </article>
-          </div> -->
+          </div>
 
 
           <lazy-books key=" 自作単語帳一覧" name="You made" :data="this.$store.state.my_books"
