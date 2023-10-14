@@ -184,7 +184,7 @@ const get_book_id = async (id) => {
   let docSnap = await getDoc(docRef).catch((err) => console.log("オフラインid単語帳取得エラー:" + err.message));
   enableNetwork(db)
 
-  if (docSnap.empty) {
+  if (!docSnap) {
     console.log("id単語取得キャッシュ不在")
     docSnap = await getDoc(docRef).catch((err) => console.log("id単語帳取得エラー:" + err.message));
   } else {
@@ -218,6 +218,30 @@ const get_all = async () => {
   return querySnapshot
 }
 
+const get_all_cache = async () => {
+
+  const time = Date.now()
+
+  console.log("get_all_cache_start")
+
+
+  const { query, where, orderBy, collection, getDocs, disableNetwork, enableNetwork } = await import("firebase/firestore").catch((err) => console.log("ファイアストア関係ファイル読み込みエラー：" + err.message))
+
+  const q = query(collection(db, "Books"), where("public", "==", true), orderBy("now", "desc"));
+
+  disableNetwork(db)
+  let querySnapshot = await getDocs(q).catch((err) => console.log("オフライン全単語帳取得エラー:" + err.message));
+  enableNetwork(db)
+
+  if (querySnapshot.empty) {
+    console.log("全単語帳取得キャッシュ不在")
+    querySnapshot = await getDocs(q).catch((err) => console.log("オフライン全単語帳取得エラー:" + err.message));
+  }
+
+  console.log("get_all_cache_end", querySnapshot, `Time:${Date.now() - time}`)
+  return querySnapshot
+}
+
 const get_all_little = async () => {
 
   const time = Date.now()
@@ -229,6 +253,7 @@ const get_all_little = async () => {
 
 
   const q = query(collection(db, "Books"), where("public", "==", true), orderBy("now", "desc"), limit(5));
+
   const querySnapshot = await getDocs(q).catch((err) => console.log("全単語帳取得エラー:" + err.message));
 
   console.log("get_all_little_end", querySnapshot, `Time:${Date.now() - time}`)
@@ -244,15 +269,16 @@ const get_all_little_cache = async () => {
 
   const { query, where, orderBy, collection, getDocs, limit, disableNetwork, enableNetwork } = await import("firebase/firestore").catch((err) => console.log("ファイアストア関係ファイル読み込みエラー：" + err.message))
 
-  await disableNetwork(db)
 
   const q = query(collection(db, "Books"), where("public", "==", true), orderBy("now", "desc"), limit(5));
-  const querySnapshot = await getDocs(q).catch((err) => console.log("全単語帳取得エラー:" + err.message));
 
+  await disableNetwork(db)
+  let querySnapshot = await getDocs(q).catch((err) => console.log("全単語帳取得エラー:" + err.message));
   await enableNetwork(db)
 
   if (querySnapshot.empty) {
     console.log("全単語帳取得キャッシュ不在")
+    querySnapshot = await getDocs(q).catch((err) => console.log("全単語帳取得エラー:" + err.message));
   }
 
   console.log("get_all_little_cache_end", querySnapshot, `Time:${Date.now() - time}`)
@@ -272,6 +298,32 @@ const get_mybooks = async () => {
 
 
     console.log("get_mybooks_end", querySnapshot, `Time:${Date.now() - time}`)
+    return querySnapshot
+  }
+
+  console.log("get_mybooks_end_nologin", `Time:${Date.now() - time}`)
+}
+
+const get_mybooks_cache = async () => {
+
+  const time = Date.now()
+  console.log("get_mybooks_cache_start")
+
+  if (auth.currentUser) {
+
+    const { query, where, orderBy, getDocs, collection, disableNetwork, enableNetwork } = await import("firebase/firestore").catch((err) => console.log("ファイアストア関係ファイル読み込みエラー：" + err.message))
+
+    const q = query(collection(db, "Books"), where("creator", "==", auth.currentUser.uid), orderBy("now", "desc"));
+    disableNetwork(db)
+    let querySnapshot = await getDocs(q).catch((err) => console.log("自分用単語帳取得エラー:" + err.message));
+    enableNetwork(db)
+
+    if (querySnapshot.empty) {
+      console.log("自分用単語帳キャッシュ不在")
+      querySnapshot = await getDocs(q).catch((err) => console.log("自分用単語帳取得エラー:" + err.message));
+    }
+
+    console.log("get_mybooks_cache_end", querySnapshot, `Time:${Date.now() - time}`)
     return querySnapshot
   }
 
@@ -309,15 +361,16 @@ const get_mybooks_little_cache = async () => {
   if (auth.currentUser) {
     const { query, where, orderBy, getDocs, collection, limit, disableNetwork, enableNetwork } = await import("firebase/firestore").catch((err) => console.log("ファイアストア関係ファイル読み込みエラー：" + err.message))
 
-    await disableNetwork(db)
 
     const q = query(collection(db, "Books"), where("creator", "==", auth.currentUser.uid), orderBy("now", "desc"), limit(5));
-    const querySnapshot = await getDocs(q).catch((err) => console.log("自分用単語帳取得エラー:" + err.message));
 
+    await disableNetwork(db)
+    let querySnapshot = await getDocs(q).catch((err) => console.log("自分用単語帳取得エラー:" + err.message));
     await enableNetwork(db)
 
     if (querySnapshot.empty) {
       console.log("自分用単語帳取得キャッシュ不在")
+      querySnapshot = await getDocs(q).catch((err) => console.log("自分用単語帳取得エラー:" + err.message));
     }
 
     console.log("get_mybooks_little_cache_end", querySnapshot, `Time:${Date.now() - time}`)
@@ -448,7 +501,9 @@ export {
   get_all,
   get_mybooks,
   get_all_little,
+  get_all_cache,
   get_mybooks_little,
+  get_mybooks_cache,
   get_all_little_cache,
   get_mybooks_little_cache,
 

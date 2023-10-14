@@ -102,7 +102,7 @@ export default {
     scrollTo({ top: 0 })
   },
   created() {
-    this.$store.dispatch("my_books_level_3", true)
+    this.$store.dispatch("my_books_level_2", true)
   },
   methods: {
     async sign_in_with_google() {

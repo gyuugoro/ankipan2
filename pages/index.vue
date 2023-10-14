@@ -44,10 +44,10 @@
 
 
           <lazy-books key=" 自作単語帳一覧" name="You made" :data="this.$store.state.my_books"
-            :is_little="this.$store.state.my_books_level <= 2" @load="load_my_books" />
+            :is_little="this.$store.state.my_books_level <= 1" @load="load_my_books" />
 
           <lazy-books key="単語帳一覧" name="Public" :data="this.$store.state.books"
-            :is_little="this.$store.state.books_level <= 2" @load="load_books" />
+            :is_little="this.$store.state.books_level <= 1" @load="load_books" />
 
           <div class="block">
             <h3 class="title is-3 has-text-centered">More</h3>
@@ -112,20 +112,20 @@ export default {
         this.progress += 1
       })
 
+
       this.$store.dispatch("books_level_1", false).then(() => {
         this.progress += 1
-        this.$store.dispatch("books_level_2", false)
       })
 
-      this.$store.dispatch("my_books_level_2", false)
+      this.$store.dispatch("my_books_level_1", false)
 
     },
     async load_books() {
-      await this.$store.dispatch("books_level_3", false)
+      await this.$store.dispatch("books_level_2", false)
       this.data = this.$store.state.books
     },
     async load_my_books() {
-      await this.$store.dispatch("my_books_level_3", false)
+      await this.$store.dispatch("my_books_level_2", false)
       this.my_books = this.$store.state.my_books
 
     }
