@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-import { getPerformance } from "firebase/performance";
-import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "firebase/app-check";
+// import { getAnalytics } from "firebase/analytics";
+// import { getPerformance } from "firebase/performance";
+// import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "firebase/app-check";
 
 const firebaseConfig = {
   apiKey: process.env.fb_api_key,
@@ -16,12 +16,12 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 // Analytics
-getAnalytics(app);
-getPerformance(app);
-initializeAppCheck(app, {
-  provider: new ReCaptchaEnterpriseProvider("6LcSR4coAAAAAADWwA5jPaPOVE6uFFllO4f9lyp9"),
-  isTokenAutoRefreshEnabled: true
-})
+// getAnalytics(app);
+// getPerformance(app);
+// initializeAppCheck(app, {
+//   provider: new ReCaptchaEnterpriseProvider("6LcSR4coAAAAAADWwA5jPaPOVE6uFFllO4f9lyp9"),
+//   isTokenAutoRefreshEnabled: true
+// })
 
 
 
