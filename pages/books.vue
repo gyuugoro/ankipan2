@@ -8,8 +8,8 @@
 
     </appbar>
 
-    <transition-group name="books" tag="div">
-      <lazy-cards-first-card key="First" @next="next" v-if="card_type == 'First' && title != '読み込み中'" :title="title"
+    <transition-group name="books" tag="div" mode="out-in">
+      <lazy-cards-first-card key="First" @next="next" v-if="card_type == 'First'" :title="title"
         :description="description" :disabled="disabled" />
 
       <lazy-cards-yontaku-card key="Yontaku" @next="next" v-if="num % 2 == 0 && card_type == 'Yontaku'"
