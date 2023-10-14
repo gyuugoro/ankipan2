@@ -4,13 +4,13 @@
     <div class="block is-size-4" v-show="allconp">オールコンプリート！おめでとう！</div>
 
     <control>
-      <div class="column is-one-third">
-        <button :disabled="allconp" class="button is-fullwidth is-rounded" @click="() => $emit('next', 0)">間違い確認</button>
+      <div class="column is-full" v-show="!allconp">
+        <button class="button is-fullwidth is-rounded" @click="() => $emit('next', 0)">間違い確認</button>
       </div>
 
-      <share class="column is-one-third mb-0" />
+      <share class="column is-full mb-0" />
 
-      <div class=" column is-one-third">
+      <div class=" column is-full">
         <nuxt-link to="/" class="button is-fullwidth is-rounded is-black">ホームに戻る</nuxt-link>
       </div>
 

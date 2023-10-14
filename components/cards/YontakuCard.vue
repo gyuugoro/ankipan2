@@ -15,24 +15,24 @@
 
 
     <control>
-      <div class="column is-full">
+      <div class="column is-full" v-show="selection[0] != undefined">
         <button class="button is-fullwidth is-rounded can-scroll" :class="q[0] ? 'is-danger' : ''" @click="tap(0)">{{
           selection[0] }}</button>
       </div>
 
-      <div class="column is-full">
+      <div class="column is-full" v-show="selection[1] != undefined">
         <button class="button is-fullwidth is-rounded can-scroll" :class="q[1] ? 'is-danger' : ''" @click="tap(1)">{{
           selection[1]
         }}</button>
       </div>
 
-      <div class="column is-full">
+      <div class="column is-full" v-show="selection[2] != undefined">
         <button class="button is-fullwidth is-rounded can-scroll" :class="q[2] ? 'is-danger' : ''" @click="tap(2)">{{
           selection[2]
         }}</button>
       </div>
 
-      <div class="column is-full">
+      <div class="column is-full" v-show="selection[3] != undefined">
         <button class="button is-fullwidth is-rounded can-scroll" :class="q[3] ? 'is-danger' : ''" @click="tap(3)">{{
           selection[3]
         }}</button>

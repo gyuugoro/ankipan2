@@ -27,18 +27,16 @@
 
     <Control>
 
-      <div class="column is-one-third">
-        <button class="button is-fullwidth is-rounded" @click="() => show_answer = true"
-          :disabled="show_answer">答え合わせ</button>
+      <div class="column is-full" v-show="!show_answer">
+        <button class="button is-fullwidth is-rounded" @click="() => show_answer = true">答え合わせ</button>
       </div>
 
-      <div class="column is-one-third">
-        <button class="button is-fullwidth is-rounded is-success " :disabled="!show_answer"
-          @click="() => show_answer ? succeed() : ''">正解</button>
+      <div class="column is-full" v-show="show_answer">
+        <button class="button is-fullwidth is-rounded is-success" @click="() => show_answer ? succeed() : ''">正解</button>
       </div>
 
-      <div class="column is-one-third">
-        <button class="button is-fullwidth is-rounded is-danger " :disabled="!show_answer"
+      <div class="column is-full" v-show="show_answer">
+        <button class="button is-fullwidth is-rounded is-danger"
           @click="() => show_answer ? not_succeed() : ''">不正解</button>
       </div>
 

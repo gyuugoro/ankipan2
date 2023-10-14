@@ -76,7 +76,7 @@ export const actions = {
     },
     async my_books_level_1({ commit, state }, is_force) {
 
-        if (state.my_books_level <= 0 || is_force) {
+        if (state.user != '' && (state.my_books_level <= 0 || is_force)) {
 
 
             const docs = await get_mybooks_little()
@@ -121,7 +121,7 @@ export const actions = {
     },
     async my_books_level_2({ commit, state }, is_force) {
 
-        if (state.my_books_level <= 1 || is_force) {
+        if (state.user != '' && (state.my_books_level <= 1 || is_force)) {
 
             const docs = await get_mybooks()
             const data = []

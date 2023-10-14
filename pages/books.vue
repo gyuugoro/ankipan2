@@ -66,6 +66,7 @@ export default {
     set_data() {
       //読み込み処理開始
       console.log("読み込み処理開始")
+      const time = Date.now()
 
       //最初にタイトルを入れる
       this.main.push({ type: "First", title: this.data.name, description: this.data.description })
@@ -79,6 +80,7 @@ export default {
 
 
       const sanjutoubuneds = this.sanjutoubun(karinums)
+
       for (const sanjutoubuned of sanjutoubuneds) {
         const gotoubuneds = this.gotoubun(sanjutoubuned)
         for (const gotoubuned of gotoubuneds) {
@@ -124,7 +126,7 @@ export default {
 
       //ロック解除
       this.disabled = false
-      console.log("読み込み処理完了！＆ロック解除")
+      console.log("読み込み処理完了！＆ロック解除", `Time:${Date.now() - time}`)
 
       this.read()
     },
@@ -250,14 +252,12 @@ export default {
 
       //データ取得
 
-      console.log("データ取得開始")
       this.data = await this.$store.dispatch("get_book_id", this.$route.query.id)
 
       if (this.data == "ERR") {
         this.$router.push("/error")
       }
 
-      console.log("データ取得完了", this.data)
 
     },
     restart() {

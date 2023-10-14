@@ -7,10 +7,13 @@ Vue.use(Router)
 
 const dynamically = (promise) => {
   console.log("ページの読み込み開始")
+
+  const time = Date.now()
+
   return promise.then(v => {
 
-    console.log("ページの読み込み完了")
-    
+    console.log("ページの読み込み完了", v.default || v, `Time:${Date.now() - time}`)
+
     return v.default || v
   }).catch((err) => console.log("ページ読み込みエラー", err.message))
 }

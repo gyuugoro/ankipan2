@@ -24,7 +24,7 @@
       </p>
 
       <p class="control">
-        <button class="button is-rounded is-danger is-light" v-show="url == ''" @click="delete_img">画像を削除</button>
+        <button class="button is-rounded is-danger is-light" v-show="url != ''" @click="delete_img">画像を削除</button>
       </p>
     </div>
 
@@ -121,7 +121,6 @@ export default {
 
       const image = e.target.files[0]
       const path = await this.$store.dispatch("upload_img", [image, now])
-      console.log(path.ref._location.path)
       this.img = path.ref._location.path
     },
     async download() {

@@ -6,14 +6,14 @@
     <div class="block">{{ description }}</div>
 
     <control>
-      <div class="column is-one-third">
+      <div class="column is-full">
         <button class="button is-fullwidth is-rounded" :class="disabled ? 'is-loading' : ''"
           @click="() => $emit('next', 0)">始める</button>
       </div>
 
-      <share class="column is-one-third mb-0" />
+      <share class="column is-full mb-0" />
 
-      <div class="column is-one-third">
+      <div class="column is-full">
         <nuxt-link to="/" class="button is-fullwidth is-rounded is-black">ホームに戻る</nuxt-link>
       </div>
 

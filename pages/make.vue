@@ -98,7 +98,6 @@ export default {
   },
   methods: {
     async get_data() {
-      console.log("データ取得開始")
       const data = await this.$store.dispatch("get_book_id", this.$route.query.id)
 
       if (data == "ERR") {
@@ -112,8 +111,6 @@ export default {
       this.description = data.description
       this.secret = data.secret
       this.id = this.$route.query.id
-
-      console.log("データ取得完了", data)
 
       this.$nextTick(() => this.is_saved = true)
     },
