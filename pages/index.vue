@@ -26,7 +26,7 @@
               <div class="message-header">
                 <p>重要な通知</p>
               </div>
-              <div class="message-body" v-html="important_msg">
+              <div class="message-body content" v-html="important_msg">
               </div>
             </article>
           </div>
@@ -37,7 +37,7 @@
               <div class="message-header">
                 <p>割とどうでも良い通知</p>
               </div>
-              <div class="message-body" v-html="msg">
+              <div class="message-body content" v-html="msg">
               </div>
             </article>
           </div>
