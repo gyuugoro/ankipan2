@@ -10,17 +10,13 @@
       </div>
 
     </transition-group>
-    <div class="block" key="last button" v-if="is_little">
-      <button key="control button" class="is-fullwidth button is-rounded" @click="load"
-        :class="is_laoding ? 'is-loading' : ''">更に読み込む</button>
-    </div>
-
-    <div class="block" key="last button 2" v-else-if="data.length > 5">
-      <button key="control button" class="is-fullwidth button is-rounded" @click="click">{{
-        is_open
-        ?
-        '閉じる' : '開く'
-      }}</button>
+    <div class="block" key="last button 2" v-if="data.length > 5 || is_loading">
+      <button key="control button" class="is-fullwidth button is-rounded" @click="click"
+        :class="is_loading ? 'is-loading' : ''">{{
+          is_open
+          ?
+          '閉じる' : '開く'
+        }}</button>
     </div>
 
 
@@ -32,23 +28,17 @@ export default {
   data() {
     return {
       is_open: false,
-      is_laoding: false
     }
   },
   props: {
     name: String,
     data: Array,
-    is_little: Boolean
+    is_loading: Boolean
   },
   methods: {
     click() {
       this.is_open = !this.is_open
     },
-    load() {
-      this.$emit("load")
-      this.is_laoding = true
-      this.is_open = true
-    }
   },
 }
 </script>
