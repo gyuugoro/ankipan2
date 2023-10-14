@@ -54,6 +54,7 @@ export const actions = {
 
             const { query, where, orderBy, collection, getDocs, disableNetwork, enableNetwork, limit } = await import("firebase/firestore").catch((err) => console.log("ファイアストア関係ファイル読み込みエラー：" + err.message))
 
+            commit("set_books_start")
 
             //オフライン取得
             disableNetwork(db)
@@ -65,7 +66,6 @@ export const actions = {
             if (querySnapshot.empty) {
                 //オフラインがなければオンライン１０こだけ取得
                 querySnapshot = await getDocs(q_min).catch((err) => console.log("全単語（１０）取得エラー:" + err.message));
-                commit("set_books_start")
             }
 
             const data = []
