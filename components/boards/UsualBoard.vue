@@ -4,8 +4,8 @@
       <button class="button is-rounded is-static">{{ i + 1 }}</button>
     </p>
     <p class="control is-expanded">
-      <input :value="(img ? '（画像あり）' : '') + 'Q:' + question + ' A:' + answer"
-        class="block button is-fullwidth is-rounded" readonly @click="click" />
+      <input type="text" :value="(img ? '（画像あり）' : '') + 'Q:' + question + ' A:' + answer"
+        class="block input is-fullwidth is-rounded" readonly @click="click" />
     </p>
   </div>
 </template>

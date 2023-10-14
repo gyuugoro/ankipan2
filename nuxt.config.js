@@ -19,16 +19,13 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: "stylesheet", href: "https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" },
-      { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      { rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: "" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Russo+One&display=swap" },
     ]
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    "./assets/main.css"
+    "./assets/main.css",
+    "bulma/css/bulma.css"
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins

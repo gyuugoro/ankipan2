@@ -69,7 +69,6 @@
 </template>
 
 <script>
-import { upload_img, download_img } from '../../firebase'
 
 export default {
   props: {
@@ -121,13 +120,13 @@ export default {
       const now = Date.now()
 
       const image = e.target.files[0]
-      const path = await upload_img(image, now)
+      const path = await this.$store.dispatch("upload_img", [image, now])
       console.log(path.ref._location.path)
       this.img = path.ref._location.path
     },
     async download() {
       if (this.img != "") {
-        this.url = await download_img(this.img)
+        this.url = await this.$store.dispatch("download_img", this.img)
       }
     },
     arup() {

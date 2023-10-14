@@ -9,21 +9,21 @@
     </appbar>
 
     <transition-group name="books" tag="div">
-      <cards-first-card key="First" @next="next" v-show="card_type == 'First' && title != '読み込み中'" :title="title"
+      <lazy-cards-first-card key="First" @next="next" v-if="card_type == 'First' && title != '読み込み中'" :title="title"
         :description="description" :disabled="disabled" />
 
-      <cards-yontaku-card key="Yontaku" @next="next" v-show="num % 2 == 0 && card_type == 'Yontaku'" :question="question"
-        :answer="answer" :selection="selection" :img="img" />
-      <cards-yontaku-card key="Yontaku2" @next="next" v-show="num % 2 == 1 && card_type == 'Yontaku'" :question="question"
-        :answer="answer" :selection="selection" :img="img" />
+      <lazy-cards-yontaku-card key="Yontaku" @next="next" v-if="num % 2 == 0 && card_type == 'Yontaku'"
+        :question="question" :answer="answer" :selection="selection" :img="img" />
+      <lazy-cards-yontaku-card key="Yontaku2" @next="next" v-if="num % 2 == 1 && card_type == 'Yontaku'"
+        :question="question" :answer="answer" :selection="selection" :img="img" />
 
-      <cards-check-card key="Check" @next="next" v-show="num % 2 == 0 && card_type == 'Check'" :question="question"
+      <lazy-cards-check-card key="Check" @next="next" v-if="num % 2 == 0 && card_type == 'Check'" :question="question"
         :answer="answer" :img="img" />
-      <cards-check-card key="Check2" @next="next" v-show="num % 2 == 1 && card_type == 'Check'" :question="question"
+      <lazy-cards-check-card key="Check2" @next="next" v-if="num % 2 == 1 && card_type == 'Check'" :question="question"
         :answer="answer" :img="img" />
 
-      <cards-rest-card key="Rest" @next="next" v-show="card_type == 'Rest'" />
-      <cards-finish-card key="Finish" @next="restart" v-show="card_type == 'Finish'"
+      <lazy-cards-rest-card key="Rest" @next="next" v-if="card_type == 'Rest'" />
+      <lazy-cards-finish-card key="Finish" @next="restart" v-if="card_type == 'Finish'"
         :allconp="this.miss_question.length == 0" />
     </transition-group>
 
@@ -31,9 +31,6 @@
 </template>
 
 <script>
-import { get_book_id } from '../firebase'
-
-
 export default {
   head() {
     return {
@@ -254,7 +251,7 @@ export default {
       //データ取得
 
       console.log("データ取得開始")
-      this.data = await get_book_id(this.$route.query.id)
+      this.data = await this.$store.dispatch("get_book_id", this.$route.query.id)
 
       if (this.data == "ERR") {
         this.$router.push("/error")

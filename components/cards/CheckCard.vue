@@ -47,7 +47,6 @@
 </template>
 
 <script>
-import { download_img } from "../../firebase.js"
 
 export default {
   props: {
@@ -72,13 +71,16 @@ export default {
     },
     async download() {
       if (this.img != "") {
-        this.url = await download_img(this.img)
+        this.url = await this.$store.dispatch("download_img", this.img)
       }
     }
   },
   watch: {
-    img() {
-      this.download()
+    img: {
+      handler() {
+        this.download()
+      },
+      immediate: true
     }
   }
 

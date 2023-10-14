@@ -63,24 +63,24 @@ import { getAuth, setPersistence, browserLocalPersistence } from "firebase/auth"
 const auth = getAuth(app)
 setPersistence(auth, browserLocalPersistence)
 
-const signInAnonymous = async () => {
+const sign_in_anonymously = async () => {
 
   const time = Date.now()
 
-  console.log("signInAnonymous_start")
+  console.log("sign_in_anonymously_start")
 
   const { signInAnonymously } = await import("firebase/auth").catch((err) => console.log("オース関係ファイル読み込みエラー：" + err.message))
 
   await signInAnonymously(auth).catch((err) => console.log("匿名サインインエラー:" + err.message))
 
-  console.log("signInAnonymous_end", `Time:${Date.now() - time}`)
+  console.log("sign_in_anonymously_end", `Time:${Date.now() - time}`)
 }
 
-const onSignIn = async (play) => {
+const on_sign_in = async (play) => {
 
   const time = Date.now()
 
-  console.log("onSignIn_start")
+  console.log("on_sign_in_start")
 
   const { onAuthStateChanged } = await import("firebase/auth").catch((err) => console.log("オース関係ファイル読み込みエラー：" + err.message))
 
@@ -91,14 +91,14 @@ const onSignIn = async (play) => {
     play(user)
   })
 
-  console.log("onSignIn_end", `Time:${Date.now() - time}`)
+  console.log("on_sign_in_end", `Time:${Date.now() - time}`)
 }
 
-const signInGoogle = async () => {
+const sign_in_with_google = async () => {
 
   const time = Date.now()
 
-  console.log("signInGoogle_start")
+  console.log("sign_in_with_google_start")
 
   const { GoogleAuthProvider, signInWithPopup } = await import("firebase/auth").catch((err) => console.log("オース関係ファイル読み込みエラー：" + err.message))
 
@@ -106,44 +106,44 @@ const signInGoogle = async () => {
   const provider = new GoogleAuthProvider();
   await signInWithPopup(auth, provider).catch((err) => console.log("Googleサインインエラー:" + err.message))
 
-  console.log("signInGoogle_end", `Time:${Date.now() - time}`)
+  console.log("sign_in_with_google_end", `Time:${Date.now() - time}`)
 }
 
-const linkGoogle = async () => {
+const link_with_google = async () => {
 
   const time = Date.now()
 
-  console.log("linkGoogle_start")
+  console.log("link_with_google_start")
 
-  const { GoogleAuthProvider, linkWithRedirect } = await import("firebase/auth").catch((err) => console.log("オース関係ファイル読み込みエラー：" + err.message))
+  const { GoogleAuthProvider, linkWithPopup } = await import("firebase/auth").catch((err) => console.log("オース関係ファイル読み込みエラー：" + err.message))
 
 
   const provider = new GoogleAuthProvider();
-  await linkWithRedirect(auth.currentUser, provider).catch((err) => console.log("Googleリンクエラー:" + err.message))
+  await linkWithPopup(auth.currentUser, provider).catch((err) => console.log("Googleリンクエラー:" + err.message))
 
-  console.log("linkGoogle_end", `Time:${Date.now() - time}`)
+  console.log("link_with_google_end", `Time:${Date.now() - time}`)
 }
 
-const signOutAll = async () => {
+const sign_out = async () => {
 
   const time = Date.now()
 
-  console.log("signOutAll_start")
+  console.log("sign_out_start")
 
   const { signOut } = await import("firebase/auth").catch((err) => console.log("オース関係ファイル読み込みエラー：" + err.message))
 
 
   await signOut(auth).catch((err) => console.log("サインアウトエラー:" + err.message))
 
-  console.log("signOutAll_end", `Time:${Date.now() - time}`)
+  console.log("sign_out_end", `Time:${Date.now() - time}`)
 
 }
 
-const removeUser = async () => {
+const remove_user = async () => {
 
   const time = Date.now()
 
-  console.log("removeUser_start")
+  console.log("remove_user_start")
 
   const { deleteUser } = await import("firebase/auth").catch((err) => console.log("オース関係ファイル読み込みエラー：" + err.message))
 
@@ -152,7 +152,7 @@ const removeUser = async () => {
     await deleteUser(auth.currentUser).catch((err) => console.log("アカウント削除エラー:" + err.message))
   }
 
-  console.log("removeUser_end", `Time:${Date.now() - time}`)
+  console.log("remove_user_end", `Time:${Date.now() - time}`)
 }
 
 
@@ -162,7 +162,7 @@ import { initializeFirestore, persistentLocalCache, persistentMultipleTabManager
 const db = initializeFirestore(app,
   {
     localCache:
-      persistentLocalCache({ tabManager: persistentMultipleTabManager(), cacheSizeBytes: 10485760 }),
+      persistentLocalCache({ tabManager: persistentMultipleTabManager(), cacheSizeBytes: 1024 * 1024 }),
 
   });
 // const db = getFirestore(app)
@@ -172,7 +172,7 @@ const get_book_id = async (id) => {
 
   const time = Date.now()
 
-  console.log("get_book_id_start")
+  console.log("get_book_id_start", id)
 
 
   const { doc, getDoc } = await import("firebase/firestore").catch((err) => console.log("ファイアストア関係ファイル読み込みエラー：" + err.message))
@@ -264,11 +264,11 @@ const get_mybooks_little = async () => {
 }
 
 //公開、非公開を変更
-const change_public = async (id, isPublic) => {
+const change_public = async (id, is_public) => {
 
   const time = Date.now()
 
-  console.log("change_public_start")
+  console.log("change_public_start", id, is_public)
 
 
   const { doc, getDoc, updateDoc } = await import("firebase/firestore").catch((err) => console.log("ファイアストア関係ファイル読み込みエラー：" + err.message))
@@ -278,7 +278,7 @@ const change_public = async (id, isPublic) => {
 
   if (docSnap.exists()) {
     await updateDoc(doc(db, "Books", id), {
-      public: isPublic,
+      public: is_public,
     }).catch((err) => console.log("公開非公開変更エラー:" + err.message))
   }
 
@@ -290,7 +290,7 @@ const change_all = async (id, [question, answer, name, description, secret, img]
 
   const time = Date.now()
 
-  console.log("change_all_start")
+  console.log("change_all_start", id, question, answer, name, description, secret, img)
 
 
   const { doc, addDoc, collection, getDoc, updateDoc } = await import("firebase/firestore").catch((err) => console.log("ファイアストア関係ファイル読み込みエラー：" + err.message))
@@ -351,7 +351,7 @@ const upload_img = async (file, folder) => {
 
   const time = Date.now()
 
-  console.log("upload_img_start")
+  console.log("upload_img_start", file, folder)
 
   const { ref, uploadBytes } = await import("firebase/storage").catch((err) => console.log("ストレージ関係ファイル読み込みエラー：" + err.message))
 
@@ -368,7 +368,7 @@ const download_img = async (folder) => {
 
   const time = Date.now()
 
-  console.log("download_img_start")
+  console.log("download_img_start", folder)
   const { ref, getDownloadURL } = await import("firebase/storage").catch((err) => console.log("ストレージ関係ファイル読み込みエラー：" + err.message))
 
 
@@ -389,12 +389,12 @@ export {
   change_public,
   change_all,
 
-  onSignIn,
-  signInGoogle,
-  linkGoogle,
-  signInAnonymous,
-  signOutAll,
-  removeUser,
+  on_sign_in,
+  sign_in_with_google,
+  link_with_google,
+  sign_in_anonymously,
+  sign_out,
+  remove_user,
 
   get_config,
 

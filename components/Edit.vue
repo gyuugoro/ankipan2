@@ -14,7 +14,8 @@
 
     </transition-group>
 
-    <button @click="newone" class="button is-success is-light is-outlined is-rounded is-fullwidth">+</button>
+    <input type="button" value="+" @click="newone"
+      class="button is-success is-light is-outlined is-rounded is-fullwidth" />
   </div>
 </template>
 

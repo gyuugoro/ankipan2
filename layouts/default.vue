@@ -1,68 +1,15 @@
 <template>
-  <div>
-    <transition name="logo">
-      <div class="loading" v-if="loading">
-        <div class="block has-text-centered">
-          <h3 class="subtitle is-4">Welcome to</h3>
-          <h1 class="title is-1 logotitle">Ankipan2</h1>
-        </div>
-
-      </div>
-    </transition>
-
-    <section class="section">
-      <div class="container is-max-desktop">
-        <Nuxt />
-      </div>
-    </section>
-  </div>
+  <section class="section">
+    <div class="container is-max-desktop">
+      <Nuxt />
+    </div>
+  </section>
 </template>
 
 <script>
 export default {
-  data() {
-    return {
-      loading: true
-    }
-  },
-  mounted() {
-    this.loading = false
+  created() {
+    this.$store.dispatch("created")
   }
 }
 </script>
-
-<style scoped>
-.loading {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background: white;
-  z-index: 100;
-}
-
-.loading div {
-  position: absolute;
-  width: 100%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.logotitle {
-  font-family: 'Russo One', sans-serif;
-}
-
-.logo-leave-active {
-  transition: opacity 1s 2s;
-}
-
-
-.logo-leave-active div {
-  transition: opacity 1s 1s;
-}
-
-.logo-leave-to,
-.logo-leave-to div {
-  opacity: 0;
-}
-</style>

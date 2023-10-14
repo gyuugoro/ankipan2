@@ -31,74 +31,68 @@
 
 
 
-      <transition-group tag="div" name="books" mode="out-in" class="column is-7">
+      <transition name="books" mode="out-in">
 
-        <div key="プログレス" v-show="progress != 10" class="block">
-          <progress class=" progress is-primary" :value="progress" max="10"></progress>
-        </div>
-
-
-        <div key="ローディング" class="block" v-if="loading || loading2">
-
-          <h3 class="title is-3 has-text-centered">
+        <div key="プログレス" v-if="progress != 4" class="block column is-7">
+          <progress class=" progress is-primary block" :value="progress" max="4"></progress>
+          <h3 class="block title is-3 has-text-centered">
             NOW LOADING...
           </h3>
         </div>
 
-        <div v-else key="読み込み結果" class="block">
 
-          <lazy-books key=" 自作単語帳一覧" name="You made" :data="myBooks" />
+        <div key="読み込み結果" v-else class="block column is-7">
 
-          <lazy-books key="単語帳一覧" name="Public" :data="data" />
+          <lazy-books key=" 自作単語帳一覧" name="You made" :data="this.$store.state.my_books"
+            :is_little="this.$store.state.my_books_level <= 1" @load="load_my_books" />
 
+          <lazy-books key="単語帳一覧" name="Public" :data="this.$store.state.books"
+            :is_little="this.$store.state.books_level <= 1" @load="load_books" />
+
+          <div class="block">
+            <h3 class="title is-3 has-text-centered">More</h3>
+          </div>
+
+
+          <div class="block">
+            <share />
+          </div>
+
+          <div class="block"> <nuxt-link to="/make"
+              class="button is-fullwidth is-rounded is-success is-light is-outlined">単語帳を作成</nuxt-link>
+          </div>
+          <div class="block"> <nuxt-link to="/manage"
+              class="button is-fullwidth is-rounded is-info is-light is-outlined">単語帳を管理</nuxt-link>
+          </div>
+          <div class="block"> <a href="https://instagram.com/shotaro20060930?igshid=NzZlODBkYWE4Ng==" target="_blank"
+              class="button is-fullwidth is-rounded is-danger is-light is-outlined">製作者と連絡を取る</a>
+          </div>
+          <div class="block"> <nuxt-link to="/about"
+              class="button is-fullwidth is-rounded is-dark is-outlined is-light">このアプリについて</nuxt-link>
+          </div>
 
         </div>
 
-      </transition-group>
+      </transition>
 
 
-      <div class="column is-7">
-        <h3 class="title is-3 has-text-centered">More</h3>
-      </div>
-
-
-      <div class="column is-7">
-        <share />
-      </div>
-
-      <div class="column is-7"> <nuxt-link to="/make"
-          class="button is-fullwidth is-rounded is-success is-light is-outlined">単語帳を作成</nuxt-link>
-      </div>
-      <div class="column is-7"> <nuxt-link to="/manage"
-          class="button is-fullwidth is-rounded is-info is-light is-outlined">単語帳を管理</nuxt-link>
-      </div>
-      <div class="column is-7"> <a href="https://instagram.com/shotaro20060930?igshid=NzZlODBkYWE4Ng==" target="_blank"
-          class="button is-fullwidth is-rounded is-danger is-light is-outlined">Instagram</a>
-      </div>
-      <div class="column is-7"> <nuxt-link to="/about"
-          class="button is-fullwidth is-rounded is-dark is-outlined is-light">このアプリについて</nuxt-link>
-      </div>
 
     </div>
   </div>
 </template>
 
 <script>
-import { get_all, get_mybooks, get_config, get_all_little, get_mybooks_little } from '../firebase';
-
 export default {
   head() {
     return {
-      title: "Home"
+      title: "Home",
+      link: [
+        { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Russo+One&display=swap&text=Ankipan2" },
+      ]
     }
   },
   data() {
     return {
-      data: [],
-      myBooks: [],
-      topic_name: "",
-      loading: true,
-      loading2: true,
       important_msg: "",
       msg: "",
       progress: 0
@@ -112,99 +106,34 @@ export default {
 
       this.progress = 1
 
-      
-      
-      get_all_little().then((docs) => {
-
-      if (docs) {
-        this.data = []
-
-        docs.forEach((doc) => {
-          this.data.push({
-            name: doc.data().name,
-            id: doc.id
-          })
-        })
-      }
-
-      this.progress += 1
-
-      this.loading = false
-
-        get_all().then((docs2) => {
-
-      if (docs2) {
-        this.data = []
-
-        docs2.forEach((doc) => {
-          this.data.push({
-            name: doc.data().name,
-            id: doc.id
-          })
-        })
-      }
-
-      this.progress += 2
-
+      this.$store.dispatch("get_msg").then((msg) => {
+        this.msg = msg[0]
+        this.important_msg = msg[1]
+        this.progress += 1
       })
 
+      this.$store.dispatch("books_level_1", false).then(() => {
+        this.data = this.$store.state.books
+        this.progress += 1
+        this.loading = false
       })
 
-
-      get_mybooks_little().then((mydocs) => {
-
-      if (mydocs) {
-        this.myBooks = []
-
-        mydocs.forEach((doc) => {
-          this.myBooks.push({
-            name: doc.data().name,
-            id: doc.id,
-          })
-        })
-      }
-
-      this.progress += 1
-
-      this.loading2 = false
-
-        get_mybooks().then((mydocs2) => {
-
-      if (mydocs2) {
-        this.myBooks = []
-
-        mydocs2.forEach((doc) => {
-          this.myBooks.push({
-            name: doc.data().name,
-            id: doc.id,
-          })
-        })
-      }
-
-      this.progress += 3
-
-      })
-
-      })
-
-
-      get_config("important_msg").then((v) => {
-
-      this.important_msg = v
-
-      this.progress += 1
-
-      })
-
-      get_config("usual_msg").then((v) => {
-
-      this.msg = v
-
-      this.progress += 1
-
+      this.$store.dispatch("my_books_level_1", false).then(() => {
+        this.my_books = this.$store.state.my_books
+        this.progress += 1
+        this.loading_2 = false
       })
 
     },
+    async load_books() {
+      await this.$store.dispatch("books_level_2", false)
+      this.data = this.$store.state.books
+    },
+    async load_my_books() {
+      await this.$store.dispatch("my_books_level_2", false)
+      this.my_books = this.$store.state.my_books
+
+    }
   },
   mounted() {
     scrollTo({ top: 0 })
@@ -225,7 +154,7 @@ export default {
 }
 
 .books-enter {
-  transform: scaleX(0);
+  opacity: 0;
   /* opacity: 0; */
 }
 

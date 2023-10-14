@@ -38,7 +38,8 @@
       <div class="block content">
 
         <p>作業は１分ごとに自動保存されますが、この保存ボタンを押すことで手動保存することもできます。</p>
-        <button class="block button is-rounded is-fullwidth" :disabled="isSaved" @click="save">{{ isSaved ? '保存済み' : '保存'
+        <button class="block button is-rounded is-fullwidth" :disabled="is_saved" @click="save">{{ is_saved ? '保存済み' :
+          '保存'
         }}</button>
       </div>
 
@@ -51,7 +52,6 @@
 </template>
 
 <script>
-import { get_book_id, change_all, onSignIn } from '../firebase';
 
 export default {
   head() {
@@ -61,7 +61,7 @@ export default {
   },
   data() {
     return {
-      isSaved: true,
+      is_saved: true,
       question: [],
       answer: [],
       img: [],
@@ -76,9 +76,8 @@ export default {
 
     scrollTo({ top: 0 })
 
-
-    onSignIn((user) => {
-      if (!user) {
+    this.$store.dispatch("on_change_user", (user) => {
+      if (user == "") {
         this.$router.push("/manage")
       }
     })
@@ -88,7 +87,7 @@ export default {
     }
 
     this.timer_id = setInterval(async () => {
-      if (!this.isSaved) {
+      if (!this.is_saved) {
         console.log("保存します。")
 
         await this.save()
@@ -100,7 +99,7 @@ export default {
   methods: {
     async get_data() {
       console.log("データ取得開始")
-      const data = await get_book_id(this.$route.query.id)
+      const data = await this.$store.dispatch("get_book_id", this.$route.query.id)
 
       if (data == "ERR") {
         this.$router.push("/error")
@@ -116,48 +115,48 @@ export default {
 
       console.log("データ取得完了", data)
 
-      this.$nextTick(() => this.isSaved = true)
+      this.$nextTick(() => this.is_saved = true)
     },
     async save() {
-      const id = await change_all(this.id, [this.question, this.answer, this.name, this.description, this.secret, this.img])
+      const id = await this.$store.dispatch("change_all", [this.id, this.question, this.answer, this.name, this.description, this.secret, this.img])
       this.id = id
-      this.isSaved = true
+      this.is_saved = true
     },
     add() {
       this.answer.push("")
       this.question.push("")
       this.img.push("")
 
-      this.isSaved = false
+      this.is_saved = false
     },
     remove([i]) {
       this.answer.splice(i, 1)
       this.question.splice(i, 1)
       this.img.splice(i, 1)
 
-      this.isSaved = false
+      this.is_saved = false
     },
     update([i, question, answer, img]) {
       this.answer[i] = answer
       this.question[i] = question
       this.img[i] = img
 
-      this.isSaved = false
+      this.is_saved = false
     }
   },
   watch: {
     description() {
-      this.isSaved = false
+      this.is_saved = false
     },
     secret() {
-      this.isSaved = false
+      this.is_saved = false
     },
     name() {
-      this.isSaved = false
+      this.is_saved = false
     },
   },
   async beforeDestroy() {
-    if (!this.isSaved) {
+    if (!this.is_saved) {
       console.log("最期なので保存")
       await this.save()
     }
