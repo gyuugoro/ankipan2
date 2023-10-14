@@ -8,7 +8,7 @@
 
     </appbar>
 
-    <transition-group name="books" tag="div">
+    <transition-group name="books" tag="div" mode="out-in">
       <lazy-cards-first-card key="First" @next="next" v-if="card_type == 'First'" :title="title"
         :description="description" :disabled="disabled" />
 
