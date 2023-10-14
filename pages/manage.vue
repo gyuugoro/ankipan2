@@ -6,7 +6,7 @@
       <div v-if="this.$store.state.user == ''" class="block mt-6">
         <h3>サインイン</h3>
         <p>単語帳を作成するにはサインインする必要があります。</p>
-        <p>Googleに比べて匿名アカウントは<strong>かなり不安定</strong>なため。あらかじめご了承ください。</p>
+        <p>Googleに比べて匿名アカウントはかなり不安なため。あらかじめご了承ください。</p>
         <div class="columns block is-multiline is-centered">
           <div class="column is-7">
             <button class="button is-fullwidth is-rounded" @click="sign_in_with_google">Googleで続ける</button>
@@ -102,7 +102,7 @@ export default {
     scrollTo({ top: 0 })
   },
   created() {
-    this.$store.dispatch("my_books_level_2")
+    this.$store.dispatch("my_books_level_2", true)
   },
   methods: {
     async sign_in_with_google() {
