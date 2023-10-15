@@ -31,14 +31,9 @@ const auth = getAuth(app)
 setPersistence(auth, browserLocalPersistence)
 
 //Firestore
-import { initializeFirestore, persistentLocalCache, persistentMultipleTabManager } from "firebase/firestore"
+import { getFirestore } from "firebase/firestore"
 
-const db = initializeFirestore(app,
-  {
-    localCache:
-      persistentLocalCache({ tabManager: persistentMultipleTabManager(), cacheSizeBytes: 1024 * 1024 }),
-
-  });
+const db = getFirestore(app)
 
 //Storage
 import { getStorage } from "firebase/storage"
