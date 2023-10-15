@@ -12,6 +12,12 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
+//Analytics
+import { getAnalytics } from "firebase/analytics"
+import { getPerformance } from "firebase/performance"
+getAnalytics(app)
+getPerformance(app)
+
 //RemoteConfig
 import { getRemoteConfig } from "firebase/remote-config"
 const remoteConfig = getRemoteConfig(app);
