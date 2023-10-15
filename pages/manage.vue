@@ -54,25 +54,26 @@
         </div>
 
 
-        <p v-show="this.$store.state.my_books.length != 0">一番右のボタンで公開と非公開を切り替えれます。</p>
-        <p v-show="this.$store.state.my_books.length != 0">編集ボタンで単語帳の内容を変えることができます。編集を開始すると自動的に非公開になります。</p>
+        <p v-show="data.id.length != 0">一番右のボタンで公開と非公開を切り替えれます。</p>
+        <p v-show="data.id.length != 0">編集ボタンで単語帳の内容を変えることができます。編集を開始すると自動的に非公開になります。</p>
 
 
 
-        <div class="field has-addons" v-for="v in this.$store.state.my_books" :key="v.id">
+        <div class="field has-addons" v-for="(v, i) in data.id" :key="v">
           <div class="control is-expanded">
-            <input class="input is-rounded" type="text" :value="v.name" readonly
-              @click="$router.push(`/books?id=${v.id}`)">
+            <input class="input is-rounded" type="text" :value="data.name[i]" readonly
+              @click="$router.push(`/books?id=${v}`)">
           </div>
           <div class="control">
-            <nuxt-link :to="'/make?id=' + v.id" class="button is-rounded">
+            <nuxt-link :to="'/make?id=' + v" class="button is-rounded">
               編集
             </nuxt-link>
           </div>
           <div class="control">
-            <button class="button is-rounded is-light is-outlined" :class="v.is_public ? 'is-success' : 'is-danger'"
-              @click="change_public(v.id, !v.is_public)">
-              {{ v.is_public ? '公開中' : '非公開' }}
+            <button class="button is-rounded is-light is-outlined"
+              :class="(alldata.id.includes(v)) ? 'is-success' : 'is-danger'"
+              @click="change_public(v, !(alldata.id.includes(v)))">
+              {{ (alldata.id.includes(v)) ? '公開中' : '非公開' }}
             </button>
           </div>
         </div>
@@ -101,11 +102,6 @@ export default {
   mounted() {
     scrollTo({ top: 0 })
   },
-  created() {
-    this.$store.dispatch("on_change_user", (() => {
-      this.$store.dispatch("get_my_books")
-    }))
-  },
   methods: {
     async sign_in_with_google() {
       await this.$store.dispatch("sign_in_with_google")
@@ -126,6 +122,18 @@ export default {
       await this.$store.dispatch("remove_user")
     }
   },
+  computed: {
+    data: {
+      get() {
+        return this.$store.state.my_books
+      }
+    },
+    alldata: {
+      get() {
+        return this.$store.state.books
+      }
+    }
+  }
 }
 </script>
 

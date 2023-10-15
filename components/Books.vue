@@ -3,20 +3,20 @@
     <h3 class="title is-3 has-text-centered">{{ name }}</h3>
 
     <transition-group name="books" mode="out-in" tag="div" class="block">
-      <div class="block" v-for="v in (!is_open ? data.slice(0, 10) : data)" :key="v.id">
-        <nuxt-link :to="'/books/?id=' + v.id" class="button is-rounded is-fullwidth is-success is-inverted">{{
-          v.name
+      <div class="block" v-for="(v, i) in (!is_open ? data.id.slice(0, 10) : data.id)" :key="v">
+        <nuxt-link :to="'/books/?id=' + v" class="button is-rounded is-fullwidth is-success is-inverted">{{
+          data.name[i]
         }}</nuxt-link>
       </div>
 
     </transition-group>
-    <div class="block" key="last button 2" v-if="data.length > 10 || is_loading">
-      <button key="control button" class="is-fullwidth button is-rounded" @click="click"
-        :class="is_loading ? 'is-loading' : ''">{{
-          is_open
-          ?
-          '閉じる' : '開く'
-        }}</button>
+
+    <div class="block" key="last button 2" v-if="data.id.length > 10">
+      <button key="control button" class="is-fullwidth button is-rounded" @click="click">{{
+        is_open
+        ?
+        '閉じる' : '開く'
+      }}</button>
     </div>
 
 
@@ -32,8 +32,7 @@ export default {
   },
   props: {
     name: String,
-    data: Array,
-    is_loading: Boolean
+    data: Object,
   },
   methods: {
     click() {
