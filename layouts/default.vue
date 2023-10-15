@@ -10,6 +10,7 @@
 export default {
   created() {
     this.$store.dispatch("created")
+    this.$store.dispatch("get_books")
   }
 }
 </script>
