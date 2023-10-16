@@ -289,7 +289,7 @@ export default {
       this.miss_question = []
       this.miss_answer = []
       this.miss_img = []
-      this.num = 0
+      this.num = 1
 
       this.set_data()
     },
