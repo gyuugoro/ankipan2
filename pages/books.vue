@@ -290,7 +290,7 @@ export default {
     data_from_cache(){
       const cache = localStorage.getItem(this.$route.query.id)
       if(cache){
-        const json_cache = JSON..merge(cache)
+        const json_cache = JSON.merge(cache)
         this.miss_question = json_cache.miss_question
         this.miss_answer = json_cache.miss_answer
         this.miss_img = json_cache.miss_img
