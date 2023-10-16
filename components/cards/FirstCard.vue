@@ -8,6 +8,11 @@
     <control>
       <div class="column is-full">
         <button class="button is-fullwidth is-rounded" :class="disabled ? 'is-loading' : ''"
+          @click="() => $emit('continue', 0)">続きから</button>
+      </div>
+      
+      <div class="column is-full">
+        <button class="button is-fullwidth is-rounded" :class="disabled ? 'is-loading' : ''"
           @click="() => $emit('next', 0)">始める</button>
       </div>
 
@@ -27,7 +32,8 @@ export default {
   props: {
     title: String,
     description: String,
-    disabled: Boolean
+    disabled: Boolean,
+    continue:Boolean
   },
 }
 </script>
