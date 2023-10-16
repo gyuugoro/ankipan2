@@ -215,6 +215,8 @@ export default {
 
       this.num += 1
 
+      if(this.title != "間違いなおし")
+
       localStorage.setItem(this.$route.query.id,JSON.stringify({
         miss_question:this.miss_question,
         miss_answer:this.miss_answer,
