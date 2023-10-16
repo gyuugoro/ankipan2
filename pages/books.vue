@@ -215,7 +215,9 @@ export default {
 
       this.num += 1
 
-      if(this.title != "間違いなおし")
+      if(this.title != "間違いなおし"){
+
+      
 
       localStorage.setItem(this.$route.query.id,JSON.stringify({
         miss_question:this.miss_question,
@@ -223,6 +225,8 @@ export default {
         miss_img:this.miss_img,
         num:this.num
       }))
+
+    }
 
       this.read()
 
