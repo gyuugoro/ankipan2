@@ -29,6 +29,7 @@ export default {
   top: 0px;
   left: 0px;
   width: 100vw;
+  z-index: 100;
 }
 
 .div2 {

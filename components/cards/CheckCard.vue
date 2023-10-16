@@ -28,7 +28,7 @@
     <Control>
 
       <div class="column is-full" v-show="!show_answer">
-        <button class="button is-fullwidth is-rounded" @click="() => {show_answer = true; $refs.answer.scrollIntoView();}">答え合わせ</button>
+        <button class="button is-fullwidth is-rounded" @click="show">答え合わせ</button>
       </div>
 
       <div class="column is-full" v-show="show_answer">
@@ -71,6 +71,12 @@ export default {
       if (this.img != "") {
         this.url = await this.$store.dispatch("download_img", this.img)
       }
+    },
+    show(){
+      this.show_answer = true
+      this.$nextTick(() => {
+        this.$refs.answer.scrollIntoView()
+      })
     }
   },
   watch: {
