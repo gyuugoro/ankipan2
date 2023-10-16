@@ -74,9 +74,6 @@ export default {
     },
     show(){
       this.show_answer = true
-      this.$nextTick(() => {
-        this.$refs.answer.scrollIntoView()
-      })
     }
   },
   watch: {
