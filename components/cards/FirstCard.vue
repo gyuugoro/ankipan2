@@ -6,9 +6,9 @@
     <div class="block">{{ description }}</div>
 
     <control>
-      <div class="column is-full">
+      <div class="column is-full" v-show="continue">
         <button class="button is-fullwidth is-rounded" :class="disabled ? 'is-loading' : ''"
-          @click="() => $emit('continue', 0)">続きから</button>
+          @click="() => $emit('continue')">続きから</button>
       </div>
       
       <div class="column is-full">
