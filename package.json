@@ -12,7 +12,6 @@
   "dependencies": {
     "@nuxtjs/pwa": "^3.3.5",
     "@nuxtjs/router": "^1.7.0",
-    "@vercel/analytics": "^1.1.1",
     "bulma": "^0.9.4",
     "core-js": "^3.25.3",
     "firebase": "^10.4.0",
