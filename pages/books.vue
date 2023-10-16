@@ -213,8 +213,14 @@ export default {
 
       this.num += 1
 
-      this.read()
+      localStorage.setItem(this.$route.query.id,JSON.stringify({
+        miss_question:this.miss_question,
+        miss_answer:this.miss_answer,
+        miss_img:this.miss_img,
+        num:this.num
+      }))
 
+      this.read()
 
     },
     read() {
@@ -245,6 +251,7 @@ export default {
           break;
         case "Finish":
           this.card_type = "Finish"
+          localStorage.removeItem(this.$route.query.id)
           break;
       }
     },
