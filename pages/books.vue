@@ -10,7 +10,7 @@
 
     <transition-group name="books" tag="div" mode="out-in">
       <lazy-cards-first-card key="First" @next="next" v-if="card_type == 'First'" :title="title"
-        :description="description" :disabled="disabled" />
+        :description="description" :disabled="disabled" :continued="continued" @continued="data_from_cache" />
 
       <lazy-cards-yontaku-card key="Yontaku" @next="next" v-if="num % 2 == 0 && card_type == 'Yontaku'"
         :question="question" :answer="answer" :selection="selection" :img="img" />
@@ -40,6 +40,8 @@ export default {
 
   data() {
     return {
+
+      continued:false,
 
       data: {},
 
@@ -213,8 +215,20 @@ export default {
 
       this.num += 1
 
-      this.read()
+      if(this.title != "間違いなおし"){
 
+      
+
+      localStorage.setItem(this.$route.query.id,JSON.stringify({
+        miss_question:this.miss_question,
+        miss_answer:this.miss_answer,
+        miss_img:this.miss_img,
+        num:this.num
+      }))
+
+    }
+
+      this.read()
 
     },
     read() {
@@ -245,6 +259,7 @@ export default {
           break;
         case "Finish":
           this.card_type = "Finish"
+          localStorage.removeItem(this.$route.query.id)
           break;
       }
     },
@@ -277,6 +292,18 @@ export default {
       this.num = 0
 
       this.set_data()
+    },
+    data_from_cache(){
+      const cache = localStorage.getItem(this.$route.query.id)
+      if(cache){
+        const json_cache = JSON.parse(cache)
+        this.miss_question = json_cache.miss_question
+        this.miss_answer = json_cache.miss_answer
+        this.miss_img = json_cache.miss_img
+        this.num = json_cache.num
+
+        this.read()
+      }
     }
   },
 
@@ -284,6 +311,10 @@ export default {
     (async () => {
       await this.data_from_fb()
       this.set_data()
+      const cache = localStorage.getItem(this.$route.query.id)
+      if(cache){
+        this.continued = true
+      }
     })()
   },
 
