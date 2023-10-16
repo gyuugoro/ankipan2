@@ -10,7 +10,7 @@
 
     <transition-group name="books" tag="div" mode="out-in">
       <lazy-cards-first-card key="First" @next="next" v-if="card_type == 'First'" :title="title"
-        :description="description" :disabled="disabled" :continue="continue" @continue="data_from_cache" />
+        :description="description" :disabled="disabled" :continued="continued" @continued="data_from_cache" />
 
       <lazy-cards-yontaku-card key="Yontaku" @next="next" v-if="num % 2 == 0 && card_type == 'Yontaku'"
         :question="question" :answer="answer" :selection="selection" :img="img" />
@@ -41,7 +41,7 @@ export default {
   data() {
     return {
 
-      continue:false,
+      continued:false,
 
       data: {},
 
@@ -307,7 +307,7 @@ export default {
       this.set_data()
       const cache = localStorage.getItem(this.$route.query.id)
       if(cache){
-        this.continue = true
+        this.continued = true
       }
     })()
   },
