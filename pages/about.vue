@@ -61,7 +61,7 @@
 
       <h3>PWA</h3>
       <a href="https://web.dev/progressive-web-apps/" target="_blank">https://web.dev/progressive-web-apps/</a>
-      <p>最新技術を使用しオフラインでも動作するようにしました。</p>
+      <p>最新技術を利用し、読み込みを高速化しました。</p>
 
       <h3>Bulma</h3>
       <a href="https://bulma.io/" target="_blank">https://bulma.io/</a>

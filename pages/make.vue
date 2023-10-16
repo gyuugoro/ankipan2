@@ -77,7 +77,7 @@ export default {
     scrollTo({ top: 0 })
 
     this.$store.dispatch("on_change_user", (user) => {
-      if (user == "") {
+      if (!user) {
         this.$router.push("/manage")
       }
     })

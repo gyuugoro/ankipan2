@@ -1,309 +1,295 @@
 //サーバーとのやり取りは全てここで行うこと！
 
+import { auth, db, storage, remoteConfig } from "../plugins/firebase.client"
+
 export const state = () => ({
-    books: [],
-    my_books: [],
-    books_level: 0,
-    my_books_level: 0,
+    books: { id: [], name: [] },
+    my_books: { id: [], name: [] },
     user: ""
 })
 
 export const mutations = {
-    books_level_1(state, data) {
+    set_books(state, data) {
         state.books = data
-        state.books_level = 1
     },
-    my_books_level_1(state, data) {
+    set_mybooks(state, data) {
         state.my_books = data
-        state.my_books_level = 1
     },
-    books_level_2(state, data) {
-        state.books = data
-        state.books_level = 2
+    set_user(state, user) {
+        if (user) {
+            if (user.isAnonymous) {
+                state.user = "匿名"
+            } else {
+                state.user = "Google"
+            }
+        } else {
+            state.user = ""
+        }
     },
-    my_books_level_2(state, data) {
-        state.my_books = data
-        state.my_books_level = 2
-    },
-    books_level_3(state, data) {
-        state.books = data
-        state.books_level = 3
-    },
-    my_books_level_3(state, data) {
-        state.my_books = data
-        state.my_books_level = 3
-    },
-    set_user(state, data) {
-        state.user = data
-    }
 }
 
 export const actions = {
-    async created({ dispatch, commit, state }) {
+    async created({ dispatch, commit }) {
 
+        dispatch("on_change_user", ((user) => {
+            commit("set_user", user)
+            dispatch("get_my_books")
+        }))
 
-        const { on_sign_in } = await import("../firebase").catch((err) => console.log("関係ファイル読み込みエラー", err.message))
-        on_sign_in((user) => {
-            if (user) {
-                if (user.isAnonymous) {
-                    commit("set_user", "匿名")
-                } else {
-                    commit("set_user", "Google")
-                }
-            } else {
-                commit("set_user", "")
-            }
-
-            if (state.my_books_level == 2) {
-                dispatch("my_books_level_2", true)
-            } else if (state.my_books_level == 3) {
-                dispatch("my_books_level_3", true)
-            }
-        })
+        dispatch("on_change_cards", (() => {
+            dispatch("get_books")
+            dispatch("get_my_books")
+        }))
     },
-    async books_level_1({ dispatch, commit, state }, is_force) {
-
-        if (state.books_level <= 0 || is_force) {
-
-
-            const { get_all_little_cache } = await import("../firebase").catch((err) => console.log("関係ファイル読み込みエラー", err.message))
-            const docs = await get_all_little_cache()
+    async get_books({ commit }) {
+        const time = Date.now()
+        console.log("get_books_start")
 
 
-            if (docs.empty) {
+        const { doc, getDoc } = await import("firebase/firestore")
 
-                await dispatch("books_level_2")
 
-            } else {
+        const docRef = doc(db, "Cards", "public");
 
-                const data = []
-                if (docs) {
-                    docs.forEach((doc) => {
-                        data.push({
-                            name: doc.data().name,
-                            id: doc.id
-                        })
-                    })
-                }
-                commit("books_level_1", data)
-            }
+        const docSnap = await getDoc(docRef).catch((err) => console.log("get_books_取得エラー:" + err.message));
+
+        if (docSnap.exists()) {
+            commit("set_books", docSnap.data())
+            console.log("get_books_end", docSnap.data(), `Time:${Date.now() - time}`)
         }
     },
-    async my_books_level_1({ commit, state, dispatch }, is_force) {
+    async get_my_books({ commit, state }) {
+        const time = Date.now()
+        console.log("get_mybooks_start")
 
-        console.log("おやおやおやおや", state.user)
-
-        if (state.user != "") {
-
-
-            if (state.my_books_level <= 0 || is_force) {
-
-
-                const { get_mybooks_little_cache } = await import("../firebase").catch((err) => console.log("関係ファイル読み込みエラー", err.message))
-                const docs = await get_mybooks_little_cache()
-
-                if (docs.empty) {
-
-                    await dispatch("my_books_level_2")
-
-                } else {
-
-
-                    const data = []
-
-                    if (docs) {
-
-                        docs.forEach((doc) => {
-                            data.push({
-                                name: doc.data().name,
-                                id: doc.id,
-                                is_public: doc.data().public
-                            })
-                        })
-                    }
-
-                    commit("my_books_level_1", data)
-
-                }
-            }
-
+        if (state.user == "") {
+            commit("set_mybooks", { id: [], name: [] })
+            console.log("get_mybooks_nologin_end", `Time:${Date.now() - time}`)
         } else {
-            commit("my_books_level_1", [])
-        }
-    },
-    async books_level_2({ commit, state }, is_force) {
+
+            const { doc, getDoc } = await import("firebase/firestore")
+
+            const docRef = doc(db, "Cards", auth.currentUser.uid);
+
+            const docSnap = await getDoc(docRef).catch((err) => console.log("get_mybooks_取得エラー:" + err.message));
 
 
-        if (state.books_level <= 1 || is_force) {
-
-
-            const { get_all_little } = await import("../firebase").catch((err) => console.log("関係ファイル読み込みエラー", err.message))
-            const docs = await get_all_little()
-            const data = []
-
-            if (docs) {
-
-                docs.forEach((doc) => {
-                    data.push({
-                        name: doc.data().name,
-                        id: doc.id
-                    })
-                })
+            if (docSnap.exists()) {
+                commit("set_mybooks", docSnap.data())
+                console.log("get_mybooks_end", docSnap.data(), `Time:${Date.now() - time}`)
             }
-            commit("books_level_2", data)
-
-
-        }
-    },
-    async my_books_level_2({ commit, state }, is_force) {
-
-
-        if (state.user != "") {
-
-
-            if (state.my_books_level <= 1 || is_force) {
-
-
-                const { get_mybooks_little } = await import("../firebase").catch((err) => console.log("関係ファイル読み込みエラー", err.message))
-                const docs = await get_mybooks_little()
-                const data = []
-
-                if (docs) {
-
-                    docs.forEach((doc) => {
-                        data.push({
-                            name: doc.data().name,
-                            id: doc.id,
-                            is_public: doc.data().public
-                        })
-                    })
-                }
-
-                commit("my_books_level_2", data)
-
-            }
-
-        } else {
-            commit("my_books_level_2", [])
-        }
-    },
-    async books_level_3({ commit, state }, is_force) {
-
-
-        if (state.books_level <= 2 || is_force) {
-
-
-            const { get_all } = await import("../firebase").catch((err) => console.log("関係ファイル読み込みエラー", err.message))
-            const docs = await get_all()
-            const data = []
-
-            if (docs) {
-
-                docs.forEach((doc) => {
-                    data.push({
-                        name: doc.data().name,
-                        id: doc.id
-                    })
-                })
-            }
-
-            commit("books_level_3", data)
-
-        }
-    },
-    async my_books_level_3({ commit, state }, is_force) {
-
-
-        if (state.user != '') {
-
-
-            if (state.my_books_level <= 2 || is_force) {
-
-                const { get_mybooks } = await import("../firebase").catch((err) => console.log("関係ファイル読み込みエラー", err.message))
-                const docs = await get_mybooks()
-                const data = []
-
-                if (docs) {
-
-                    docs.forEach((doc) => {
-                        data.push({
-                            name: doc.data().name,
-                            id: doc.id,
-                            is_public: doc.data().public
-                        })
-                    })
-                }
-                commit("my_books_level_3", data)
-
-            }
-        } else {
-            commit("my_books_level_3", [])
         }
     },
     async get_book_id(context, id) {
+        const time = Date.now()
+        console.log("get_book_id_start", id)
 
 
-        const { get_book_id } = await import("../firebase").catch((err) => console.log("関係ファイル読み込みエラー", err.message))
-        return await get_book_id(id)
+        const { doc, getDoc } = await import("firebase/firestore")
+
+
+        const docRef = doc(db, "Books", id);
+
+        const docSnap = await getDoc(docRef).catch((err) => console.log("get_book_id_取得エラー" + err.message));
+
+
+        if (docSnap.exists()) {
+            console.log("get_book_id_end", docSnap.data(), `Time:${Date.now() - time}`)
+            return docSnap.data()
+        }
     },
     async get_msg() {
+        const time = Date.now()
+        console.log("get_config_start")
+
+        const { fetchAndActivate, getValue } = await import("firebase/remote-config")
 
 
-        const { get_config } = await import("../firebase").catch((err) => console.log("関係ファイル読み込みエラー", err.message))
-        const importnat_msg = await get_config("important_msg")
-        const msg = await get_config("usual_msg")
+        await fetchAndActivate(remoteConfig).catch((err) => console.log("get_config_取得エラー:" + err.message))
 
-        return [msg, importnat_msg]
+        const important_msg = getValue(remoteConfig, "important_msg")
+        const msg = getValue(remoteConfig, "usual_msg")
+
+        console.log("get_config_end", [msg.asString(), important_msg.asString()], `Time:${Date.now() - time}`)
+
+        return [msg.asString(), important_msg.asString()]
     },
-    async on_change_user({ state }, play) {
+    async on_change_user(context, play) {
+        const time = Date.now()
+        console.log("on_change_user_start")
 
+        const { onAuthStateChanged } = await import("firebase/auth")
 
-        const { on_sign_in } = await import("../firebase").catch((err) => console.log("関係ファイル読み込みエラー", err.message))
-        on_sign_in(() => {
-            play(state.user)
+        onAuthStateChanged(auth, (user) => {
+            console.log("on_change_user", user)
+            play(user)
         })
-    },
-    async change_all({ dispatch }, [id, question, answer, name, description, secret, img]) {
 
-
-        const { change_all } = await import("../firebase").catch((err) => console.log("関係ファイル読み込みエラー", err.message))
-        const new_id = await change_all(id, [question, answer, name, description, secret, img])
-        dispatch("my_books_level_3", true)
-        return new_id
+        console.log("on_change_user_end", `Time:${Date.now() - time}`)
     },
+    async on_change_cards(context, play) {
+        const time = Date.now()
+        console.log("on_change_cards_start")
+
+        const { onSnapshot, collection } = await import("firebase/firestore")
+
+        onSnapshot(collection(db, "Cards"), () => {
+            console.log("on_change_cards")
+            play()
+        })
+
+        console.log("on_change_cards_end", `Time:${Date.now() - time}`)
+    },
+    async change_all({ state }, [id, question, answer, name, description, secret, img]) {
+        const time = Date.now()
+        console.log("change_all_start", id, question, answer, name, description, secret, img)
+
+        if (state.user == "") {
+            console.log("change_all_nologin_end", `Time:${Date.now() - time}`)
+        } else {
+            const { doc, addDoc, collection, updateDoc } = await import("firebase/firestore")
+
+            if (!id) {
+                //作成作業
+                const doc = await addDoc(collection(db, "Books"), {
+                    question: question,
+                    answer: answer,
+                    name: (name == "" ? "ナナシノゴンベエ" : name),
+                    description: description,
+                    secret: secret,
+
+                    creator: auth.currentUser.uid,
+                    now: Date.now(),
+                    public: false,
+                    img: img
+                }).catch((err) => console.log("change_all_作成エラー:" + err.message))
+
+                console.log("change_all_end_create", doc.id, `Time:${Date.now() - time}`)
+                return doc.id
+
+            } else {
+                //更新作業
+
+                await updateDoc(doc(db, "Books", id), {
+                    question: question,
+                    answer: answer,
+                    name: (name == "" ? "ナナシノゴンベエ" : name),
+                    description: description,
+                    secret: secret,
+                    public: false,
+                    img: img
+                }).catch((err) => console.log("change_all_更新エラー:" + err.message))
+
+                console.log("change_all_end_update", id, `Time:${Date.now() - time}`)
+                return id
+            }
+        }
+    },
+    async change_public({ state }, [id, is_public]) {
+        const time = Date.now()
+        console.log("change_public_start", id, is_public)
+
+        if (state.user == "") {
+            console.log("change_public_nologin_end", `Time:${Date.now() - time}`)
+        } else {
+            const { doc, updateDoc } = await import("firebase/firestore")
+
+            await updateDoc(doc(db, "Books", id), {
+                public: is_public,
+            }).catch((err) => console.log("change_public_変更エラー:" + err.message))
+
+            console.log("change_public_end", `Time:${Date.now() - time}`)
+        }
+    },
+    //Auth
     async sign_in_anonymously() {
-        const { sign_in_anonymously } = await import("../firebase").catch((err) => console.log("関係ファイル読み込みエラー", err.message))
-        await sign_in_anonymously()
+        const time = Date.now()
+        console.log("sign_in_anonymously_start")
+
+        const { signInAnonymously } = await import("firebase/auth")
+
+        await signInAnonymously(auth).catch((err) => console.log("sign_in_anonymously_エラー:" + err.message))
+
+        console.log("sign_in_anonymously_end", `Time:${Date.now() - time}`)
     },
     async sign_in_with_google() {
-        const { sign_in_with_google } = await import("../firebase").catch((err) => console.log("関係ファイル読み込みエラー", err.message))
-        await sign_in_with_google()
+        const time = Date.now()
+        console.log("sign_in_with_google_start")
+
+        const { GoogleAuthProvider, signInWithPopup } = await import("firebase/auth")
+
+        const provider = new GoogleAuthProvider();
+        await signInWithPopup(auth, provider).catch((err) => console.log("sign_in_with_google_エラー:" + err.message))
+
+        console.log("sign_in_with_google_end", `Time:${Date.now() - time}`)
     },
     async sign_out() {
-        const { sign_out } = await import("../firebase").catch((err) => console.log("関係ファイル読み込みエラー", err.message))
-        await sign_out()
+        const time = Date.now()
+        console.log("sign_out_start")
+
+        const { signOut } = await import("firebase/auth")
+
+        await signOut(auth).catch((err) => console.log("sign_out_エラー:" + err.message))
+
+        console.log("sign_out_end", `Time:${Date.now() - time}`)
     },
     async link_with_google() {
-        const { link_with_google } = await import("../firebase").catch((err) => console.log("関係ファイル読み込みエラー", err.message))
-        await link_with_google()
+        const time = Date.now()
+        console.log("link_with_google_start")
+
+        const { GoogleAuthProvider, linkWithPopup } = await import("firebase/auth")
+
+
+        const provider = new GoogleAuthProvider();
+        await linkWithPopup(auth.currentUser, provider).catch((err) => console.log("link_with_google_エラー:" + err.message))
+
+        console.log("link_with_google_end", `Time:${Date.now() - time}`)
     },
     async remove_user() {
-        const { remove_user } = await import("../firebase").catch((err) => console.log("関係ファイル読み込みエラー", err.message))
-        await remove_user()
+        const time = Date.now()
+        console.log("remove_user_start")
+
+        if (auth.currentUser) {
+            const { deleteUser } = await import("firebase/auth")
+
+            await deleteUser(auth.currentUser).catch((err) => console.log("remove_user_エラー:" + err.message))
+        }
+
+        console.log("remove_user_end", `Time:${Date.now() - time}`)
     },
-    async change_public({ dispatch }, [id, is_public]) {
-        const { change_public } = await import("../firebase").catch((err) => console.log("関係ファイル読み込みエラー", err.message))
-        await change_public(id, is_public)
-        dispatch("my_books_level_3", true)
+    //Storage
+    async upload_img({ state }, [file, folder]) {
+        const time = Date.now()
+        console.log("upload_img_start", file, folder)
+
+        if (state.user == "") {
+            console.log("upload_img_nologin_end", `Time:${Date.now() - time}`)
+            return null
+        } else {
+            const { ref, uploadBytes } = await import("firebase/storage")
+
+            const storageRef = ref(storage, `${auth.currentUser.uid}/${folder}`);
+
+            const value = await uploadBytes(storageRef, file).catch((err) => console.log("upload_img_エラー:" + err.message))
+
+            console.log("upload_img_end", value, `Time:${Date.now() - time}`)
+            return value
+        }
     },
-    async upload_img(context, [file, folder]) {
-        const { upload_img } = await import("../firebase").catch((err) => console.log("関係ファイル読み込みエラー", err.message))
-        const v = await upload_img(file, folder)
-        return v
-    },
-    async download_img(context, folder) {
-        const { download_img } = await import("../firebase").catch((err) => console.log("関係ファイル読み込みエラー", err.message))
-        const url = await download_img(folder)
-        return url
+    async download_img({ state }, folder) {
+        const time = Date.now()
+        console.log("download_img_start", folder)
+
+        if (state.user == "") {
+            console.log("download_img_nologin_end", `Time:${Date.now() - time}`)
+            return ""
+        } else {
+            const { ref, getDownloadURL } = await import("firebase/storage")
+
+            const url = await getDownloadURL(ref(storage, folder)).catch((err) => console.log("upload_img_エラー:" + err.message))
+
+            console.log("download_img_end", url, `Time:${Date.now() - time}`)
+            return url
+        }
     }
 }
