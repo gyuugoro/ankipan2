@@ -37,7 +37,7 @@
       <div class="block columns is-centered">
         <div class="column is-7">
           <nuxt-link to="/manage"
-            class="button is-rounded is-fullwidth block is-info is-light is-outlined">単語帳を管理</nuxt-link>
+            class="button is-rounded is-fullwidth block is-info is-light is-outlined">アカウント管理</nuxt-link>
 
         </div>
       </div>

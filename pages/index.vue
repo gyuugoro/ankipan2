@@ -39,7 +39,7 @@
 
 
         <div class="block">
-          <h3 class="title is-3 has-text-centered">More</h3>
+          <h3 class="title is-3 has-text-centered">共有＆リンク</h3>
         </div>
         <div class="block">
           <share />
@@ -49,7 +49,7 @@
             class="button is-fullwidth is-rounded is-success is-light is-outlined">単語帳を作成</nuxt-link>
         </div>
         <div class="block"> <nuxt-link to="/manage"
-            class="button is-fullwidth is-rounded is-info is-light is-outlined">単語帳を管理</nuxt-link>
+            class="button is-fullwidth is-rounded is-info is-light is-outlined">アカウント管理</nuxt-link>
         </div>
         <div class="block"> <a href="https://instagram.com/shotaro20060930?igshid=NzZlODBkYWE4Ng==" target="_blank"
             class="button is-fullwidth is-rounded is-danger is-light is-outlined">製作者と連絡を取る</a>

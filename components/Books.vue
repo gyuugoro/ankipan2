@@ -1,10 +1,10 @@
 <template>
-  <div class="box" ref="title" v-show="data != 0">
+  <div class="block" ref="title" v-show="data != 0">
     <h3 class="title is-3 has-text-centered">{{ name }}</h3>
 
     <transition-group name="books" mode="out-in" tag="div" class="block">
       <div class="block" v-for="(v, i) in (!is_open ? data.id.slice(0, 10) : data.id)" :key="v">
-        <nuxt-link :to="'/books/?id=' + v" class="button is-rounded is-fullwidth is-success is-inverted">{{
+        <nuxt-link :to="'/books/?id=' + v" class="button is-rounded is-fullwidth is-success  is-light">{{
           data.name[i]
         }}</nuxt-link>
       </div>
@@ -15,7 +15,7 @@
       <button key="control button" class="is-fullwidth button is-rounded" @click="click">{{
         is_open
         ?
-        '閉じる' : '開く'
+        '閉じる' : '更に表示'
       }}</button>
     </div>
 
