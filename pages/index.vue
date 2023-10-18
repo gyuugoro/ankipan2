@@ -9,57 +9,49 @@
       </div>
 
 
-
-
-
-      <div key="読み込み結果" class="block column is-7">
-
-        <div class="block" v-show="important_msg != ''">
-          <article class="message is-danger">
-            <div class="message-header">
-              <p>重要な通知</p>
-            </div>
-            <div class="message-body content" v-html="important_msg">
-            </div>
-          </article>
-        </div>
-
-
-        <div class="block" v-show="msg != ''">
-          <article class="message">
-            <div class="message-header">
-              <p>割とどうでも良い通知</p>
-            </div>
-            <div class="message-body content" v-html="msg">
-            </div>
-          </article>
-        </div>
-
-        <lazy-books key="単語帳一覧" name="単語帳一覧" :data="this.$store.state.books" />
-
-
-        <div class="block">
-          <h3 class="title is-3 has-text-centered">共有＆リンク</h3>
-        </div>
-        <div class="block">
-          <share />
-        </div>
-
-        <div class="block"> <nuxt-link to="/make"
-            class="button is-fullwidth is-rounded is-success is-light is-outlined">単語帳を作成</nuxt-link>
-        </div>
-        <div class="block"> <nuxt-link to="/manage"
-            class="button is-fullwidth is-rounded is-info is-light is-outlined">アカウント管理</nuxt-link>
-        </div>
-        <div class="block"> <a href="https://instagram.com/shotaro20060930?igshid=NzZlODBkYWE4Ng==" target="_blank"
-            class="button is-fullwidth is-rounded is-danger is-light is-outlined">製作者と連絡を取る</a>
-        </div>
-        <div class="block"> <nuxt-link to="/about"
-            class="button is-fullwidth is-rounded is-dark is-outlined is-light">このアプリについて</nuxt-link>
-        </div>
-
+      <div class="column is-7" v-show="important_msg != ''">
+        <article class="message is-danger">
+          <div class="message-header">
+            <p>重要な通知</p>
+          </div>
+          <div class="message-body content" v-html="important_msg">
+          </div>
+        </article>
       </div>
 
+
+      <div class="column is-7" v-show="msg != ''">
+        <article class="message">
+          <div class="message-header">
+            <p>割とどうでも良い通知</p>
+          </div>
+          <div class="message-body content" v-html="msg">
+          </div>
+        </article>
+      </div>
+
+      <lazy-books key="単語帳一覧" name="単語帳一覧" :data="this.$store.state.books" class="column is-7" />
+
+
+      <div class="column is-7">
+        <h3 class="title is-3 has-text-centered">共有＆リンク</h3>
+      </div>
+      <div class="column is-7">
+        <share />
+      </div>
+
+      <div class="column is-7"> <nuxt-link to="/make"
+          class="button is-fullwidth is-rounded is-success is-light is-outlined">単語帳を作成</nuxt-link>
+      </div>
+      <div class="column is-7"> <nuxt-link to="/manage"
+          class="button is-fullwidth is-rounded is-info is-light is-outlined">アカウント管理</nuxt-link>
+      </div>
+      <div class="column is-7"> <a href="https://instagram.com/shotaro20060930?igshid=NzZlODBkYWE4Ng==" target="_blank"
+          class="button is-fullwidth is-rounded is-danger is-light is-outlined">製作者と連絡を取る</a>
+      </div>
+      <div class="column is-7"> <nuxt-link to="/about"
+          class="button is-fullwidth is-rounded is-dark is-outlined is-light">このアプリについて</nuxt-link>
+      </div>
 
     </div>
   </div>
