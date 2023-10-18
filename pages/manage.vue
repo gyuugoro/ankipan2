@@ -100,6 +100,7 @@ export default {
   },
   mounted() {
     scrollTo({ top: 0 })
+    console.log("manage-mounted")
   },
   methods: {
     async sign_in_with_google() {

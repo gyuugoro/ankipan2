@@ -95,6 +95,8 @@ export default {
         console.log("保存する必要はありません。")
       }
     }, 60000);
+
+    console.log("make-mounted")
   },
   methods: {
     async get_data() {

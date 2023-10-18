@@ -88,6 +88,7 @@ export default {
   },
   mounted() {
     scrollTo({ top: 0 })
-  }
+    console.log("about-mounted")
+  },
 }
 </script>

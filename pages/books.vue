@@ -41,7 +41,7 @@ export default {
   data() {
     return {
 
-      continued:false,
+      continued: false,
 
       data: {},
 
@@ -215,18 +215,18 @@ export default {
 
       this.num += 1
 
-      if(this.title != "間違いなおし"){
+      if (this.title != "間違いなおし") {
 
-      
 
-      localStorage.setItem(this.$route.query.id,JSON.stringify({
-        miss_question:this.miss_question,
-        miss_answer:this.miss_answer,
-        miss_img:this.miss_img,
-        num:this.num
-      }))
 
-    }
+        localStorage.setItem(this.$route.query.id, JSON.stringify({
+          miss_question: this.miss_question,
+          miss_answer: this.miss_answer,
+          miss_img: this.miss_img,
+          num: this.num
+        }))
+
+      }
 
       this.read()
 
@@ -293,9 +293,9 @@ export default {
 
       this.set_data()
     },
-    data_from_cache(){
+    data_from_cache() {
       const cache = localStorage.getItem(this.$route.query.id)
-      if(cache){
+      if (cache) {
         const json_cache = JSON.parse(cache)
         this.miss_question = json_cache.miss_question
         this.miss_answer = json_cache.miss_answer
@@ -312,7 +312,7 @@ export default {
       await this.data_from_fb()
       this.set_data()
       const cache = localStorage.getItem(this.$route.query.id)
-      if(cache){
+      if (cache) {
         this.continued = true
       }
     })()
@@ -320,6 +320,7 @@ export default {
 
   mounted() {
     scrollTo({ top: 0 })
+    console.log("books-mounted")
   }
 }
 </script>

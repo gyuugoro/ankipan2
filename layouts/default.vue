@@ -11,6 +11,9 @@ export default {
   created() {
     this.$store.dispatch("created")
     this.$store.dispatch("get_books")
+  },
+  mounted() {
+    console.log("default-mounted")
   }
 }
 </script>

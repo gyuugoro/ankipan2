@@ -19,7 +19,6 @@
         </article>
       </div>
 
-
       <div class="column is-7" v-show="msg != ''">
         <article class="message">
           <div class="message-header">
@@ -30,7 +29,9 @@
         </article>
       </div>
 
-      <lazy-books key="単語帳一覧" name="単語帳一覧" :data="this.$store.state.books" class="column is-7" />
+      <transition name="main">
+        <lazy-books key="単語帳一覧" name="単語帳一覧" :data="this.$store.state.books" class="column is-7" />
+      </transition>
 
 
       <div class="column is-7">
@@ -81,27 +82,12 @@ export default {
   },
   mounted() {
     scrollTo({ top: 0 })
-  }
+    console.log("index-mounted")
+  },
 }
 </script>
 
 <style scoped>
-.books-enter-active,
-.books-leave-active,
-.books-move {
-  transition: all 0.25s;
-}
-
-.books-leave-to {
-  /* transform: scaleX(0); */
-  opacity: 0;
-}
-
-.books-enter {
-  opacity: 0;
-  /* opacity: 0; */
-}
-
 .logotitle {
   font-family: 'Russo One', sans-serif;
 }
