@@ -36,10 +36,6 @@ export const actions = {
             dispatch("get_my_books")
         }))
 
-        dispatch("on_change_cards", (() => {
-            dispatch("get_books")
-            dispatch("get_my_books")
-        }))
     },
     async get_books({ commit }) {
         const time = Date.now()
@@ -127,20 +123,7 @@ export const actions = {
 
         console.log("on_change_user_end", `Time:${Date.now() - time}`)
     },
-    async on_change_cards(context, play) {
-        const time = Date.now()
-        console.log("on_change_cards_start")
-
-        const { onSnapshot, collection } = await import("firebase/firestore")
-
-        onSnapshot(collection(db, "Cards"), () => {
-            console.log("on_change_cards")
-            play()
-        })
-
-        console.log("on_change_cards_end", `Time:${Date.now() - time}`)
-    },
-    async change_all({ state }, [id, question, answer, name, description, secret, img]) {
+    async change_all({ state, dispatch }, [id, question, answer, name, description, secret, img]) {
         const time = Date.now()
         console.log("change_all_start", id, question, answer, name, description, secret, img)
 
@@ -164,6 +147,8 @@ export const actions = {
                     img: img
                 }).catch((err) => console.log("change_all_作成エラー:" + err.message))
 
+                await dispatch("set_cards_creator")
+
                 console.log("change_all_end_create", doc.id, `Time:${Date.now() - time}`)
                 return doc.id
 
@@ -180,12 +165,14 @@ export const actions = {
                     img: img
                 }).catch((err) => console.log("change_all_更新エラー:" + err.message))
 
+                await dispatch("set_cards_creator")
+
                 console.log("change_all_end_update", id, `Time:${Date.now() - time}`)
                 return id
             }
         }
     },
-    async change_public({ state }, [id, is_public]) {
+    async change_public({ state, dispatch }, [id, is_public]) {
         const time = Date.now()
         console.log("change_public_start", id, is_public)
 
@@ -198,7 +185,82 @@ export const actions = {
                 public: is_public,
             }).catch((err) => console.log("change_public_変更エラー:" + err.message))
 
+            await dispatch("set_cards_public")
+
             console.log("change_public_end", `Time:${Date.now() - time}`)
+        }
+    },
+    async set_cards_public({ state, dispatch }) {
+
+        const time = Date.now()
+        console.log("set_cards_public_start")
+
+        if (state.user == "") {
+            console.log("set_cards_public_nologin_end", `Time:${Date.now() - time}`)
+
+        } else {
+
+            const { doc, getDocs, query, where, orderBy, collection, updateDoc } = await import("firebase/firestore")
+
+            const q = query(collection(db, "Books"), where("public", "==", true), orderBy("now", "desc"))
+            const snapshot = await getDocs(q).catch((err) => console.log("set_cards_public_取得エラー:" + err.message))
+
+            const name = []
+            const id = []
+
+            snapshot.forEach((doc) => {
+                name.push(doc.data().name)
+                id.push(doc.id)
+            })
+
+            const public_doc = doc(db, "Cards", "public")
+
+
+            await updateDoc(public_doc, {
+                id: id,
+                name: name
+            }).catch((err) => console.log("set_cards_public_変更エラー:" + err.message))
+
+            await dispatch("get_books")
+
+            console.log("set_cards_public_end", `Time:${Date.now() - time}`)
+        }
+    },
+    async set_cards_creator({ state, dispatch }) {
+
+        const time = Date.now()
+        console.log("set_cards_creator_start")
+
+        if (state.user == "") {
+            console.log("set_cards_creator_nologin_end", `Time:${Date.now() - time}`)
+
+        } else {
+
+            const creator = auth.currentUser.uid
+
+            const { doc, getDocs, query, where, orderBy, collection, setDoc } = await import("firebase/firestore")
+
+            const q = query(collection(db, "Books"), where("creator", "==", creator), orderBy("now", "desc"))
+            const snapshot = await getDocs(q).catch((err) => console.log("set_cards_creator_取得エラー:" + err.message))
+
+            const name = []
+            const id = []
+
+            snapshot.forEach((doc) => {
+                name.push(doc.data().name)
+                id.push(doc.id)
+            })
+
+            const creator_doc = doc(db, "Cards", creator)
+
+            await setDoc(creator_doc, {
+                id: id,
+                name: name
+            }).catch((err) => console.log("set_cards_creator_変更エラー:" + err.message))
+
+            await dispatch("get_my_books")
+
+            console.log("set_cards_creator_end", `Time:${Date.now() - time}`)
         }
     },
     //Auth
