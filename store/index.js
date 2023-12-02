@@ -88,10 +88,14 @@ export const actions = {
 
         const docSnap = await getDoc(docRef).catch((err) => console.log("get_book_id_取得エラー" + err.message));
 
+        const docRef2 = doc(db, "Books_info", id);
+
+        const docSnap2 = await getDoc(docRef2).catch((err) => console.log("get_book_id_info_取得エラー" + err.message));
+
 
         if (docSnap.exists()) {
-            console.log("get_book_id_end", docSnap.data(), `Time:${Date.now() - time}`)
-            return docSnap.data()
+            console.log("get_book_id_end", Object.assign(docSnap.data(), docSnap2.data()), `Time:${Date.now() - time}`)
+            return Object.assign(docSnap.data(), docSnap2.data())
         }
     },
     async get_msg() {
@@ -137,15 +141,17 @@ export const actions = {
                 const doc = await addDoc(collection(db, "Books"), {
                     question: question,
                     answer: answer,
+                    img: img
+                }).catch((err) => console.log("change_all_作成エラー:" + err.message))
+
+                const doc2 = await addDoc(collection(db, "Books_info"), {
                     name: (name == "" ? "ナナシノゴンベエ" : name),
                     description: description,
                     secret: secret,
-
                     creator: auth.currentUser.uid,
                     now: Date.now(),
                     public: false,
-                    img: img
-                }).catch((err) => console.log("change_all_作成エラー:" + err.message))
+                }).catch((err) => console.log("change_all_info_作成エラー:" + err.message))
 
                 await dispatch("set_cards_creator")
 
@@ -158,12 +164,16 @@ export const actions = {
                 await updateDoc(doc(db, "Books", id), {
                     question: question,
                     answer: answer,
+                    img: img
+                }).catch((err) => console.log("change_all_更新エラー:" + err.message))
+
+                await updateDoc(doc(db, "Books_info", id), {
                     name: (name == "" ? "ナナシノゴンベエ" : name),
                     description: description,
                     secret: secret,
                     public: false,
-                    img: img
-                }).catch((err) => console.log("change_all_更新エラー:" + err.message))
+                }).catch((err) => console.log("change_all_info_更新エラー:" + err.message))
+
 
                 await dispatch("set_cards_creator")
 
@@ -181,9 +191,9 @@ export const actions = {
         } else {
             const { doc, updateDoc } = await import("firebase/firestore")
 
-            await updateDoc(doc(db, "Books", id), {
+            await updateDoc(doc(db, "Books_info", id), {
                 public: is_public,
-            }).catch((err) => console.log("change_public_変更エラー:" + err.message))
+            }).catch((err) => console.log("change_public_info_変更エラー:" + err.message))
 
             await dispatch("set_cards_public")
 
@@ -202,8 +212,8 @@ export const actions = {
 
             const { doc, getDocs, query, where, orderBy, collection, updateDoc } = await import("firebase/firestore")
 
-            const q = query(collection(db, "Books"), where("public", "==", true), orderBy("now", "desc"))
-            const snapshot = await getDocs(q).catch((err) => console.log("set_cards_public_取得エラー:" + err.message))
+            const q = query(collection(db, "Books_info"), where("public", "==", true), orderBy("now", "desc"))
+            const snapshot = await getDocs(q).catch((err) => console.log("set_cards_public_info_取得エラー:" + err.message))
 
             const name = []
             const id = []
@@ -238,10 +248,11 @@ export const actions = {
 
             const creator = auth.currentUser.uid
 
-            const { doc, getDocs, query, where, orderBy, collection, setDoc } = await import("firebase/firestore")
+            const { doc, getDocs, query, where, orderBy, collection, setDoc, limit } = await import("firebase/firestore")
 
-            const q = query(collection(db, "Books"), where("creator", "==", creator), orderBy("now", "desc"))
-            const snapshot = await getDocs(q).catch((err) => console.log("set_cards_creator_取得エラー:" + err.message))
+            const q = query(collection(db, "Books_info"), where("creator", "==", creator), orderBy("now", "desc"))
+
+            const snapshot = await getDocs(q).catch((err) => console.log("set_cards_creator_info_取得エラー:" + err.message))
 
             const name = []
             const id = []
@@ -253,10 +264,12 @@ export const actions = {
 
             const creator_doc = doc(db, "Cards", creator)
 
+
             await setDoc(creator_doc, {
                 id: id,
                 name: name
             }).catch((err) => console.log("set_cards_creator_変更エラー:" + err.message))
+
 
             await dispatch("get_my_books")
 

@@ -40,6 +40,13 @@ import { getStorage } from "firebase/storage"
 
 const storage = getStorage(app);
 
+//Analytics
+import { getAnalytics } from "firebase/analytics"
+getAnalytics(app)
+
+//Performance
+import { getPerformance } from "firebase/performance"
+getPerformance(app)
 //公開
 export {
   auth,
