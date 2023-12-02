@@ -72,7 +72,7 @@ export const actions = {
 
             if (docSnap.exists()) {
                 commit("set_mybooks", docSnap.data())
-                console.log("get_mybooks_end", docSnap.data(), `Time:${Date.now() - time}`)
+                console.log("get_mybooks_end", state.user, docSnap.data(), `Time:${Date.now() - time}`)
             }
         }
     },
@@ -149,7 +149,7 @@ export const actions = {
 
                 await dispatch("set_cards_creator")
 
-                console.log("change_all_end_create", doc.id, `Time:${Date.now() - time}`)
+                console.log("change_all_end_create", state.user, doc.id, `Time:${Date.now() - time}`)
                 return doc.id
 
             } else {
@@ -167,7 +167,7 @@ export const actions = {
 
                 await dispatch("set_cards_creator")
 
-                console.log("change_all_end_update", id, `Time:${Date.now() - time}`)
+                console.log("change_all_end_update", state.user, id, `Time:${Date.now() - time}`)
                 return id
             }
         }
@@ -187,7 +187,7 @@ export const actions = {
 
             await dispatch("set_cards_public")
 
-            console.log("change_public_end", `Time:${Date.now() - time}`)
+            console.log("change_public_end", state.user, `Time:${Date.now() - time}`)
         }
     },
     async set_cards_public({ state, dispatch }) {
@@ -223,7 +223,7 @@ export const actions = {
 
             await dispatch("get_books")
 
-            console.log("set_cards_public_end", `Time:${Date.now() - time}`)
+            console.log("set_cards_public_end", state.user, `Time:${Date.now() - time}`)
         }
     },
     async set_cards_creator({ state, dispatch }) {
@@ -260,7 +260,7 @@ export const actions = {
 
             await dispatch("get_my_books")
 
-            console.log("set_cards_creator_end", `Time:${Date.now() - time}`)
+            console.log("set_cards_creator_end", state.user, `Time:${Date.now() - time}`)
         }
     },
     //Auth
@@ -334,7 +334,7 @@ export const actions = {
 
             const value = await uploadBytes(storageRef, file).catch((err) => console.log("upload_img_エラー:" + err.message))
 
-            console.log("upload_img_end", value, `Time:${Date.now() - time}`)
+            console.log("upload_img_end", state.user, value, `Time:${Date.now() - time}`)
             return value
         }
     },
@@ -350,7 +350,7 @@ export const actions = {
 
             const url = await getDownloadURL(ref(storage, folder)).catch((err) => console.log("upload_img_エラー:" + err.message))
 
-            console.log("download_img_end", url, `Time:${Date.now() - time}`)
+            console.log("download_img_end", state.user, url, `Time:${Date.now() - time}`)
             return url
         }
     }
