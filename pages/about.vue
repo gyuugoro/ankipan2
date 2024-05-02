@@ -5,14 +5,14 @@
 
       <p>
         このWebアプリは
-        <a href="https://instagram.com/shotaro20060930" target="_blank">@shotaro20060930</a>
+        <a href="https://instagram.com/sho.taro0930" target="_blank">@sho.taro0930</a>
         が制作した単語帳アプリで、誰でも無料で使用することができます。
       </p>
 
       <p>バグなど不具合の報告は僕のInstagramにお願いします。</p>
       <div class="block columns is-centered">
         <div class="column is-7">
-          <a href="https://instagram.com/shotaro20060930?igshid=NzZlODBkYWE4Ng==" target="_blank"
+          <a href="https://instagram.com/sho.taro0930?igshid=NzZlODBkYWE4Ng==" target="_blank"
             class="button is-rounded is-fullwidth block is-danger is-light is-outlined">Instagram</a>
         </div>
       </div>
@@ -66,6 +66,8 @@
       <h3>Bulma</h3>
       <a href="https://bulma.io/" target="_blank">https://bulma.io/</a>
       <p>デザインはBulmaをベースにしています。</p>
+
+      <p>last update 2024-095-02 by<a href="https://instagram.com/sho.taro0930" target="_blank">@sho.taro0930</a></p>
 
     </div>
 
