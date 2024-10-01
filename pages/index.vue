@@ -45,9 +45,9 @@
           class="button is-fullwidth is-rounded is-success is-light is-outlined">単語帳を作成</nuxt-link>
       </div>
       <div class="column is-7"> <nuxt-link to="/manage"
-          class="button is-fullwidth is-rounded is-info is-light is-outlined">アカウント管理</nuxt-link>
+          class="button is-fullwidth is-rounded is-info is-light is-outlined">単語帳を管理</nuxt-link>
       </div>
-      <div class="column is-7"> <a href="https://instagram.com/shotaro20060930?igshid=NzZlODBkYWE4Ng==" target="_blank"
+      <div class="column is-7"> <a href="https://instagram.com/sho.taro0930" target="_blank"
           class="button is-fullwidth is-rounded is-danger is-light is-outlined">製作者と連絡を取る</a>
       </div>
       <div class="column is-7"> <nuxt-link to="/about"

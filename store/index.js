@@ -134,17 +134,17 @@ export const actions = {
         if (state.user == "") {
             console.log("change_all_nologin_end", `Time:${Date.now() - time}`)
         } else {
-            const { doc, addDoc, collection, updateDoc } = await import("firebase/firestore")
+            const { doc, addDoc, setDoc, collection, updateDoc } = await import("firebase/firestore")
 
             if (!id) {
                 //作成作業
-                const doc = await addDoc(collection(db, "Books"), {
+                const doc1 = await addDoc(collection(db, "Books"), {
                     question: question,
                     answer: answer,
                     img: img
                 }).catch((err) => console.log("change_all_作成エラー:" + err.message))
 
-                const doc2 = await addDoc(collection(db, "Books_info"), {
+                const doc2 = await setDoc(doc(db, "Books_info", doc1.id), {
                     name: (name == "" ? "ナナシノゴンベエ" : name),
                     description: description,
                     secret: secret,
@@ -155,8 +155,8 @@ export const actions = {
 
                 await dispatch("set_cards_creator")
 
-                console.log("change_all_end_create", state.user, doc.id, `Time:${Date.now() - time}`)
-                return doc.id
+                console.log("change_all_end_create", state.user, doc1.id, `Time:${Date.now() - time}`)
+                return doc1.id
 
             } else {
                 //更新作業

@@ -10,7 +10,7 @@
     <button class="button is-fullwidth is-rounded block is-danger is-light is-outlined"
       @click="$router.go({ path: $router.currentRoute.path, force: true })">再読み込みする</button>
     <a class="button is-fullwidth is-rounded block is-danger is-light is-outlined"
-      href="https://instagram.com/shotaro20060930?igshid=NzZlODBkYWE4Ng==" target="_blank">制作者に連絡を取る</a>
+      href="https://instagram.com/sho.taro0930" target="_blank">制作者に連絡を取る</a>
   </div>
 </template>
 

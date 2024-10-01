@@ -37,7 +37,7 @@
       <div class="block columns is-centered">
         <div class="column is-7">
           <nuxt-link to="/manage"
-            class="button is-rounded is-fullwidth block is-info is-light is-outlined">アカウント管理</nuxt-link>
+            class="button is-rounded is-fullwidth block is-info is-light is-outlined">単語帳を管理</nuxt-link>
 
         </div>
       </div>
@@ -67,7 +67,7 @@
       <a href="https://bulma.io/" target="_blank">https://bulma.io/</a>
       <p>デザインはBulmaをベースにしています。</p>
 
-      <p>last update 2024-095-02 by<a href="https://instagram.com/sho.taro0930" target="_blank">@sho.taro0930</a></p>
+      <p>last update 2024-10-01 by<a href="https://instagram.com/sho.taro0930" target="_blank">@sho.taro0930</a></p>
 
     </div>
 
