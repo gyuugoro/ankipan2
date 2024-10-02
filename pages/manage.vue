@@ -5,7 +5,7 @@
 
       <div v-if="this.$store.state.user == ''" class="block mt-6">
         <h3>アカウント選択</h3>
-        <p>単語帳を作成するには保存先をGoogleか匿名かで選ぶ必要があります。どちらを選んでもできることは同じですが、匿名だと仕組上少し動作が不安定です。</p>
+        <p>単語帳を作成するには保存先をGoogleか匿名か選ぶ必要があります。どちらを選んでもできることは同じですが、匿名だとある程度時間が経過すると編集ができなくなる可能性があるのでご注意ください。</p>
         <div class="columns block is-multiline is-centered">
           <div class="column is-7">
             <button class="button is-fullwidth is-rounded" @click="sign_in_with_google">Googleで続ける</button>
@@ -54,7 +54,7 @@
 
 
         <p v-show="data.id.length != 0">一番右のボタンで公開と非公開を切り替えれます。</p>
-        <p v-show="data.id.length != 0">編集ボタンで単語帳の内容を変えることができます。編集を開始すると自動的に非公開になります。</p>
+        <p v-show="data.id.length != 0">編集ボタンで単語帳の内容を変えることができます。編集を開始すると自動的に非公開になります。編集が終わりましたら公開することを忘れないようにしてください。</p>
 
 
 
