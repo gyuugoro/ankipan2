@@ -41,6 +41,10 @@
         <share />
       </div>
 
+      <div class="column is-7"> <nuxt-link to="/medianclear"
+          class="button is-fullwidth is-rounded is-dark is-outlined is-light">メジアンクリア</nuxt-link>
+      </div>
+
       <div class="column is-7"> <nuxt-link to="/make"
           class="button is-fullwidth is-rounded is-success is-light is-outlined">単語帳を作成</nuxt-link>
       </div>

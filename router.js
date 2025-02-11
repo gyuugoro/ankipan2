@@ -41,6 +41,10 @@ export function createRouter() {
       {
         path: '/books',
         component: () => dynamically(import("./pages/books.vue"))
+      },
+      {
+        path: '/medianclear',
+        component: () => dynamically(import("./pages/medianclear.vue"))
       }
     ]
   })

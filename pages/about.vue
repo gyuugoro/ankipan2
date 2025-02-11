@@ -67,7 +67,7 @@
       <a href="https://bulma.io/" target="_blank">https://bulma.io/</a>
       <p>デザインはBulmaをベースにしています。</p>
 
-      <p>last update 2024-10-01 by<a href="https://instagram.com/sho.taro0930" target="_blank">@sho.taro0930</a></p>
+      <p>last update 2024-10-01 by<a href="https://instagram.com/myaaawunder" target="_blank">@smyaaawunder</a></p>
 
     </div>
 
