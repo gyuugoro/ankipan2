@@ -14,7 +14,6 @@
         <p v-show="toolong" class="help is-danger">文字数を減らしてください。スマホで表示しきれません。</p>
       </div>
 
-      メイン
       <div class="content block">
         <h4>単語集</h4>
         <edit @add="add" @remove="remove" @update="update" :answer="answer" :question="question" :img="img" />
@@ -24,7 +23,8 @@
       <div class="content block">
         <h4>説明（省略可）</h4>
         <p>ここで補足説明ができます。</p>
-        <input type="text" class="block input is-rounded is-fullwidth" placeholder="例：最後らへんむずいぞ" v-model="description" />
+        <input type="text" class="block input is-rounded is-fullwidth" placeholder="例：最後らへんむずいぞ"
+          v-model="description" />
       </div>
 
       <!-- 管理者向けメッセージ -->
@@ -40,11 +40,12 @@
         <p>作業は１分ごとに自動保存されますが、この保存ボタンを押すことで手動保存することもできます。</p>
         <button class="block button is-rounded is-fullwidth" :disabled="is_saved" @click="save">{{ is_saved ? '保存済み' :
           '保存'
-        }}</button>
+          }}</button>
       </div>
 
 
-      <nuxt-link to="/manage" class="button is-rounded is-fullwidth block is-info is-light is-outlined">単語帳を管理</nuxt-link>
+      <nuxt-link to="/manage"
+        class="button is-rounded is-fullwidth block is-info is-light is-outlined">単語帳を管理</nuxt-link>
       <nuxt-link to="/" class="block button is-rounded is-fullwidth is-black">ホームに戻る</nuxt-link>
 
     </div>

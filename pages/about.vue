@@ -6,7 +6,7 @@
       <p>
         このWebアプリは
         <a href="https://instagram.com/sho.taro0930" target="_blank">@sho.taro0930</a>
-        が制作した単語帳アプリで、誰でも無料で使用することができます。
+        が制作した単語帳アプリです。どなたでもご利用できます。
       </p>
 
       <p>バグなど不具合の報告は僕のInstagramにお願いします。</p>
@@ -67,7 +67,7 @@
       <a href="https://bulma.io/" target="_blank">https://bulma.io/</a>
       <p>デザインはBulmaをベースにしています。</p>
 
-      <p>last update 2024-10-01 by<a href="https://instagram.com/myaaawunder" target="_blank">@smyaaawunder</a></p>
+      <p>last update 2025-02-12 by<a href="https://instagram.com/sho.taro0930" target="_blank">@sho.taro0930</a></p>
 
     </div>
 

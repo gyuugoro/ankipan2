@@ -34,15 +34,25 @@
       </transition>
 
 
+      <div class="block column is-7">
+
+        <div class="block">
+          <h3 class="title is-3 has-text-centered">サブアプリ</h3>
+        </div>
+
+        <div class="block">
+          <nuxt-link to="/medianclear" class="button is-rounded is-fullwidth is-success  is-light">メジアンクリア</nuxt-link>
+        </div>
+      </div>
+
+
+
+
       <div class="column is-7">
         <h3 class="title is-3 has-text-centered">共有＆リンク</h3>
       </div>
       <div class="column is-7">
         <share />
-      </div>
-
-      <div class="column is-7"> <nuxt-link to="/medianclear"
-          class="button is-fullwidth is-rounded is-dark is-outlined is-light">メジアンクリア</nuxt-link>
       </div>
 
       <div class="column is-7"> <nuxt-link to="/make"
