@@ -6,7 +6,7 @@
       <p>
         このWebアプリは
         <a href="https://instagram.com/sho.taro0930" target="_blank">@sho.taro0930</a>
-        が制作した単語帳アプリです。どなたでもご利用できます。
+        が制作した単語帳アプリです。どなたでもご利用になれます。
       </p>
 
       <p>バグなど不具合の報告は僕のInstagramにお願いします。</p>
