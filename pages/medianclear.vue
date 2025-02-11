@@ -3,7 +3,7 @@
     <h1 class="title is-1">メジアンクリア</h1>
     <div class="block content">
       <p>
-        ボタンを押すと、メジアンとクリアーの全問題からランダムで一題を選び、その問題番号を表示します。
+        メジアンとクリアーの全問題からランダムで一題を選び、その問題番号を表示します。
       </p>
       <h3 class="title is-3 has-text-centered my-6">{{ text }}</h3>
       <div class="block columns is-centered">
