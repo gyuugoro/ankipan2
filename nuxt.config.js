@@ -14,7 +14,7 @@ export default {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'Welcome to Ankipan2!. Ankipan2は@shotaro20060930(インスタ)が制作した単語帳アプリで、誰でも無料で使用することができます。' },
+      { hid: 'description', name: 'description', content: 'Welcome to Ankipan2!. Ankipan2は@sho.taro0930(インスタ)が制作した単語帳アプリです。' },
       { name: 'format-detection', content: 'telephone=no' },
     ],
     link: [
